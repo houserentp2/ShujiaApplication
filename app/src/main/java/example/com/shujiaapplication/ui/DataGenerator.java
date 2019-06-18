@@ -8,6 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import example.com.shujiaapplication.R;
+import example.com.shujiaapplication.ui.fragment.CollectFragment;
+import example.com.shujiaapplication.ui.fragment.HomeFragment;
+import example.com.shujiaapplication.ui.fragment.MyFragment;
+import example.com.shujiaapplication.ui.fragment.OrderFragment;
 
 public class DataGenerator {
 
