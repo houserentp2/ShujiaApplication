@@ -1,4 +1,4 @@
-package example.com.shujiaapplication.ui;
+package example.com.shujiaapplication.ui.MainFragment;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import example.com.shujiaapplication.R;
 
-public class MyFragment extends Fragment {
+public class OrderFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -17,13 +17,12 @@ public class MyFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public MyFragment() {
-
+    public OrderFragment() {
+        // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static MyFragment newInstance(String param1, String param2) {
-        MyFragment fragment = new MyFragment();
+    public static OrderFragment newInstance(String param1, String param2) {
+        OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -34,7 +33,6 @@ public class MyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -45,9 +43,8 @@ public class MyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my, container, false);
+        return inflater.inflate(R.layout.fragment_order, container, false);
     }
-
 
     @Override
     public void onDetach() {
@@ -56,7 +53,6 @@ public class MyFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

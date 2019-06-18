@@ -2,16 +2,28 @@ package example.com.shujiaapplication.ui;
 
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import example.com.shujiaapplication.R;
 
 public class HomePageActivity extends BaseActivity {
     private TabLayout mTabLayout;
     private Fragment[]mFragmensts;
+    private static boolean isExit = false;
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            isExit = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +37,22 @@ public class HomePageActivity extends BaseActivity {
         mFragmensts = DataGenerator.getFragments("TabLayout Tab");
         initView();
     }
+
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {     //添加双键退出功能
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (!isExit) {
+                isExit = true;
+                Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                        Toast.LENGTH_SHORT).show();
+                // 利用handler延迟发送更改状态信息
+                mHandler.sendEmptyMessageDelayed(0, 2000);
+            } else {
+                ActivityCollector.finishAll();
+            }
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);}
 
     private void initView() {
         mTabLayout = (TabLayout) findViewById(R.id.bottom_tab_layout);

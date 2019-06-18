@@ -1,4 +1,4 @@
-package example.com.shujiaapplication.ui;
+package example.com.shujiaapplication.ui.MainFragment;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,20 +9,22 @@ import android.view.ViewGroup;
 
 import example.com.shujiaapplication.R;
 
-public class OrderFragment extends Fragment {
+public class CollectFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public OrderFragment() {
+    public CollectFragment() {
         // Required empty public constructor
     }
 
-    public static OrderFragment newInstance(String param1, String param2) {
-        OrderFragment fragment = new OrderFragment();
+    public static CollectFragment newInstance(String param1, String param2) {
+        CollectFragment fragment = new CollectFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -42,8 +44,7 @@ public class OrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_order, container, false);
+        return inflater.inflate(R.layout.fragment_collect, container, false);
     }
 
     @Override
@@ -51,7 +52,6 @@ public class OrderFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }

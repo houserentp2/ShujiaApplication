@@ -1,4 +1,4 @@
-package example.com.shujiaapplication.ui;
+package example.com.shujiaapplication.ui.MainFragment;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,22 +9,20 @@ import android.view.ViewGroup;
 
 import example.com.shujiaapplication.R;
 
-public class CollectFragment extends Fragment {
+public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public CollectFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
-    public static CollectFragment newInstance(String param1, String param2) {
-        CollectFragment fragment = new CollectFragment();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -44,7 +42,14 @@ public class CollectFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_collect, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
     }
 
     @Override
@@ -52,7 +57,9 @@ public class CollectFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
     public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
