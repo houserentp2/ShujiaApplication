@@ -39,21 +39,6 @@ public class HomePageActivity extends BaseActivity {
     }
 
 
-    public boolean onKeyDown(int keyCode, KeyEvent event) {     //添加双键退出功能
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (!isExit) {
-                isExit = true;
-                Toast.makeText(getApplicationContext(), "再按一次退出程序",
-                        Toast.LENGTH_SHORT).show();
-                // 利用handler延迟发送更改状态信息
-                mHandler.sendEmptyMessageDelayed(0, 2000);
-            } else {
-                ActivityCollector.finishAll();
-            }
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);}
-
     private void initView() {
         mTabLayout = (TabLayout) findViewById(R.id.bottom_tab_layout);
 
@@ -112,4 +97,19 @@ public class HomePageActivity extends BaseActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.home_container,fragment).commit();
         }
     }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {     //添加双键退出功能
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (!isExit) {
+                isExit = true;
+                Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                        Toast.LENGTH_SHORT).show();
+                // 利用handler延迟发送更改状态信息
+                mHandler.sendEmptyMessageDelayed(0, 2000);
+            } else {
+                ActivityCollector.finishAll();
+            }
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);}
 }

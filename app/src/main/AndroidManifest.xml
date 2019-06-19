@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.SuccessAccountActivity"></activity>
+        <activity android:name=".ui.CityChooseActivity"></activity>
+        <activity android:name=".ui.SuccessAccountActivity" />
         <activity android:name=".ui.NewAccountActivity" />
         <activity android:name=".ui.ForgetPasswordActivity" />
         <activity android:name=".ui.HomePageActivity" />
-        <activity
-            android:name=".ui.MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
