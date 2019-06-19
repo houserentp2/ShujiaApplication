@@ -31,7 +31,6 @@
             android:verticalSpacing="30dp"
             android:layout_below="@+id/mybackground"
             android:layout_centerHorizontal="true"
-
             >
 
         </GridView>

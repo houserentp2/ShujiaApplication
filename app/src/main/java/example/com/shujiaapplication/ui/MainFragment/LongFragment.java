@@ -2,14 +2,18 @@ package example.com.shujiaapplication.ui.MainFragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import example.com.shujiaapplication.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +34,8 @@ public class LongFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private int searchType = 0;
 
     public LongFragment() {
         // Required empty public constructor
@@ -76,16 +82,17 @@ public class LongFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        Button buttonAll = (Button) getActivity().findViewById(R.id.all_type);
+        Button buttonOne = (Button) getActivity().findViewById(R.id.one_type);
+        Button buttonTwo = (Button) getActivity().findViewById(R.id.two_type);
+        Button buttonThree = (Button) getActivity().findViewById(R.id.three_type);
+
+    }
+
+
 
     @Override
     public void onDetach() {

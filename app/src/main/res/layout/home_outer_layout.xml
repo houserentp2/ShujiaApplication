@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="350dp"
-    android:layout_height="300dp"
+    android:layout_width="match_parent"
+    android:layout_height="320dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <android.support.design.widget.TabLayout
+        android:id="@+id/top_tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp">
-        <android.support.design.widget.TabLayout
-            android:id="@+id/top_tab_layout"
-            android:layout_width="300dp"
-            android:layout_height="50dp">
-
-        </android.support.design.widget.TabLayout>
-
-    </android.support.v7.widget.CardView>
-
+        android:layout_height="50dp">
+    </android.support.design.widget.TabLayout>
 
     <FrameLayout
         android:id="@+id/home_fragment_container"
@@ -32,4 +24,5 @@
         android:alpha="0.6"
         android:background="@android:color/darker_gray"
         />
+
     </LinearLayout>

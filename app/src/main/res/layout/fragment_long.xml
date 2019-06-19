@@ -1,84 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="350dp"
-    android:layout_height="220dp"
+    android:layout_width="match_parent"
+    android:layout_height="320dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.MainFragment.LongFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="10dp"
+        tools:ignore="MissingConstraints">
 
         <LinearLayout
-            android:id="@+id/position_linear"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/city_name"
-                android:layout_width="280dp"
-                android:layout_height="60dp"
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:id="@+id/position_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/city_long_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="24sp"
+                    android:gravity="center_vertical"
+                    android:layout_weight="4"
+                    android:text="武汉"/>
+
+                <TextView
+                    android:id="@+id/my_position_long"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="24sp"
+                    android:gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:text="我的位置"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/all_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#fff678"
+                    android:text="不限"
+                    android:textColor="#ffffff"/>
+                <Button
+                    android:id="@+id/one_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:text="一居"/>
+                <Button
+                    android:id="@+id/two_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:text="二居"/>
+                <Button
+                    android:id="@+id/three_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:text="三居+"/>
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/search_long_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textSize="18sp"
-                android:gravity="center_vertical"
-                android:text="武汉"/>
-
-            <TextView
-                android:id="@+id/my_position"
-                android:layout_width="80dp"
-                android:layout_height="60dp"
-                android:textSize="15sp"
-                android:gravity="center_vertical"
-                android:text="我的位置"/>
-
+                android:layout_marginRight="10dp"
+                android:background="#ff0000"
+                android:textColor="#ffffff"
+                android:textSize="25sp"
+                android:text="开始搜索"
+                android:layout_marginBottom="20dp"
+                />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/all_type"
-                android:layout_width="88dp"
-                android:layout_height="65dp"
-                android:background="#fff678"
-                android:text="不限"
-                android:textColor="#ffffff"/>
-            <Button
-                android:id="@+id/one_type"
-                android:layout_width="88dp"
-                android:layout_height="65dp"
-                android:background="#ffffff"
-                android:text="一居"/>
-            <Button
-                android:id="@+id/two_type"
-                android:layout_width="88dp"
-                android:layout_height="65dp"
-                android:background="#ffffff"
-                android:text="二居"/>
-            <Button
-                android:id="@+id/three_type"
-                android:layout_width="88dp"
-                android:layout_height="65dp"
-                android:background="#ffffff"
-                android:text="三居+"/>
-        </LinearLayout>
+    </android.support.v7.widget.CardView>
 
 
-        <Button
-            android:id="@+id/search_long_button"
-            android:layout_width="330dp"
-            android:layout_height="80dp"
-            android:layout_marginLeft="10dp"
-            android:background="#ff0000"
-            android:textColor="#ffffff"
-            android:textSize="25sp"
-            android:text="开始搜索"
-            />
-    </LinearLayout>
 
-</FrameLayout>
+</android.support.constraint.ConstraintLayout>

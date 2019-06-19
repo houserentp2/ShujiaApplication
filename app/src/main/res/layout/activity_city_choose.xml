@@ -1,14 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CityChooseActivity">
+    android:orientation="vertical"
+    tools:context=".ui.CityChooseActivity"
+    android:showDividers="end">
+
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择城市"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"/>
+
+        <ImageView
+            android:id="@+id/back_button"
+            android:layout_width="24dp"
+            android:layout_height="25dp"
+            android:src="@drawable/back"/>
+    </Toolbar>
+
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:queryHint="请输入城市名称或首字母"
+        android:iconifiedByDefault="false"
+        >
+    </SearchView>
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:text="定位城市"/>
+    <Button
+        android:id="@+id/choose_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/shape"
+        android:backgroundTint="#ffffff"
+        android:text="我的位置"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="20dp"
+        android:text="热门城市"/>
+
+    <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="what the fuck"/>
+        android:rowCount="3"
+        android:columnCount="3"
+        android:horizontalSpacing="30dp"
+        android:verticalSpacing="30dp"
+        android:layout_below="@+id/mybackground"
+        android:layout_centerHorizontal="true">
 
-</android.support.constraint.ConstraintLayout>
+
+
+    </GridLayout>
+</LinearLayout>
