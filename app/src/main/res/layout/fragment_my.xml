@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MyFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id = "@+id/mybackground"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:background="@drawable/mybackground"/>
+<de.hdodenhof.circleimageview.CircleImageView
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="70dp"
+    android:src="@drawable/user" />
+
+        <GridView
+            android:layout_marginTop="20dp"
+            android:id = "@+id/my_gridView"
+            android:layout_width="350dp"
+            android:layout_height="300dp"
+            android:numColumns="3"
+            android:gravity="center_horizontal"
+            android:columnWidth="90dp"
+            android:horizontalSpacing="20dp"
+            android:verticalSpacing="20dp"
+            android:layout_below="@+id/mybackground"
+            android:layout_centerHorizontal="true"
+            android:stretchMode="columnWidth">
+        </GridView>
+
+        <Button
+            android:layout_marginTop="30dp"
+            android:id = "@+id/exitAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape"
+            android:backgroundTint="@color/red"
+            android:layout_below="@id/my_gridView"
+            android:text="退出此账号"/>
+
+    </RelativeLayout>
+
+</FrameLayout>
