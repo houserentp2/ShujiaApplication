@@ -2,7 +2,10 @@ package example.com.shujiaapplication.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
+
+import example.com.shujiaapplication.ui.ActivityCollector;
 
 public class BaseActivity extends AppCompatActivity {
     @Override

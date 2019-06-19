@@ -43,7 +43,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             }
             case R.id.newAccount:{
-                Intent intent1 = new Intent(MainActivity.this,NewAccountActivity.class);
+                Intent intent1 = new Intent(MainActivity.this, NewAccountActivity.class);
                 startActivity(intent1);
                 break;
             }

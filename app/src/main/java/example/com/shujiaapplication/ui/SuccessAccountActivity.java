@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import example.com.shujiaapplication.R;
 
 public class SuccessAccountActivity extends BaseActivity {
@@ -36,7 +35,7 @@ public class SuccessAccountActivity extends BaseActivity {
                         e.fillInStackTrace();
                     }
                     if(i==0){
-                        Intent intent1 = new Intent(SuccessAccountActivity.this,MainActivity.class);
+                        Intent intent1 = new Intent(SuccessAccountActivity.this, MainActivity.class);
                         startActivity(intent1);
                     }
                 }
