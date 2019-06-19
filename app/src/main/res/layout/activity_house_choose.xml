@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CityChooseActivity">
+    tools:context=".ui.HouseChooseActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="what the fuck"/>
+        android:text="house choose"/>
 
 </android.support.constraint.ConstraintLayout>

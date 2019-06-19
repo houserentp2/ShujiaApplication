@@ -70,7 +70,7 @@
 
 
         <Button
-            android:id="@+id/search_button"
+            android:id="@+id/search_long_button"
             android:layout_width="330dp"
             android:layout_height="80dp"
             android:layout_marginLeft="10dp"
