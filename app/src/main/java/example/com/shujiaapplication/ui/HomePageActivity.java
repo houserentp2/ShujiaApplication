@@ -1,14 +1,19 @@
 package example.com.shujiaapplication.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import example.com.shujiaapplication.R;
@@ -37,7 +42,6 @@ public class HomePageActivity extends BaseActivity {
         mFragmensts = DataGenerator.getFragments("TabLayout Tab");
         initView();
     }
-
 
     private void initView() {
         mTabLayout = (TabLayout) findViewById(R.id.bottom_tab_layout);

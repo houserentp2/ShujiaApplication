@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ import example.com.shujiaapplication.ui.HouseChooseActivity;
  * Use the {@link ShortFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShortFragment extends Fragment {
+public class ShortFragment extends MainFatherFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,6 +38,8 @@ public class ShortFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private TextView cityText;
 
     public ShortFragment() {
         // Required empty public constructor
@@ -86,8 +89,8 @@ public class ShortFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        TextView cityText = (TextView) getActivity().findViewById(R.id.city_name);
-        TextView positionText = (TextView) getActivity().findViewById(R.id.my_position);
+        cityText = (TextView) getActivity().findViewById(R.id.city_short_name);
+        TextView positionText = (TextView) getActivity().findViewById(R.id.my_position_short);
         cityText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,6 +128,7 @@ public class ShortFragment extends Fragment {
                 dateChooseClick();
             }
         });
+        cityText.setText(city);
 
         Button searchButton = (Button) getActivity().findViewById(R.id.search_short_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -132,8 +136,10 @@ public class ShortFragment extends Fragment {
             public void onClick(View view) {
                 Intent houseIntent = new Intent(getActivity(), HouseChooseActivity.class);
                 startActivity(houseIntent);
+
             }
         });
+
     }
 
     private void dateChooseClick(){
@@ -141,22 +147,8 @@ public class ShortFragment extends Fragment {
         startActivity(dateIntent);
     }
 
-    private void cityChooseClick(){
-        Intent cityIntent = new Intent(getActivity(), CityChooseActivity.class);
-        startActivity(cityIntent);
-    }
 
 
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-//    }
 
     @Override
     public void onDetach() {

@@ -1,9 +1,7 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,24 +9,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.CityChooseActivity;
-import example.com.shujiaapplication.ui.DateChooseActivity;
-import example.com.shujiaapplication.ui.HouseChooseActivity;
-
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LongFragment.OnFragmentInteractionListener} interface
+ * {@link MainFatherFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link LongFragment#newInstance} factory method to
+ * Use the {@link MainFatherFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LongFragment extends MainFatherFragment {
+public class MainFatherFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,11 +34,10 @@ public class LongFragment extends MainFatherFragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private int searchType = 0;
+    protected String city = "武汉";
 
-    private TextView cityText;
 
-    public LongFragment() {
+    public MainFatherFragment() {
         // Required empty public constructor
     }
 
@@ -54,11 +47,11 @@ public class LongFragment extends MainFatherFragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment LongFragment.
+     * @return A new instance of fragment MainFatherFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LongFragment newInstance(String param1, String param2) {
-        LongFragment fragment = new LongFragment();
+    public static MainFatherFragment newInstance(String param1, String param2) {
+        MainFatherFragment fragment = new MainFatherFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,7 +72,22 @@ public class LongFragment extends MainFatherFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_long, container, false);
+        return inflater.inflate(R.layout.fragment_main_father, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        Intent intent = getActivity().getIntent();
+        String s = intent.getStringExtra("city");
+        if(s != null){
+            city = s;
+        }
+    }
+
+    protected void cityChooseClick(){
+        Intent cityIntent = new Intent(getActivity(), CityChooseActivity.class);
+        startActivity(cityIntent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -87,42 +95,6 @@ public class LongFragment extends MainFatherFragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
-        Button buttonAll = (Button) getActivity().findViewById(R.id.all_type);
-        Button buttonOne = (Button) getActivity().findViewById(R.id.one_type);
-        Button buttonTwo = (Button) getActivity().findViewById(R.id.two_type);
-        Button buttonThree = (Button) getActivity().findViewById(R.id.three_type);
-
-        cityText = (TextView) getActivity().findViewById(R.id.city_long_name);
-        cityText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cityChooseClick();
-            }
-        });
-        cityText.setText(city);
-        TextView positionText = (TextView) getActivity().findViewById(R.id.my_position_long);
-        positionText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cityChooseClick();
-            }
-        });
-
-        Button searchButton = (Button) getActivity().findViewById(R.id.search_long_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent houseIntent = new Intent(getActivity(), HouseChooseActivity.class);
-                startActivity(houseIntent);
-
-            }
-        });
-
     }
 
     @Override
