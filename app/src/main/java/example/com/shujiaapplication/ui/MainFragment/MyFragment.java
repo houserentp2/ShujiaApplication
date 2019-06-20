@@ -95,19 +95,20 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position){
             case 0:{
-                Toast.makeText(MyApplication.getContext(),"优惠券", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"优惠券", Toast.LENGTH_SHORT).show();
                 break;
             }
             case 1:{
                 Intent intent = new Intent(MyApplication.getContext(), PersonalInfoActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                 startActivity(intent);
             }
             case 2:{
-                Toast.makeText(MyApplication.getContext(),"发布房屋", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"发布房屋", Toast.LENGTH_SHORT).show();
                 break;
             }
             case 3:{
-                Toast.makeText(MyApplication.getContext(),"我的评论", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"我的评论", Toast.LENGTH_SHORT).show();
                 break;
             }
             case 4:{
@@ -127,11 +128,11 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
                 break;
             }
             case 7:{
-                Toast.makeText(MyApplication.getContext(),"软件介绍", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"软件介绍", Toast.LENGTH_SHORT).show();
                 break;
             }
             case 8:{
-                Toast.makeText(MyApplication.getContext(),"备用按钮", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"备用按钮", Toast.LENGTH_SHORT).show();
                 break;
             }
         }

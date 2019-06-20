@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import example.com.shujiaapplication.R;
 
-public class HouseChooseActivity extends AppCompatActivity {
+public class HouseChooseActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,6 +3,7 @@
     package="example.com.shujiaapplication">
 
     <application
+        android:name ="example.com.shujiaapplication.ui.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,7 +17,11 @@
         <activity android:name=".ui.NewAccountActivity" />
         <activity android:name=".ui.ForgetPasswordActivity" />
         <activity android:name=".ui.HomePageActivity" />
+        <activity android:name=".ui.PersonalInfoActivity" />
+        <activity android:name=".ui.ScoreActivity" />
+        <activity android:name=".ui.ManageTravelerActivity" />
         <activity android:name=".ui.MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
