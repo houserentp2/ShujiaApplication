@@ -129,13 +129,11 @@ public class HomeFragment extends Fragment {
         SharedPreferences.Editor editor = getActivity().getSharedPreferences("position_data", Context.MODE_PRIVATE).edit();
         editor.putInt("tab_position",i);
         editor.apply();
-        Log.e("HomePageActivity","存"+i);
     }
 
     private void getTabData(){
         SharedPreferences pref = getActivity().getSharedPreferences("position_data",Context.MODE_PRIVATE);
         fragmentPosition = pref.getInt("tab_position",0);
-        Log.e("HomePageActivity","取"+fragmentPosition);
     }
 
     @Override

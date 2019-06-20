@@ -2,14 +2,18 @@ package example.com.shujiaapplication.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +27,7 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
     private ImageView backView;
     private Button myPosition;
     private String city;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,33 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
                 switchActivity();
             }
         });
+
+        mSearchView = (SearchView) findViewById(R.id.city_search_view);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                CityDataGenerator cd = new CityDataGenerator();
+                try {
+                    if(s != null &&cd.findCity(s)){
+                        city = s;
+                        switchActivity();
+                    }
+                    else{
+                        Toast.makeText(CityChooseActivity.this,"请输入正确的城市名",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
+
     }
 
     private void switchActivity(){
