@@ -1,14 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.DateChooseActivity">
+    tools:context=".ui.DateChooseActivity"
+    android:orientation="vertical">
 
-    <TextView
+    <Toolbar
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="date_choose"/>
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择日期"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"/>
 
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/back_image_date"
+            android:layout_width="24dp"
+            android:layout_height="25dp"
+            android:src="@drawable/back"/>
+    </Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/in_date_cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp">
+
+            <TextView
+                android:id="@+id/in_data_textview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="入住日期"
+                android:textSize="20dp"/>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/night_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="45dp"
+            android:text="共0晚"
+            android:textSize="20dp"
+            android:textColor="#ff0000"
+            />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/out_date_cardview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="40dp">
+
+            <TextView
+                android:id="@+id/out_data_textview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="离开日期"
+                android:textSize="20dp"/>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

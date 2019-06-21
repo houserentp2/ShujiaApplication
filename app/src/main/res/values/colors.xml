@@ -4,5 +4,18 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="orangered">#ff4500</color><!--红橙色 -->
-    <color name="red">#ff0000</color><!--红色 -->
+    <color name="red">#ff0000</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_393b42">#393b42</color><!--红色 -->
+
+    <color name="date_picker_bg">#FFFFFF</color>
+    <color name="date_picker_divider">#11112233</color>
+    <color name="date_picker_text_light">#59B29C</color>
+    <color name="date_picker_text_dark">#333333</color>
+
+    <color name="main_bg">#F0F0F0</color>
+    <color name="select_title_text">#B0B0B0</color>
+    <color name="current_time_bg">#FFFFFF</color>
+    <color name="current_time_text">#666666</color>
+    <color name="selected_time_text">#57C5E8</color>
 </resources>

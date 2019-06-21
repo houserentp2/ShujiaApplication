@@ -52,4 +52,7 @@
     <dimen name="text_size_58">58sp</dimen>
     <dimen name="text_size_59">59sp</dimen>
     <dimen name="text_size_75">75sp</dimen>
+
+    <dimen name="picker_view_height">160dp</dimen>
+    <dimen name="date_unit_text_size">18sp</dimen>
 </resources>
