@@ -1,11 +1,9 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,8 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.DataGenerator;
@@ -74,10 +70,6 @@ public class HomeFragment extends Fragment {
 
     private void initView() {
         mTabLayout = (TabLayout) getActivity().findViewById(R.id.top_tab_layout);
-
-
-
-
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -85,12 +77,9 @@ public class HomeFragment extends Fragment {
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
         mTabLayout.addTab(mTabLayout.newTab().setText(DataGenerator.mTabTitleHome[0]));

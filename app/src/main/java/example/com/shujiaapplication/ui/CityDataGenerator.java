@@ -20,23 +20,7 @@ public class CityDataGenerator {
     private BufferedReader br;
     private ArrayList<String> cities;
 
-//    private void readFile() throws IOException {
-//        String filePath = "city.txt";
-//        getContext().getAssets().open(filePath);
-//        File file = new File(filePath);
-//
-//        InputStreamReader isr = new InputStreamReader(new FileInputStream(file));
-//
-//        FileReader fr=new FileReader("city.txt");
-//        cities = new ArrayList<String>();
-//        BufferedReader br=new BufferedReader(fr);
-//        String line="";
-//        while ((line=br.readLine())!=null){
-//            cities.add(line);
-//        }
-//        br.close();
-//        fr.close();
-//    }
+
 
     public  void readFile(String fileName) {                                                          //将站点信息存入数据库
         String temp = "";

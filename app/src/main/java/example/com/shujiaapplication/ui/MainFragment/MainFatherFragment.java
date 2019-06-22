@@ -36,7 +36,6 @@ public class MainFatherFragment extends Fragment {
 
     protected String city = "武汉";
 
-
     public MainFatherFragment() {
         // Required empty public constructor
     }
@@ -83,6 +82,7 @@ public class MainFatherFragment extends Fragment {
         if(s != null){
             city = s;
         }
+
     }
 
     protected void cityChooseClick(){
@@ -116,5 +116,12 @@ public class MainFatherFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public class CityOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            cityChooseClick();
+        }
     }
 }

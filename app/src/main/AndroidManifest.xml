@@ -3,14 +3,15 @@
     package="example.com.shujiaapplication">
 
     <application
-        android:name ="example.com.shujiaapplication.ui.MyApplication"
+        android:name=".ui.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.HouseChooseActivity"></activity>
+        <activity android:name=".ui.HouseInfomationActivity"></activity>
+        <activity android:name=".ui.HouseChooseActivity" />
         <activity android:name=".ui.DateChooseActivity" />
         <activity android:name=".ui.CityChooseActivity" />
         <activity android:name=".ui.SuccessAccountActivity" />
@@ -21,7 +22,6 @@
         <activity android:name=".ui.ScoreActivity" />
         <activity android:name=".ui.ManageTravelerActivity" />
         <activity android:name=".ui.MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

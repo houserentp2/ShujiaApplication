@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -57,7 +58,7 @@ public class CustomDatePicker implements View.OnClickListener, PickerView.OnSele
      * 时间选择结果回调接口
      */
     public interface Callback {
-        void onTimeSelected(long timestamp);
+        void onTimeSelected(long timestamp) throws ParseException;
     }
 
     /**
@@ -89,6 +90,7 @@ public class CustomDatePicker implements View.OnClickListener, PickerView.OnSele
 
         mContext = context;
         mCallback = callback;
+
         mBeginTime = Calendar.getInstance();
         mBeginTime.setTimeInMillis(beginTimestamp);
         mEndTime = Calendar.getInstance();
@@ -139,7 +141,11 @@ public class CustomDatePicker implements View.OnClickListener, PickerView.OnSele
 
             case R.id.tv_confirm:
                 if (mCallback != null) {
-                    mCallback.onTimeSelected(mSelectedTime.getTimeInMillis());
+                    try {
+                        mCallback.onTimeSelected(mSelectedTime.getTimeInMillis());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
         }

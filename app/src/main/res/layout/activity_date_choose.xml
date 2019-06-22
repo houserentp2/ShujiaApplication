@@ -44,6 +44,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="入住日期"
+                android:lines="2"
                 android:textSize="20dp"/>
 
         </android.support.v7.widget.CardView>
@@ -63,7 +64,7 @@
             android:id="@+id/out_date_cardview"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="40dp">
+            android:layout_marginLeft="20dp">
 
             <TextView
                 android:id="@+id/out_data_textview"
@@ -71,11 +72,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="离开日期"
+                android:lines="2"
                 android:textSize="20dp"/>
 
         </android.support.v7.widget.CardView>
 
     </LinearLayout>
+
+    <include layout="@layout/confirm_layout"/>
 
 
 

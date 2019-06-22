@@ -18,6 +18,9 @@ import example.com.shujiaapplication.ui.CityChooseActivity;
 import example.com.shujiaapplication.ui.DateChooseActivity;
 import example.com.shujiaapplication.ui.HomePageActivity;
 import example.com.shujiaapplication.ui.HouseChooseActivity;
+import example.com.shujiaapplication.ui.HouseInfomationActivity;
+
+import static example.com.shujiaapplication.ui.DateChooseActivity.SHORT_CHOOSE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +43,15 @@ public class ShortFragment extends MainFatherFragment {
     private OnFragmentInteractionListener mListener;
 
     private TextView cityText;
+    private TextView inDateText;
+    private TextView outDateText;
+    private TextView nightText;
+    private TextView positionText;
+    private Button searhButton;
+    private String[] strs;
+    private String inDate;
+    private String outDate;
+    private String dateCount;
 
     public ShortFragment() {
         // Required empty public constructor
@@ -89,66 +101,48 @@ public class ShortFragment extends MainFatherFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        cityText = (TextView) getActivity().findViewById(R.id.city_short_name);
-        TextView positionText = (TextView) getActivity().findViewById(R.id.my_position_short);
-        cityText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cityChooseClick();
-            }
-        });
-        positionText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cityChooseClick();
-            }
-        });
+        initView();
 
-        TextView inDateText = (TextView) getActivity().findViewById(R.id.date_in);
-        TextView outDateText = (TextView) getActivity().findViewById(R.id.date_out);
-        TextView nightText = (TextView) getActivity().findViewById(R.id.night_date);
+        Intent intent = getActivity().getIntent();
+        strs = intent.getStringArrayExtra("dateData");
+        if(strs != null){
+            inDate = strs[0];
+            outDate = strs[1];
+            dateCount = strs[2];
+            inDateText.setText(inDate);
+            outDateText.setText(outDate);
+            nightText.setText("共"+dateCount+"晚");
+        }
+    }
 
-        inDateText.setOnClickListener(new View.OnClickListener() {
+    private void initView(){
+        cityText = (TextView) getActivity().findViewById(R.id.city_name);
+        positionText = (TextView) getActivity().findViewById(R.id.my_position);
+        positionText.setOnClickListener(new CityOnClickListener());
+        cityText.setOnClickListener(new CityOnClickListener());
+
+        inDateText = (TextView) getActivity().findViewById(R.id.date_in);
+        outDateText = (TextView) getActivity().findViewById(R.id.date_out);
+        nightText = (TextView) getActivity().findViewById(R.id.night_date);
+        searhButton = (Button) getActivity().findViewById(R.id.search_short_button);
+        searhButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dateChooseClick();
+                Intent intent = new Intent(getActivity(), HouseInfomationActivity.class);
+                startActivity(intent);
             }
         });
-
-        outDateText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dateChooseClick();
-            }
-        });
-
-        nightText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dateChooseClick();
-            }
-        });
+        inDateText.setOnClickListener(new DateOnClickListener());
+        outDateText.setOnClickListener(new DateOnClickListener());
+        nightText.setOnClickListener(new DateOnClickListener());
         cityText.setText(city);
-
-        Button searchButton = (Button) getActivity().findViewById(R.id.search_short_button);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent houseIntent = new Intent(getActivity(), HouseChooseActivity.class);
-                startActivity(houseIntent);
-
-            }
-        });
-
     }
 
     private void dateChooseClick(){
         Intent dateIntent = new Intent(getActivity(), DateChooseActivity.class);
+        dateIntent.putExtra("ChooseType",SHORT_CHOOSE);
         startActivity(dateIntent);
     }
-
-
-
 
     @Override
     public void onDetach() {
@@ -169,5 +163,13 @@ public class ShortFragment extends MainFatherFragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    public class DateOnClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            dateChooseClick();
+        }
     }
 }
