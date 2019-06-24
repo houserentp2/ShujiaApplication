@@ -67,8 +67,7 @@
             android:layout_height="wrap_content"
             android:background="#ffdbdbdb"
             android:text="待评价"
-            android:textStyle="bold"/>
-    </LinearLayout>
+            android:textStyle="bold"/></LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/view_all"
         android:layout_width="match_parent"

@@ -107,7 +107,8 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
         }
     }
     public void initBuildings(){
-
+        Building a=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",1,0,R.drawable.seen,1);
+        buildingList.add(a);
     }
     public void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager=this.getActivity().getSupportFragmentManager();

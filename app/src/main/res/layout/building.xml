@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.LinertLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
@@ -30,4 +30,4 @@
     </LinearLayout>
 
 
-</android.support.constraint.LinertLayout>
+</LinearLayout>

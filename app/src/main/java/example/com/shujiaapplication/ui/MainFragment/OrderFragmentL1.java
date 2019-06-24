@@ -60,13 +60,13 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mview=inflater.inflate(R.layout.fragment_order_fragment_l2, container, false);
+        mview=inflater.inflate(R.layout.fragment_order_fragment_l1, container, false);
         return mview;
     }
     public void onActivityCreated(Bundle saveInstanceState){
         super.onActivityCreated(saveInstanceState);
         Button a=mview.findViewById(R.id.button_leftno);
-        Button b=mview.findViewById(R.id.button_apply);
+        Button b=mview.findViewById(R.id.button_sign);
         Button c=mview.findViewById(R.id.button_finish);
         a.setOnClickListener(this);
         b.setOnClickListener(this);
@@ -77,8 +77,8 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
             case R.id.button_leftno:
                 replaceFragment(new OrderFragmentS1());
                 break;
-            case R.id.button_apply:
-                replaceFragment(new OrderFragmentL1());
+            case R.id.button_sign:
+                replaceFragment(new OrderFragmentL2());
                 break;
             case R.id.button_finish:
                 replaceFragment(new OrderFragmentL3());
