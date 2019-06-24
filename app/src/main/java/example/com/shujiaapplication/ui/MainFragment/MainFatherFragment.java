@@ -118,10 +118,11 @@ public class MainFatherFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public class CityOnClickListener implements View.OnClickListener {
+    public class CityOnClickListener implements View.OnClickListener{
         @Override
         public void onClick(View view) {
             cityChooseClick();
         }
     }
+
 }

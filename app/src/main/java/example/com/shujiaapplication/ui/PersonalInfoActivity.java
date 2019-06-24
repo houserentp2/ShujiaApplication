@@ -1,10 +1,14 @@
 package example.com.shujiaapplication.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.lljjcoder.citypickerview.widget.CityPicker;
 
@@ -12,25 +16,56 @@ import example.com.shujiaapplication.R;
 
 
 public class PersonalInfoActivity extends BaseActivity {
+    private Button return_myfragment;
+    private Button PIsave;
+    private EditText PIHome;
     private EditText PICity;
-    private EditText PIeditAccount;
     private EditText PIeditName;
     private EditText PIIDNum;
+    private EditText PIeditPhone;
     private CityPicker cityPicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(Build.VERSION.SDK_INT>=21){
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
         setContentView(R.layout.activity_personal_info);
         initControl();
         notKorad(PICity);
+        PIsave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String  detailHome = PIHome.getText().toString();
+                String City = PICity.getText().toString();
+                String realName = PIeditName.getText().toString();
+                String IDnum = PIIDNum.getText().toString();
+                String Phonenum = PIeditPhone.getText().toString();
+                Toast.makeText(PersonalInfoActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        return_myfragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(PersonalInfoActivity.this,HomePageActivity.class);
+                startActivity(intent1);
+            }
+        });
     }
 
     public void initControl(){
+        return_myfragment = (Button)findViewById(R.id.return_myfragment);
+        PIsave = (Button)findViewById(R.id.PIsave);
+        PIHome = (EditText)findViewById(R.id.PIHome);
         PICity = (EditText)findViewById(R.id.PICity);
-        PIeditAccount = (EditText)findViewById(R.id.PIeditAccount);
         PIeditName = (EditText)findViewById(R.id.PIeditName);
         PIIDNum = (EditText)findViewById(R.id.PIIDNum);
+        PIeditPhone = (EditText)findViewById(R.id.PIeditPhone);
     }
 
     public void notKorad(EditText editText){

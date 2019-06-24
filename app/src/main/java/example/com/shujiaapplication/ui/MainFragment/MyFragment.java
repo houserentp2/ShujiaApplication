@@ -3,8 +3,14 @@ package example.com.shujiaapplication.ui.MainFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,10 +24,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import example.com.shujiaapplication.R;
+import example.com.shujiaapplication.ui.ActivityCollector;
+import example.com.shujiaapplication.ui.DiscountActivity;
+import example.com.shujiaapplication.ui.IntroduceAppActivity;
+import example.com.shujiaapplication.ui.MainActivity;
 import example.com.shujiaapplication.ui.ManageTravelerActivity;
 import example.com.shujiaapplication.ui.MyApplication;
 import example.com.shujiaapplication.ui.PersonalInfoActivity;
 import example.com.shujiaapplication.ui.ScoreActivity;
+import example.com.shujiaapplication.ui.ShowBuildListActivity;
 
 public class MyFragment extends Fragment implements AdapterView.OnItemClickListener {
     private static final String ARG_PARAM1 = "param1";
@@ -37,7 +48,31 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
 
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        AppCompatActivity appCompatActivity= (AppCompatActivity) getActivity();
+        Toolbar toolbar= (Toolbar) appCompatActivity.findViewById(R.id.myToolbar);
+        appCompatActivity.setSupportActionBar(toolbar);
+        super.onActivityCreated(savedInstanceState);
+    }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.my_toolbar,menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.setPassward:{
+                Toast.makeText(MyApplication.getContext(),"你点击了修改密码",Toast.LENGTH_SHORT).show();
+                break;
+            }
+        }
+        return true;
+    }
 
     // TODO: Rename and change types and number of parameters
     public static MyFragment newInstance(String param1, String param2) {
@@ -80,8 +115,9 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
         exitAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent("example.com.shujiaapplication.FORCE_OFFLINE");
-                MyApplication.getContext().sendBroadcast(intent1);
+                ActivityCollector.finishAll();
+                Intent intent1 = new Intent(MyApplication.getContext(), MainActivity.class);
+                MyApplication.getContext().startActivity(intent1);
             }
         });
         SimpleAdapter adapter = new SimpleAdapter(getContext(),items,R.layout.my_grid_item,new String[]{"imageItem", "textItem"},new int[]{R.id.image_item, R.id.text_item});
@@ -95,20 +131,20 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position){
             case 0:{
-                Toast.makeText(getActivity(),"优惠券", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MyApplication.getContext(), DiscountActivity.class);
+                startActivity(intent);
                 break;
             }
             case 1:{
-                Intent intent = new Intent(MyApplication.getContext(), PersonalInfoActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                Intent intent = new Intent(MyApplication.getContext(),PersonalInfoActivity.class);
                 startActivity(intent);
             }
             case 2:{
-                Toast.makeText(getActivity(),"发布房屋", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyApplication.getContext(),"发布房屋", Toast.LENGTH_SHORT).show();
                 break;
             }
             case 3:{
-                Toast.makeText(getActivity(),"我的评论", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyApplication.getContext(),"我的评论", Toast.LENGTH_SHORT).show();
                 break;
             }
             case 4:{
@@ -118,21 +154,23 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
                 break;
             }
             case 5:{
-                Intent intent = new Intent(MyApplication.getContext(), ScoreActivity.class);
+                Intent intent = new Intent(MyApplication.getContext(),ScoreActivity.class);
                 startActivity(intent);
                 break;
             }
             case 6:{
-                Intent intent = new Intent(MyApplication.getContext(), ManageTravelerActivity.class);
+                Intent intent = new Intent(MyApplication.getContext(),ManageTravelerActivity.class);
                 startActivity(intent);
                 break;
             }
             case 7:{
-                Toast.makeText(getActivity(),"软件介绍", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MyApplication.getContext(), IntroduceAppActivity.class);
+                startActivity(intent);
                 break;
             }
             case 8:{
-                Toast.makeText(getActivity(),"备用按钮", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MyApplication.getContext(), ShowBuildListActivity.class);
+                startActivity(intent);
                 break;
             }
         }

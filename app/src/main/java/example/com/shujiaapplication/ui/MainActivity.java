@@ -2,8 +2,10 @@ package example.com.shujiaapplication.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import example.com.shujiaapplication.R;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
+    private Button setSeen;
     private EditText editAccount;
     private EditText editPassword;
     private TextView forgetPassward;
@@ -32,7 +35,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.login:{                                                                      //if登录条件
+            case R.id.login:{                                                                       //if登录条件
                 Intent intent1 = new Intent(MainActivity.this,HomePageActivity.class);
                 startActivity(intent1);
                 break;
@@ -43,15 +46,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             }
             case R.id.newAccount:{
-                Intent intent1 = new Intent(MainActivity.this, NewAccountActivity.class);
+                Intent intent1 = new Intent(MainActivity.this,NewAccountActivity.class);
                 startActivity(intent1);
                 break;
+            }
+            case R.id.setseen:{
+                if(editPassword.getInputType()==128){
+                    Drawable drawable = ResourcesCompat.getDrawable(getResources(),R.drawable.unseen,null);
+                    setSeen.setBackground(drawable);
+                    editPassword.setInputType(129);
+                }else {
+                    Drawable drawable = ResourcesCompat.getDrawable(getResources(),R.drawable.seen,null);
+                    setSeen.setBackground(drawable);
+                    editPassword.setInputType(128);
+                }
             }
         }
     }
 
     public void initControl(){
         Button login = (Button)findViewById(R.id.login);
+        setSeen = (Button)findViewById(R.id.setseen);
         editAccount = (EditText)findViewById(R.id.editaccount);
         editPassword = (EditText)findViewById(R.id.editpassword);
         forgetPassward = (TextView)findViewById(R.id.forgetPassword);
@@ -59,5 +74,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         login.setOnClickListener(this);
         forgetPassward.setOnClickListener(this);
         newAccount.setOnClickListener(this);
+        setSeen.setOnClickListener(this);
     }
 }

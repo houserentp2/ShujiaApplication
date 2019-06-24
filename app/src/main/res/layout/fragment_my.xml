@@ -4,49 +4,77 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:circleimageview="http://schemas.android.com/tools"
     tools:context=".ui.MainFragment.MyFragment">
 
-    <RelativeLayout
+    <android.support.v7.widget.Toolbar
+        android:id = "@+id/myToolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <ImageView
-            android:id = "@+id/mybackground"
+
+    </android.support.v7.widget.Toolbar>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:background="@drawable/mybackground"/>
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="70dp"
-            android:src="@drawable/user" />
+            android:layout_height="match_parent">
 
-        <GridView
-            android:layout_marginTop="20dp"
-            android:id = "@+id/my_gridView"
-            android:layout_width="350dp"
-            android:layout_height="300dp"
-            android:numColumns="3"
-            android:gravity="center_horizontal"
-            android:columnWidth="90dp"
-            android:horizontalSpacing="20dp"
-            android:verticalSpacing="20dp"
-            android:layout_below="@+id/mybackground"
-            android:layout_centerHorizontal="true"
-            android:stretchMode="columnWidth">
-        </GridView>
+            <ImageView
+                android:id = "@+id/mybackground"
+                android:layout_width="match_parent"
+                android:layout_height="230dp"
+                android:background="@drawable/mybackground"/>
 
-        <Button
-            android:layout_marginTop="30dp"
-            android:id = "@+id/exitAccount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape"
-            android:backgroundTint="@color/red"
-            android:layout_below="@id/my_gridView"
-            android:text="退出此账号"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="70dp"
+                circleimageview:civ_border_color="#ffffff"
+                circleimageview:civ_border_overlay="false"
+                circleimageview:civ_border_width="4dp"
+                circleimageview:civ_fill_color="@android:color/holo_blue_light"
+                android:src="@drawable/user" />
 
-    </RelativeLayout>
+            <GridView
+                android:layout_marginTop="20dp"
+                android:id = "@+id/my_gridView"
+                android:layout_width="350dp"
+                android:layout_height="300dp"
+                android:numColumns="3"
+                android:gravity="center_horizontal"
+                android:columnWidth="90dp"
+                android:horizontalSpacing="20dp"
+                android:verticalSpacing="20dp"
+                android:layout_below="@+id/mybackground"
+                android:layout_centerHorizontal="true"
+                android:stretchMode="columnWidth">
+            </GridView>
+
+            <Button
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="30dp"
+                android:id = "@+id/exitAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape"
+                android:backgroundTint="@color/red"
+                android:layout_below="@id/my_gridView"
+                android:text="退出此账号"
+                android:layout_marginBottom="30dp"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
 
 </FrameLayout>

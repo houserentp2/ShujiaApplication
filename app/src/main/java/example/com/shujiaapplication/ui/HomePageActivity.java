@@ -1,6 +1,7 @@
 package example.com.shujiaapplication.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
@@ -22,6 +23,7 @@ public class HomePageActivity extends BaseActivity {
     private TabLayout mTabLayout;
     private Fragment[]mFragmensts;
     private static boolean isExit = false;
+    private int selectedTanNum;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -78,7 +80,11 @@ public class HomePageActivity extends BaseActivity {
         mTabLayout.addTab(mTabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.tab_order_selector)).setText(DataGenerator.mTabTitle[2]));
         mTabLayout.addTab(mTabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.tab_my_selector)).setText(DataGenerator.mTabTitle[3]));
 
+//        SharedPreferences preferences = getSharedPreferences("fragmentOrder",MODE_PRIVATE);
+//        int num = preferences.getInt("fragmentNum",0);
+//        mTabLayout.getTabAt(num).select();
     }
+
 
     private void onTabItemSelected(int position){
         Fragment fragment = null;
@@ -88,13 +94,19 @@ public class HomePageActivity extends BaseActivity {
                 break;
             case 1:
                 fragment = mFragmensts[1];
+                //putNum(1);
+                selectedTanNum = 1;
                 break;
 
             case 2:
                 fragment = mFragmensts[2];
+                //putNum(2);
+                selectedTanNum = 2;
                 break;
             case 3:
                 fragment = mFragmensts[3];
+                //putNum(3);
+                selectedTanNum = 3;
                 break;
         }
         if(fragment!=null) {
@@ -116,4 +128,17 @@ public class HomePageActivity extends BaseActivity {
             return false;
         }
         return super.onKeyDown(keyCode, event);}
+
+    public void putNum(int num){
+        SharedPreferences.Editor editor = getSharedPreferences("fragmentOrder",MODE_PRIVATE).edit();
+        editor.putInt("fragmentNum",num);
+        editor.apply();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        putNum(0);
+        Log.e("HomePageActivity","存0");
+    }
 }

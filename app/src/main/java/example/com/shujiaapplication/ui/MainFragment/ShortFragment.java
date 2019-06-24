@@ -19,6 +19,7 @@ import example.com.shujiaapplication.ui.DateChooseActivity;
 import example.com.shujiaapplication.ui.HomePageActivity;
 import example.com.shujiaapplication.ui.HouseChooseActivity;
 import example.com.shujiaapplication.ui.HouseInfomationActivity;
+import example.com.shujiaapplication.ui.MyApplication;
 
 import static example.com.shujiaapplication.ui.DateChooseActivity.SHORT_CHOOSE;
 
@@ -30,7 +31,7 @@ import static example.com.shujiaapplication.ui.DateChooseActivity.SHORT_CHOOSE;
  * Use the {@link ShortFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShortFragment extends MainFatherFragment {
+public class ShortFragment extends MainFatherFragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -87,7 +88,11 @@ public class ShortFragment extends MainFatherFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
+
+
+
         return inflater.inflate(R.layout.fragment_short, container, false);
     }
 
@@ -102,7 +107,6 @@ public class ShortFragment extends MainFatherFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
         initView();
-
         Intent intent = getActivity().getIntent();
         strs = intent.getStringArrayExtra("dateData");
         if(strs != null){
@@ -113,12 +117,18 @@ public class ShortFragment extends MainFatherFragment {
             outDateText.setText(outDate);
             nightText.setText("共"+dateCount+"晚");
         }
+
     }
 
     private void initView(){
-        cityText = (TextView) getActivity().findViewById(R.id.city_name);
-        positionText = (TextView) getActivity().findViewById(R.id.my_position);
-        positionText.setOnClickListener(new CityOnClickListener());
+        cityText = (TextView) getActivity().findViewById(R.id.city_name_short);
+        positionText = (TextView) getActivity().findViewById(R.id.my_position_short);
+        positionText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cityChooseClick();
+            }
+        });
         cityText.setOnClickListener(new CityOnClickListener());
 
         inDateText = (TextView) getActivity().findViewById(R.id.date_in);

@@ -67,7 +67,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:text="密码"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -77,9 +77,17 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:layout_weight="4"
+                    android:layout_weight="15"
                     android:background="@null"
                     android:hint="在此处输入密码" />
+                <Button
+                    android:id = "@+id/setseen"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/seen"/>
             </LinearLayout>
 
             <RelativeLayout

@@ -97,7 +97,7 @@ public class LongFragment extends MainFatherFragment {
         Button buttonTwo = (Button) getActivity().findViewById(R.id.two_type);
         Button buttonThree = (Button) getActivity().findViewById(R.id.three_type);
 
-        cityText = (TextView) getActivity().findViewById(R.id.city_name);
+        cityText = (TextView) getActivity().findViewById(R.id.city_name_long);
         cityText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,7 +105,7 @@ public class LongFragment extends MainFatherFragment {
             }
         });
         cityText.setText(city);
-        TextView positionText = (TextView) getActivity().findViewById(R.id.my_position);
+        TextView positionText = (TextView) getActivity().findViewById(R.id.my_position_long);
         positionText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

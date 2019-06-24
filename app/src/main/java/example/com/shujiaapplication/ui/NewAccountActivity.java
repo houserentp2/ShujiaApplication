@@ -7,30 +7,42 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.Random;
 
 import example.com.shujiaapplication.R;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-public class NewAccountActivity extends BaseActivity {
-    private Handler mHandler = new Handler();
-    private static String code = "";
+public class NewAccountActivity extends BaseActivity implements View.OnClickListener {
+    public static final MediaType JSON=MediaType.get("application/json; charset=utf-8");
     private EditText editAccount;
     private EditText editPassword;
     private EditText surePassword;
     private EditText editCode;
-    private int daoTime = 61;
+    private Button setSeen1;
+    private Button setSeen2;
     private Button getCode;                                                                        //得到验证码按钮
     private Button register;                                                                       //注册按钮
+    private Button testLink;
+    private TextView testResult;
 
 
     @Override
@@ -43,45 +55,16 @@ public class NewAccountActivity extends BaseActivity {
         }
         setContentView(R.layout.activity_new_account);
         initControl();
+    }
 
-        getCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                daoTime = daoTime-1;
-                getFourCode();
-                getCode.setEnabled(false);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while (daoTime<=60){
-                            daoTime = daoTime-1;
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if(daoTime!=0){
-                                        getCode.setText(daoTime+"秒后重新获取");
-                                    } else{
-                                        getCode.setEnabled(true);
-                                        getCode.setText("获取验证码");
-                                        daoTime = 61;
-                                    }
-                                }
-                            });
-                            try{
-                                Thread.sleep(1000);
-                            }catch (Exception e){
-                                e.fillInStackTrace();
-                            }
-                        }
-                    }
-                }).start();
-
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.getCode:{
+                Code.daotime(getCode);
+                break;
             }
-        });
-
-        register.setOnClickListener(new View.OnClickListener() {                                   //注册按钮
-            @Override
-            public void onClick(View v) {
+            case R.id.register:{
                 int accountLen = editAccount.getText().toString().length();
                 int passwordLen = editPassword.getText().toString().length();
                 String editCode1 = editCode.getText().toString();
@@ -89,8 +72,8 @@ public class NewAccountActivity extends BaseActivity {
                 SharedPreferences preferences = getSharedPreferences("setCode",MODE_PRIVATE);
                 String getCode = preferences.getString("code","null");
 
-                if(accountLen<3||accountLen>10){
-                    Toast.makeText(NewAccountActivity.this,"请输入3-10位的用户名",Toast.LENGTH_SHORT).show();
+                if(accountLen!=11){
+                    Toast.makeText(NewAccountActivity.this,"请输入11位手机号",Toast.LENGTH_SHORT).show();
                 }else if(passwordLen<6||passwordLen>20){
                     Toast.makeText(NewAccountActivity.this,"请输入6-20位的密码",Toast.LENGTH_SHORT).show();
                 }else if(editPassword.getText().toString().equals(surePassword.getText().toString())==false){
@@ -98,55 +81,111 @@ public class NewAccountActivity extends BaseActivity {
                 }else if(editCode1.equals(getCode)==false){
                     Toast.makeText(NewAccountActivity.this,"验证码有误，请重新验证",Toast.LENGTH_SHORT).show();
                 }else{
-                    Intent intent1 = new Intent(NewAccountActivity.this,SuccessAccountActivity.class);
-                    startActivity(intent1);
+                    register();
+//                    Intent intent1 = new Intent(NewAccountActivity.this,SuccessAccountActivity.class);
+//                    intent1.putExtra("newOrReset","new");
+//                    startActivity(intent1);
                 }
+                break;
+            }
+            case R.id.setseen1:{
+                if(editPassword.getInputType()==128){
+                    Drawable drawable = ResourcesCompat.getDrawable(getResources(),R.drawable.unseen,null);
+                    setSeen1.setBackground(drawable);
+                    editPassword.setInputType(129);
+                }else {
+                    Drawable drawable = ResourcesCompat.getDrawable(getResources(),R.drawable.seen,null);
+                    setSeen1.setBackground(drawable);
+                    editPassword.setInputType(128);
+                }
+                break;
+            }
+            case R.id.setseen2:{
+                if(surePassword.getInputType()==128){
+                    Drawable drawable = ResourcesCompat.getDrawable(getResources(),R.drawable.unseen,null);
+                    setSeen2.setBackground(drawable);
+                    surePassword.setInputType(129);
+                }else {
+                    Drawable drawable = ResourcesCompat.getDrawable(getResources(),R.drawable.seen,null);
+                    setSeen2.setBackground(drawable);
+                    surePassword.setInputType(128);
+                }
+                break;
+            }
+            case R.id.testLink:{
+                SendMessage();
+            }
+        }
+    }
+
+    public void SendMessage(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient client=new OkHttpClient();
+                    Request request=new Request.Builder()
+                            .url("http://210.42.105.207/testconnection")
+                            .build();
+                    Response response=client.newCall(request).execute();
+                    String responseData=response.body().string();
+                    showResponse(responseData);
+
+                }catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+
+        }).start();
+    }
+
+    public void register(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    OkHttpClient client = new OkHttpClient();
+                    Gson gson=new Gson();
+                    NewAccountData newAccount=new NewAccountData(editAccount.getText().toString(),editPassword.getText().toString(),"1111");
+                    RequestBody requestBody=RequestBody.create(JSON,gson.toJson(newAccount));
+                    Request request=new Request.Builder()
+                            .url("http://210.42.105.207/register")
+                            .post(requestBody)
+                            .build();
+                    Response response=client.newCall(request).execute();
+                    String responseData=response.body().string();
+                    showResponse(responseData);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public void showResponse(final String response){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                testResult.setText(response);
             }
         });
     }
 
-    public void getFourCode(){
-
-        Random random = new Random();
-        if(code.length()!=0){
-            code = "";
-        }
-        for(int i=0;i<=3;i++){
-            code = code+random.nextInt(10);
-        }
-
-        SharedPreferences.Editor editor = getSharedPreferences("setCode",MODE_PRIVATE).edit();
-        editor.putString("code",code);
-        editor.apply();
-
-        NotificationManager manager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        String Channel_id = "my_channel_id_01";
-
-        if(Build.VERSION.SDK_INT >=Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel(Channel_id,"My Notification",NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription("Channel description");
-            channel.enableLights(true);
-            channel.setLightColor(Color.RED);
-            channel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
-            channel.enableVibration(true);
-            manager.createNotificationChannel(channel);
-        }
-        NotificationCompat.Builder notification = new NotificationCompat.Builder(NewAccountActivity.this,Channel_id);
-        notification .setContentTitle("您好，您注册住多多的验证码为：")
-                .setContentText(code)
-                .setWhen(System.currentTimeMillis())
-                .setVisibility(Notification.VISIBILITY_PUBLIC)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher));
-        manager.notify(1,notification.build());
-    }
-
     public void initControl(){
         getCode = (Button)findViewById(R.id.getCode);
+        register = (Button)findViewById(R.id.register);
+        setSeen1 = (Button)findViewById(R.id.setseen1);
+        setSeen2 = (Button)findViewById(R.id.setseen2);
         editCode = (EditText)findViewById(R.id.editCode);
         editAccount = (EditText)findViewById(R.id.editaccount);
         editPassword = (EditText)findViewById(R.id.editpassword);
         surePassword = (EditText)findViewById(R.id.editSurePassword);
-        register = (Button)findViewById(R.id.register);
+        testLink = (Button)findViewById(R.id.testLink);
+        testResult = (TextView)findViewById(R.id.testResult);
+        getCode.setOnClickListener(this);
+        register.setOnClickListener(this);
+        setSeen1.setOnClickListener(this);
+        setSeen2.setOnClickListener(this);
+        testLink.setOnClickListener(this);
     }
 }

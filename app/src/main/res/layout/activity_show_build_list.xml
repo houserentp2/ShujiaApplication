@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.ShowBuildListActivity">
+
+    <View
+        android:layout_marginTop="2dp"
+        android:layout_height="1px"
+        android:layout_width="match_parent"
+        android:background="#80000000"
+        />
+
+
+    <LinearLayout
+        android:fitsSystemWindows="true"
+        android:id = "@+id/buttons"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id = "@+id/chooseDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:layout_weight="1"
+            android:fitsSystemWindows="true"
+            android:text="入住时间"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="45dp"
+            android:background="#80000000"/>
+
+        <Button
+            android:id = "@+id/choosePrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:layout_weight="1"
+            android:fitsSystemWindows="true"
+            android:text="价格筛选"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="45dp"
+            android:background="#80000000"/>
+
+        <Button
+            android:id = "@+id/chooseOrder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:layout_weight="1"
+            android:fitsSystemWindows="true"
+            android:text="价格升序"/>
+    </LinearLayout>
+
+    <View
+        android:layout_above="@id/building_recyclerView"
+        android:layout_height="2px"
+        android:layout_width="match_parent"
+        android:background="#80000000" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id = "@+id/building_recyclerView"
+        android:layout_below="@id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

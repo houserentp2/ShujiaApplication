@@ -26,7 +26,7 @@
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="账户" />
+                android:text="手机号" />
 
             <EditText
                 android:id="@+id/editaccount"
@@ -35,7 +35,7 @@
                 android:layout_weight="4"
                 android:layout_margin="10dp"
                 android:background="@null"
-                android:hint="在此处输入账户(3-10位)" />
+                android:hint="输入手机号" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,7 +60,15 @@
                 android:layout_weight="4"
                 android:layout_margin="10dp"
                 android:background="@null"
-                android:hint="在此处输入密码(6-20位)" />
+                android:hint="输入密码(6-20位)" />
+
+            <Button
+                android:id = "@+id/setseen1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/seen"/>
         </LinearLayout>
 
         <LinearLayout
@@ -85,7 +93,15 @@
                 android:layout_weight="4"
                 android:layout_margin="10dp"
                 android:background="@null"
-                android:hint="再次输入确定密码" />
+                android:hint="输入确定密码" />
+
+            <Button
+                android:id = "@+id/setseen2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/seen"/>
         </LinearLayout>
 
         <LinearLayout
@@ -109,12 +125,13 @@
                 android:layout_weight="7"
                 android:layout_margin="10dp"
                 android:background="@null"
-                android:hint="在此输入验证码" />
+                android:hint="输入验证码" />
 
             <Button
+                android:layout_marginTop="5dp"
                 android:id = "@+id/getCode"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:text = "获取验证码"
                 android:backgroundTint="#00BCD4"
                 android:background="@drawable/shape"/>
@@ -129,6 +146,18 @@
             android:backgroundTint="@color/colorPrimaryDark"
             android:text="注册"/>
     </LinearLayout>
+
+    <Button
+        android:id = "@+id/testLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试连接"/>
+
+    <TextView
+        android:id = "@+id/testResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 
 
 </LinearLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"
+    android:id = "@+id/building_item">
+
+    <ImageView
+        android:id = "@+id/building_image"
+        android:layout_width="wrap_content"
+        android:layout_height="230dp"
+        android:background="@drawable/background"/>
+
+    <TextView
+        android:id = "@+id/building_title"
+        android:textColor="#000000"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/building_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id = "@+id/building_price"
+        android:gravity="center"
+        android:layout_width="55dp"
+        android:layout_height="25dp"
+        android:layout_above="@id/building_title"
+        android:textColor="#ffffff"
+        android:background="#3E000000"
+        android:textSize="14sp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="228/晚"/>
+
+    <TextView
+        android:id = "@+id/building_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/building_title"
+        android:textSize="14sp"
+        android:layout_marginLeft="15dp"
+        android:text="1室1厅| 宜居2人| 47m²"/>
+
+</RelativeLayout>
