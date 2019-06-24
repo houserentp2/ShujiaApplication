@@ -43,4 +43,5 @@ dependencies {
         exclude group: 'com.squareup.okhttp3'
     }
     implementation 'com.squareup.okhttp3:okhttp:3.14.2'
+    implementation 'org.jetbrains:annotations:15.0'
 }

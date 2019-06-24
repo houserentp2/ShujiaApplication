@@ -11,14 +11,122 @@
         android:layout_height="250dp"></android.support.v4.view.ViewPager>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:id="@+id/viewGroup"
-        android:layout_alignParentBottom="true"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="40dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="250dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="198元/晚"
+            android:textSize="18sp"
+            android:textColor="@color/red"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="这里是填写具体位置的一个比较长的字符串"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/boxing_gray">
+
+            <GridView
+                android:id="@+id/house_information_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:horizontalSpacing="20dp"
+                android:verticalSpacing="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_horizontal"
+                android:columnWidth="90dp"
+                android:numColumns="4"
+                android:layout_below="@+id/mybackground"
+                android:layout_centerHorizontal="true"
+                >
+            </GridView>
+
+        </LinearLayout>
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="4.9分"
+                android:textSize="18dp"
+                android:textColor="@color/red"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/look_commitment"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:layout_marginRight="20dp"
+                android:text="查看全部29条点评 >"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#eeeeee">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <example.com.shujiaapplication.ui.MyImageView
+                android:id="@+id/call_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:Text="聊天"
+                app:Src="@drawable/littleback"
+                app:Oriental="Vertical">
+            </example.com.shujiaapplication.ui.MyImageView>
+
+            <example.com.shujiaapplication.ui.MyImageView
+                android:id="@+id/collect_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                app:Text="收藏"
+                app:Src="@drawable/littleback"
+                app:Oriental="Vertical">
+            </example.com.shujiaapplication.ui.MyImageView>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:background="@color/red"
+                android:text="申请预定"
+                android:textColor="#eeeeee"
+                android:textSize="18dp"
+                />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
