@@ -3,6 +3,8 @@ package example.com.shujiaapplication.ui.MainFragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +17,13 @@ public class OrderFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+
+
     private OnFragmentInteractionListener mListener;
 
     public OrderFragment() {
         // Required empty public constructor
     }
-
     public static OrderFragment newInstance(String param1, String param2) {
         OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
@@ -33,17 +36,15 @@ public class OrderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        replaceFragment(new OrderFragmentS1());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_order, container, false);
+        View view=inflater.inflate(R.layout.fragment_order, container, false);
+        return view;
     }
 
     @Override
@@ -54,5 +55,11 @@ public class OrderFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+    public void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager=this.getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction=fragmentManager.beginTransaction();
+        transaction.replace(R.id.order,fragment);
+        transaction.commit();
     }
 }
