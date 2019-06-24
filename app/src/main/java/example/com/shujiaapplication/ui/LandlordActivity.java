@@ -1,10 +1,10 @@
-package example.com.shujiaapplication.ui.MainFragment;
+package example.com.shujiaapplication.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,61 +19,22 @@ import java.util.ArrayList;
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.model.HouseInfo;
 
-public class CollectFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
-//    List<String> mTitle;
-//    List<Fragment> mFragment;
+public class LandlordActivity extends BaseActivity {
 
     private TabLayout tabLayout;
-    public static final String []mTabTitle = new String[]{"长租","短租"};
+    public static final String[] mTabTitle = new String[]{"长租", "短租"};
     private Fragment[] mFragmensts;
 
-    public CollectFragment() {
-        // Required empty public constructor
-    }
-
-    public static CollectFragment newInstance(String param1, String param2) {
-        CollectFragment fragment = new CollectFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //获得两个界面的实例
+        setContentView(R.layout.activity_landlord);
         mFragmensts = getFragments();
-    }
-
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_collect, container, false);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
         initView();
-
     }
 
-    private void initView(){
-        tabLayout =  getActivity().findViewById(R.id.id_tablayout);
-        //Log.d("CollectFragment","找tablayout");
+    private void initView() {
+        tabLayout = (TabLayout)findViewById(R.id.id_tablayout);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -98,15 +59,24 @@ public class CollectFragment extends Fragment {
 
             }
         });
-
-
         tabLayout.addTab(tabLayout.newTab().setText(mTabTitle[0]));
         tabLayout.addTab(tabLayout.newTab().setText(mTabTitle[1]));
+
+
+        ImageButton button_add = (ImageButton)findViewById(R.id.id_add);
+        button_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MyApplication.getContext(), AddHouseActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                startActivity(intent);
+            }
+        });
     }
 
-    private void onTabItemSelected(int position){
+    private void onTabItemSelected(int position) {
         Fragment fragment = null;
-        switch (position){
+        switch (position) {
             case 0:
                 fragment = mFragmensts[0];
                 break;
@@ -115,17 +85,12 @@ public class CollectFragment extends Fragment {
                 break;
 
         }
-        if(fragment!=null) {
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.id_house_container,fragment).commit();
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.id_house_container, fragment).commit();
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    private Fragment[] getFragments(){
+    private Fragment[] getFragments() {
         Fragment[] fragments = new Fragment[2];
 
 
@@ -135,13 +100,14 @@ public class CollectFragment extends Fragment {
         return fragments;
     }
 
+
     public static class PageFragment extends Fragment {
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private static final String ARG_PARAM1 = "ARG_PAGE";
 
         // TODO: Rename and change types of parameters
         private int mPage;
-        private boolean isRefreshData = false;
+
         ArrayList<HouseInfo> houseInfos;
 
         public PageFragment() {
@@ -169,49 +135,38 @@ public class CollectFragment extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             // Inflate the layout for this fragment
-            View view = inflater.inflate(R.layout.fragment_collect_page, container, false);
+            View view = inflater.inflate(R.layout.fragment_landlord_page, container, false);
 
 //            TextView textView = (TextView) view.findViewById(R.id.id_hello);
 //            textView.setText("Fragment #" + mPage);
 
-            Log.d("PageFragment","onCreateView");
-            houseInfos = getHouseInfos();       //从服务器中获取数据
-            return view;
-        }
-        @Override
-        public void onResume() {
-            if(isRefreshData)
-            {
-                Log.d("PageFragment","RefreshData");
+            houseInfos = getHouseInfos();       //从服务器中获取数据，假设都是一样的
 
-                houseInfos = getHouseInfos();       //从服务器中获取数据
-                isRefreshData = false;
-            }
-            super.onResume();
+            return view;
         }
 
         @Override
         public void onActivityCreated(@Nullable Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
 
-            ListView listView = (ListView)getActivity().findViewById(R.id.id_listview);
+            ListView listView = (ListView) getActivity().findViewById(R.id.id_listview);
             MyPageFragmentAdapter listAdapter = new MyPageFragmentAdapter();
             listView.setAdapter(listAdapter);
         }
 
-        public ArrayList<HouseInfo> getHouseInfos(){
+        public ArrayList<HouseInfo> getHouseInfos() {
             ArrayList<HouseInfo> houseInfos = new ArrayList<>(3);
 
-            houseInfos.add(new HouseInfo(getActivity().getDrawable(R.drawable.house_1),"房子1",
-                                        1400, 40,"临近地铁"));
-            houseInfos.add(new HouseInfo(getActivity().getDrawable(R.drawable.house_2),"房子2",
-                    1330, 42,"有电梯"));
-            houseInfos.add(new HouseInfo(getActivity().getDrawable(R.drawable.house_1),"房子3",
-                    1260, 35,"有网"));
+            houseInfos.add(new HouseInfo(getActivity().getDrawable(R.drawable.house_1), "房子1",
+                    1400, 40, "临近地铁"));
+            houseInfos.add(new HouseInfo(getActivity().getDrawable(R.drawable.house_2), "房子2",
+                    1330, 42, "有电梯"));
+            houseInfos.add(new HouseInfo(getActivity().getDrawable(R.drawable.house_1), "房子3",
+                    1260, 35, "有网"));
             return houseInfos;
         }
 
-        class MyPageFragmentAdapter extends BaseAdapter{
+        class MyPageFragmentAdapter extends BaseAdapter {
 
 
             @Override
@@ -230,11 +185,11 @@ public class CollectFragment extends Fragment {
             }
 
             @Override
-            public View getView(final int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, ViewGroup parent) {
                 if(convertView == null)
                 {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
-                    convertView = inflater.inflate(R.layout.fragment_collect_item,parent,false);
+                    convertView = inflater.inflate(R.layout.fragment_landlord_item,parent,false);
 
                     //convertView = getLayoutInflater().inflate(R.layout.layout_student_item,parent,false);
                 }
@@ -259,25 +214,12 @@ public class CollectFragment extends Fragment {
 
                 iconView.setImageDrawable(data.getPicture());
 
-                ImageButton button = (ImageButton)convertView.findViewById(R.id.id_imagebutton);
-
-                //View.OnClickListener
-
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        houseInfos.remove(position);
-
-                        //Fragment fragment = PageFragment.newInstance(mPage);
-                        PageFragment.this.isRefreshData = true;
-                        PageFragment.this.onResume();
-                    }
-                });
-
-
                 return convertView;
             }
         }
-
     }
+
+
+
+
 }
