@@ -18,8 +18,7 @@
             android:layout_weight="1"
             android:text="短租"
             android:textColor="#ffffffff"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_height="match_parent" />
         <Button
             android:id="@+id/button_right"
             android:background="@drawable/right_round"
