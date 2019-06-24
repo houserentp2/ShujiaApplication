@@ -27,6 +27,7 @@ import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.ActivityCollector;
 import example.com.shujiaapplication.ui.DiscountActivity;
 import example.com.shujiaapplication.ui.IntroduceAppActivity;
+import example.com.shujiaapplication.ui.LandlordActivity;
 import example.com.shujiaapplication.ui.MainActivity;
 import example.com.shujiaapplication.ui.ManageTravelerActivity;
 import example.com.shujiaapplication.ui.MyApplication;
@@ -138,9 +139,11 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
             case 1:{
                 Intent intent = new Intent(MyApplication.getContext(),PersonalInfoActivity.class);
                 startActivity(intent);
+                break;
             }
             case 2:{
-                Toast.makeText(MyApplication.getContext(),"发布房屋", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MyApplication.getContext(), LandlordActivity.class);
+                startActivity(intent);
                 break;
             }
             case 3:{
