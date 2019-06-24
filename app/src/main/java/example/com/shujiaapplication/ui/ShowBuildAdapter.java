@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import example.com.shujiaapplication.R;
 
 public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.ViewHolder> {
@@ -20,6 +21,8 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
     static class ViewHolder extends RecyclerView.ViewHolder{
         View buildView;
         ImageView building_image;
+        ImageView collect_image;
+        CircleImageView building_head;
         TextView building_title;
         TextView building_price;
         TextView building_details;
@@ -28,6 +31,8 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
         public ViewHolder(View view){
             super(view);
             buildView = view;
+            collect_image = (ImageView)view.findViewById(R.id.collect_image);
+            building_head = (CircleImageView)view.findViewById(R.id.building_head);
             building_item = (RelativeLayout)view.findViewById(R.id.building_item);
             building_image = (ImageView)view.findViewById(R.id.building_image);
             building_title = (TextView)view.findViewById(R.id.building_title);
@@ -59,8 +64,10 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Building building = mBuildList.get(i);
+        viewHolder.collect_image.setImageResource(building.getCollect_image());
         viewHolder.building_image.setImageResource(building.getPicture_id());
         viewHolder.building_title.setText(building.getTitle());
+        viewHolder.building_head.setImageResource(building.getBuild_head());
         viewHolder.building_price.setText("¥"+building.getPrice());
         viewHolder.building_details.setText(building.getShi()+"室"+building.getTing()+"厅 |宜居"+building.getLiving_people()+"人 |"+building.getSquare()+"m²");
     }

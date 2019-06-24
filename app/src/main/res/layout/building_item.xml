@@ -10,6 +10,23 @@
         android:layout_height="230dp"
         android:background="@drawable/background"/>
 
+    <ImageView
+        android:id = "@+id/collect_image"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:background="@drawable/collect"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id = "@+id/building_head"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="195dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:src = "@drawable/user"/>
+
     <TextView
         android:id = "@+id/building_title"
         android:textColor="#000000"
