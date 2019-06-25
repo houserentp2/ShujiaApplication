@@ -1,6 +1,8 @@
 package example.com.shujiaapplication.ui;
 
-public class Building implements Comparable<Building>{
+import java.io.Serializable;
+
+public class Building implements Comparable<Building>, Serializable {
     private int build_head;
     private int house_id;
     private int price;

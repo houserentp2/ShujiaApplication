@@ -1,5 +1,7 @@
 package example.com.shujiaapplication.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +19,7 @@ import example.com.shujiaapplication.R;
 
 public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.ViewHolder> {
     private List<Building> mBuildList;
+    private Context mContext;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         View buildView;
@@ -48,6 +51,9 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        if(mContext==null){
+            mContext = viewGroup.getContext();
+        }
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.building_item,viewGroup,false);
         final ViewHolder holder = new ViewHolder(view);
         holder.building_item.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +61,9 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 Building building = mBuildList.get(position);
-                Toast.makeText(v.getContext(),"你点击了第"+(position+1)+"个房源",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext,HouseInfomationActivity.class);
+                intent.putExtra("selectedHouse",building);
+                mContext.startActivity(intent);
             }
         });
         return holder;
