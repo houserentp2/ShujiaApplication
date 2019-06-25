@@ -115,18 +115,18 @@ public class OrderFragmentS3 extends Fragment implements View.OnClickListener{
         }
     }
     public void initBuildings(){
-        Building a=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",1,0,R.drawable.seen,1,0,0);
-        buildingList.add(a);
-        Building b=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",2,0,R.drawable.seen,1,0,0);
-        buildingList.add(b);
-        Building c=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",3,0,R.drawable.seen,1,0,0);
-        buildingList.add(c);
-        Building d=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
-        buildingList.add(d);
-        Building e=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
-        buildingList.add(e);
-        Building f=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
-        buildingList.add(f);
+//        Building a=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",1,0,R.drawable.seen,1,0,0);
+//        buildingList.add(a);
+//        Building b=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",2,0,R.drawable.seen,1,0,0);
+//        buildingList.add(b);
+//        Building c=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",3,0,R.drawable.seen,1,0,0);
+//        buildingList.add(c);
+//        Building d=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
+//        buildingList.add(d);
+//        Building e=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
+//        buildingList.add(e);
+//        Building f=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
+//        buildingList.add(f);
     }
     public void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager=this.getActivity().getSupportFragmentManager();

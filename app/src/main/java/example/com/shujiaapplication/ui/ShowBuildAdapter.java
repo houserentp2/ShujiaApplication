@@ -73,7 +73,7 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Building building = mBuildList.get(i);
         viewHolder.collect_image.setImageResource(building.getCollect_image());
-        viewHolder.building_image.setImageResource(building.getPicture_id());
+        viewHolder.building_image.setImageResource(building.getPicture_id().get(0));
         viewHolder.building_title.setText(building.getTitle());
         viewHolder.building_head.setImageResource(building.getBuild_head());
         viewHolder.building_price.setText("¥"+building.getPrice());

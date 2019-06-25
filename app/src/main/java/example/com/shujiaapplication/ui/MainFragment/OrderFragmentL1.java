@@ -103,17 +103,24 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
         }
     }
     public void initBuildings(){
-        Building a=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",1,0,R.drawable.seen,1,0,0);
+        List<Integer> pictures = new ArrayList<>();
+        pictures.add(R.drawable.imgv_slide);
+        pictures.add(R.drawable.background);
+        pictures.add(R.drawable.collect);
+        pictures.add(R.drawable.mybackground);
+        pictures.add(R.drawable.user);
+        pictures.add(R.drawable.unseen);
+        Building a=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",1,0,pictures,1,0,0);
         buildingList.add(a);
-        Building b=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",2,0,R.drawable.seen,1,0,0);
+        Building b=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",2,0,pictures,1,0,0);
         buildingList.add(b);
-        Building c=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",3,0,R.drawable.seen,1,0,0);
+        Building c=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",3,0,pictures,1,0,0);
         buildingList.add(c);
-        Building d=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
+        Building d=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,pictures,1,0,0);
         buildingList.add(d);
-        Building e=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
+        Building e=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,pictures,1,0,0);
         buildingList.add(e);
-        Building f=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
+        Building f=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,pictures,1,0,0);
         buildingList.add(f);
     }
     public void replaceFragment(Fragment fragment){

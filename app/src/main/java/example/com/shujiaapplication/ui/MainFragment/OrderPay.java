@@ -72,7 +72,7 @@ public class OrderPay extends Fragment {
         // Inflate the layout for this fragment
         mview=inflater.inflate(R.layout.fragment_order_pay, container, false);
         ImageView imageView=mview.findViewById(R.id.building_view1);
-        imageView.setImageResource(mbuild.getPicture_id());
+        imageView.setImageResource(mbuild.getPicture_id().get(0));
         return mview;
     }
 
