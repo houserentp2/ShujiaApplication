@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import example.com.shujiaapplication.R;
 
@@ -19,11 +23,13 @@ public class HouseInfomationActivity extends BaseActivity {
     private ViewPager viewPager;
     private PagerAdapter adapter;
     private List<View> viewPages = new ArrayList<>();
+    private GridView gridView;
+
 
     // 定义是否开启自动滚动，默认开启
     private boolean isAutoPlay = true;
     // 默认自动滚动任务延时两秒执行
-    private int delayTime = 3000;
+    private int delayTime = 2500;
     // 定义处理自动滚动的handler
     private Handler handler = new Handler();
     // 当前ViewPager展示页
@@ -42,12 +48,25 @@ public class HouseInfomationActivity extends BaseActivity {
         initView();
         initPageAdapter();
         initEvent();
+        startAutoPlay();
+
+        List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
+        String[] name = new String[]{"整套出租","1室1厅","宜居2人","1张床"};
+        for(int i=0;i<4;i++){
+            Map<String, Object> item = new HashMap<String, Object>();
+            item.put("imageItem", R.drawable.tab_collect_selector);//添加图像资源的ID
+            item.put("textItem", name[i]);//按序号添加ItemText
+            items.add(item);
+        }
+        SimpleAdapter adapter = new SimpleAdapter(HouseInfomationActivity.this,items,R.layout.my_grid_item,new String[]{"imageItem", "textItem"},new int[]{R.id.image_item, R.id.text_item});
+        gridView = (GridView)findViewById(R.id.house_information_grid);
+        gridView.setAdapter(adapter);
     }
 
     //绑定控件
     private void initView() {
         viewPager = (ViewPager) findViewById(R.id.page_view);
-        group = (ViewGroup) findViewById(R.id.viewGroup);
+        //group = (ViewGroup) findViewById(R.id.viewGroup);
     }
 
     //为控件绑定事件,绑定适配器

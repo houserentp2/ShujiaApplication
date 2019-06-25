@@ -1,6 +1,7 @@
 package example.com.shujiaapplication.ui;
 
-public class Building {
+public class Building implements Comparable<Building>{
+    private int build_head;
     private int house_id;
     private int price;
     private int square;
@@ -15,7 +16,8 @@ public class Building {
     private int longsymbol;
     private int picture_id;
     private int living_people;
-    public Building(int house_id,int price,int square,int shi,int ting,String title,String province,String city,String zone,String path,int shortsymbol,int longsymbol,int picture_id,int living_people){
+    private int collect_image;
+    public Building(int house_id,int price,int square,int shi,int ting,String title,String province,String city,String zone,String path,int shortsymbol,int longsymbol,int picture_id,int build_head,int collect_image,int living_people){
         setHouse_id(house_id);
         setPrice(price);
         setSquare(square);
@@ -29,8 +31,27 @@ public class Building {
         setShortsymbol(shortsymbol);
         setLongsymbol(longsymbol);
         setPicture_id(picture_id);
+        setBuild_head(build_head);
+        setCollect_image(collect_image);
         setLiving_people(living_people);
     }
+
+    public int getCollect_image() {
+        return collect_image;
+    }
+
+    public void setCollect_image(int collect_image) {
+        this.collect_image = collect_image;
+    }
+
+    public int getBuild_head() {
+        return build_head;
+    }
+
+    public void setBuild_head(int build_head) {
+        this.build_head = build_head;
+    }
+
     public void setHouse_id(int x){
         this.house_id=x;
     }
@@ -107,4 +128,15 @@ public class Building {
         return picture_id;
     }
     public int getLiving_people(){return living_people;}
+
+    @Override
+    public int compareTo(Building o) {
+        if(this.getPrice()>o.getPrice()){
+            return 1;
+        }else if(this.getPrice()==o.getPrice()){
+            return 0;
+        }else{
+            return -1;
+        }
+    }
 }
