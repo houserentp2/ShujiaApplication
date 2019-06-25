@@ -83,6 +83,7 @@ public class MainFatherFragment extends Fragment {
             city = s;
         }
 
+
     }
 
     protected void cityChooseClick(){

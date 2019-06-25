@@ -4,11 +4,13 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
@@ -81,15 +83,15 @@ public class HouseInfomationActivity extends BaseActivity {
          * 对于这几个想要动态载入的page页面，使用LayoutInflater.inflate()来找到其布局文件，并实例化为View对象
          */
         LayoutInflater inflater = LayoutInflater.from(this);
-        View page1 = inflater.inflate(R.layout.layout_1, null);
+        //View page1 = inflater.inflate(R.layout.layout_1, null);
         View page2 = inflater.inflate(R.layout.layout_2, null);
-        View page3 = inflater.inflate(R.layout.layout_3, null);
+        //View page3 = inflater.inflate(R.layout.layout_3, null);
         View page4 = inflater.inflate(R.layout.layout_4, null);
 
         //添加到集合中
-        viewPages.add(page1);
+        viewPages.add(buildLayout());
         viewPages.add(page2);
-        viewPages.add(page3);
+        viewPages.add(buildLayout());
         viewPages.add(page4);
 
         adapter = new PagerAdapter() {
@@ -118,6 +120,23 @@ public class HouseInfomationActivity extends BaseActivity {
                 return view;
             }
         };
+    }
+
+    private LinearLayout buildLayout(){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
+        LinearLayout layout = new LinearLayout(HouseInfomationActivity.this);
+        layout.setLayoutParams(params);
+        addView(layout);
+        return layout;
+    }
+
+    private void addView(final LinearLayout lineLayout){
+        ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        final ImageView iv = new ImageView(this);
+        iv.setImageDrawable(getResources().getDrawable(R.drawable.background));
+        iv.setLayoutParams(vlp);
+        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        lineLayout.addView(iv);
     }
 
 

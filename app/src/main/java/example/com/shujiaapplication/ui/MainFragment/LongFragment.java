@@ -1,22 +1,21 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
-import android.app.Activity;
-import android.content.Context;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import example.com.shujiaapplication.R;
-import example.com.shujiaapplication.ui.CityChooseActivity;
-import example.com.shujiaapplication.ui.DateChooseActivity;
 import example.com.shujiaapplication.ui.HouseChooseActivity;
 
 
@@ -43,6 +42,9 @@ public class LongFragment extends MainFatherFragment {
     private int searchType = 0;
 
     private TextView cityText;
+    private TextView positionText;
+    private Button searchButton;
+    private Button[] typeButtons;
 
     public LongFragment() {
         // Required empty public constructor
@@ -92,28 +94,16 @@ public class LongFragment extends MainFatherFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        Button buttonAll = (Button) getActivity().findViewById(R.id.all_type);
-        Button buttonOne = (Button) getActivity().findViewById(R.id.one_type);
-        Button buttonTwo = (Button) getActivity().findViewById(R.id.two_type);
-        Button buttonThree = (Button) getActivity().findViewById(R.id.three_type);
+        initView();
+    }
 
+    private void initView(){
         cityText = (TextView) getActivity().findViewById(R.id.city_name_long);
-        cityText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cityChooseClick();
-            }
-        });
+        cityText.setOnClickListener(new CityOnClickListener());
         cityText.setText(city);
-        TextView positionText = (TextView) getActivity().findViewById(R.id.my_position_long);
-        positionText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cityChooseClick();
-            }
-        });
-
-        Button searchButton = (Button) getActivity().findViewById(R.id.search_long_button);
+        positionText = (TextView) getActivity().findViewById(R.id.my_position_long);
+        positionText.setOnClickListener(new CityOnClickListener());
+        searchButton = (Button) getActivity().findViewById(R.id.search_long_button);
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,6 +114,8 @@ public class LongFragment extends MainFatherFragment {
         });
 
     }
+
+
 
     @Override
     public void onDetach() {
