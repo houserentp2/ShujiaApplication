@@ -8,13 +8,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:cardCornerRadius="10dp"
-        tools:ignore="MissingConstraints">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -86,7 +79,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="#ff0000"
+                android:backgroundTint="#ff4040"
+                android:background="@drawable/shape"
                 android:textColor="#ffffff"
                 android:textSize="25sp"
                 android:text="开始搜索"
@@ -94,7 +88,6 @@
                 />
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
 
 
 
