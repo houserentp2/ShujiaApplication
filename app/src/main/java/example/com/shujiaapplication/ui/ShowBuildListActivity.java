@@ -120,11 +120,18 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
 
     public void initBuildList(int m,int low,int max){                   //从数据库获取信息
 
+        List<Integer> pictures = new ArrayList<>();
+        pictures.add(R.drawable.imgv_slide);
+        pictures.add(R.drawable.background);
+        pictures.add(R.drawable.collect);
+        pictures.add(R.drawable.mybackground);
+        pictures.add(R.drawable.user);
+        pictures.add(R.drawable.unseen);
         List<Building> buildings = new ArrayList<>();
         for(int i=0;i<10;i++){
-            Building building2 = new Building(i,(228+i*i),50,1,1,"梦幻一号","湖北省","武汉市","洪山区","华中科技大学",0,0,R.drawable.background,R.drawable.user,R.drawable.collect,2);
-            Building building1 = new Building(i,(228-i*i),50,1,1,"梦幻一号","湖北省","武汉市","洪山区","华中科技大学",0,0,R.drawable.background,R.drawable.user,R.drawable.collect,2);
-            Building building = new Building(i,(228+i),50,1,1,"梦幻一号","湖北省","武汉市","洪山区","华中科技大学",0,0,R.drawable.background,R.drawable.user,R.drawable.collect,2);
+            Building building2 = new Building(i,(228+i*i),50,1,1,"梦幻一号","湖北省","武汉市","洪山区","华中科技大学",0,0,pictures,R.drawable.user,R.drawable.collect,2);
+            Building building1 = new Building(i,(228-i*i),50,1,1,"梦幻一号","湖北省","武汉市","洪山区","华中科技大学",0,0,pictures,R.drawable.user,R.drawable.collect,2);
+            Building building = new Building(i,(228+i),50,1,1,"梦幻一号","湖北省","武汉市","洪山区","华中科技大学",0,0,pictures,R.drawable.user,R.drawable.collect,2);
             buildings.add(building);
             buildings.add(building1);
             buildings.add(building2);

@@ -1,6 +1,7 @@
 package example.com.shujiaapplication.ui;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Building implements Comparable<Building>, Serializable {
     private int build_head;
@@ -16,10 +17,10 @@ public class Building implements Comparable<Building>, Serializable {
     private String path;
     private int shortsymbol;
     private int longsymbol;
-    private int picture_id;
+    private List<Integer> picture_id;
     private int living_people;
     private int collect_image;
-    public Building(int house_id,int price,int square,int shi,int ting,String title,String province,String city,String zone,String path,int shortsymbol,int longsymbol,int picture_id,int build_head,int collect_image,int living_people){
+    public Building(int house_id,int price,int square,int shi,int ting,String title,String province,String city,String zone,String path,int shortsymbol,int longsymbol,List<Integer> picture_id,int build_head,int collect_image,int living_people){
         setHouse_id(house_id);
         setPrice(price);
         setSquare(square);
@@ -88,7 +89,7 @@ public class Building implements Comparable<Building>, Serializable {
         this.shortsymbol=x;
     }
     public void setLongsymbol(int x){ this.longsymbol=x;}
-    public void setPicture_id(int x){
+    public void setPicture_id(List<Integer> x){
         this.picture_id=x;
     }
     public void setLiving_people(int x){this.living_people=x;}
@@ -126,7 +127,7 @@ public class Building implements Comparable<Building>, Serializable {
     public int getLongsymbol(){
         return longsymbol;
     }
-    public int getPicture_id(){
+    public List<Integer> getPicture_id(){
         return picture_id;
     }
     public int getLiving_people(){return living_people;}

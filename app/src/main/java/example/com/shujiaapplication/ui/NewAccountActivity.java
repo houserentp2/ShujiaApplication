@@ -82,6 +82,7 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
                     Toast.makeText(NewAccountActivity.this,"验证码有误，请重新验证",Toast.LENGTH_SHORT).show();
                 }else{
                     register();
+
 //                    Intent intent1 = new Intent(NewAccountActivity.this,SuccessAccountActivity.class);
 //                    intent1.putExtra("newOrReset","new");
 //                    startActivity(intent1);
@@ -125,7 +126,7 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
                 try {
                     OkHttpClient client=new OkHttpClient();
                     Request request=new Request.Builder()
-                            .url("http://210.42.105.207/testconnection")
+                            .url("http://192.168.43.57:1323/testconnection")
                             .build();
                     Response response=client.newCall(request).execute();
                     String responseData=response.body().string();
@@ -135,11 +136,11 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
                     ex.printStackTrace();
                 }
             }
-
         }).start();
     }
 
     public void register(){
+        Toast.makeText(NewAccountActivity.this,"fsdf3",Toast.LENGTH_SHORT).show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -149,7 +150,7 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
                     NewAccountData newAccount=new NewAccountData(editAccount.getText().toString(),editPassword.getText().toString(),"1111");
                     RequestBody requestBody=RequestBody.create(JSON,gson.toJson(newAccount));
                     Request request=new Request.Builder()
-                            .url("http://210.42.105.207/register")
+                            .url("http://192.168.43.57:1323/register")
                             .post(requestBody)
                             .build();
                     Response response=client.newCall(request).execute();
