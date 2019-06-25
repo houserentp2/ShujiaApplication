@@ -20,7 +20,9 @@ public class CityDataGenerator {
     private BufferedReader br;
     private ArrayList<String> cities;
 
-
+    public CityDataGenerator(){
+        this.readFile("city");
+    }
 
     public  void readFile(String fileName) {                                                          //将站点信息存入数据库
         String temp = "";
@@ -37,9 +39,18 @@ public class CityDataGenerator {
         }
     }
 
-    public Boolean findCity(String s) throws IOException {
-        this.readFile("city");
+    public ArrayList<String> getList(String s){
+        ArrayList<String> ans = new ArrayList<String>();
+        for(String str:cities){
+            if(str.contains(s)){
+                ans.add(str);
+            }
+        }
 
+        return ans;
+    }
+
+    public Boolean findCity(String s) throws IOException {
         if(cities.contains(s)){
             return true;
         }

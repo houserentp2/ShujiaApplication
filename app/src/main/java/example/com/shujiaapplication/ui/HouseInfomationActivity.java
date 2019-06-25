@@ -1,5 +1,6 @@
 package example.com.shujiaapplication.ui;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -8,17 +9,24 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.transform.Source;
+
 import example.com.shujiaapplication.R;
+
+import static example.com.shujiaapplication.ui.DateChooseActivity.LONG_CHOOSE;
+import static example.com.shujiaapplication.ui.DateChooseActivity.SHORT_CHOOSE;
 
 public class HouseInfomationActivity extends BaseActivity {
 
@@ -26,6 +34,19 @@ public class HouseInfomationActivity extends BaseActivity {
     private PagerAdapter adapter;
     private List<View> viewPages = new ArrayList<>();
     private GridView gridView;
+
+    private TextView priceText;
+    private TextView locationText;
+    private MyImageView callView;
+    private MyImageView collectView;
+    private Button reserveButton;
+
+    private Building house;
+
+    private int housePeople;
+    private int houseShi;
+    private int houseTing;
+    private int houseSquare;
 
 
     // 定义是否开启自动滚动，默认开启
@@ -37,23 +58,18 @@ public class HouseInfomationActivity extends BaseActivity {
     // 当前ViewPager展示页
     private int currentItem;
 
-    //包裹点点的LinearLayout
-    private ViewGroup group;
-    private ImageView imageView;
-    //定义一个ImageVIew数组，来存放生成的小园点
-    private ImageView[] imageViews;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_house_infomation);
+        getBuilding();
         initView();
         initPageAdapter();
         initEvent();
         startAutoPlay();
 
         List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
-        String[] name = new String[]{"整套出租","1室1厅","宜居2人","1张床"};
+        String[] name = new String[]{"整套出租",houseShi+"室"+houseTing+"厅","宜居"+housePeople+"人",houseSquare+"平方米"};
         for(int i=0;i<4;i++){
             Map<String, Object> item = new HashMap<String, Object>();
             item.put("imageItem", R.drawable.tab_collect_selector);//添加图像资源的ID
@@ -65,10 +81,36 @@ public class HouseInfomationActivity extends BaseActivity {
         gridView.setAdapter(adapter);
     }
 
+    private void getBuilding(){
+        Intent intent = getIntent();
+        house = (Building) intent.getSerializableExtra("selectedHouse");
+        housePeople = house.getLiving_people();
+        houseShi = house.getShi();
+        houseTing = house.getTing();
+        houseSquare = house.getSquare();
+    }
+
     //绑定控件
     private void initView() {
         viewPager = (ViewPager) findViewById(R.id.page_view);
-        //group = (ViewGroup) findViewById(R.id.viewGroup);
+
+        priceText = (TextView) findViewById(R.id.price_text);
+        priceText.setText(house.getPrice()+"元/晚");
+
+        locationText = (TextView) findViewById(R.id.location_text);
+        locationText.setText(house.getTitle()+house.getProvince()+house.getCity()+house.getZone()+house.getPath());
+
+        callView = (MyImageView) findViewById(R.id.call_view);
+        collectView = (MyImageView) findViewById(R.id.collect_view);
+        reserveButton = (Button) findViewById(R.id.reset_button);
+        reserveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent dateIntent = new Intent(HouseInfomationActivity.this,DateChooseActivity.class);
+                dateIntent.putExtra("ChooseType",LONG_CHOOSE);
+                startActivity(dateIntent);
+            }
+        });
     }
 
     //为控件绑定事件,绑定适配器
@@ -83,9 +125,7 @@ public class HouseInfomationActivity extends BaseActivity {
          * 对于这几个想要动态载入的page页面，使用LayoutInflater.inflate()来找到其布局文件，并实例化为View对象
          */
         LayoutInflater inflater = LayoutInflater.from(this);
-        //View page1 = inflater.inflate(R.layout.layout_1, null);
         View page2 = inflater.inflate(R.layout.layout_2, null);
-        //View page3 = inflater.inflate(R.layout.layout_3, null);
         View page4 = inflater.inflate(R.layout.layout_4, null);
 
         //添加到集合中

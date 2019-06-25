@@ -22,20 +22,20 @@ public class MyImageView extends LinearLayout {
             int attr = typedArray.getIndex(i);
             switch (attr) {
                 case R.styleable.MyImageView_Oriental:
-                    resourceId = typedArray.getInt(
-                            R.styleable.MyImageView_Oriental, 0);
-                    this.setOrientation(resourceId == 1 ? LinearLayout.HORIZONTAL
-                            : LinearLayout.VERTICAL);
+                    resourceId = typedArray.getInt(R.styleable.MyImageView_Oriental, 0);
+                    this.setOrientation(resourceId == 1 ? LinearLayout.HORIZONTAL : LinearLayout.VERTICAL);
                     break;
                 case R.styleable.MyImageView_Text:
                     resourceId = typedArray.getResourceId(R.styleable.MyImageView_Text, 0);
                     tv.setText(resourceId > 0 ? typedArray.getResources().getText(resourceId) : typedArray.getString(R.styleable.MyImageView_Text));
-                    tv.setTextSize(15);
+                    tv.setTextSize(13);
                     tv.setGravity(Gravity.CENTER);
                     break;
                 case R.styleable.MyImageView_Src:
                     resourceId = typedArray.getResourceId(R.styleable.MyImageView_Src, 0);
                     iv.setImageResource(resourceId > 0 ?resourceId:R.drawable.beij);
+                    iv.setAdjustViewBounds(true);
+                    iv.setMaxHeight(70);
                     break;
             }
         }

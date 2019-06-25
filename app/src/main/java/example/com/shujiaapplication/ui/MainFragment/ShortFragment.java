@@ -20,6 +20,7 @@ import example.com.shujiaapplication.ui.HomePageActivity;
 import example.com.shujiaapplication.ui.HouseChooseActivity;
 import example.com.shujiaapplication.ui.HouseInfomationActivity;
 import example.com.shujiaapplication.ui.MyApplication;
+import example.com.shujiaapplication.ui.ShowBuildListActivity;
 
 import static example.com.shujiaapplication.ui.DateChooseActivity.SHORT_CHOOSE;
 
@@ -138,7 +139,7 @@ public class ShortFragment extends MainFatherFragment{
         searhButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), HouseInfomationActivity.class);
+                Intent intent = new Intent(getActivity(), ShowBuildListActivity.class);
                 startActivity(intent);
             }
         });

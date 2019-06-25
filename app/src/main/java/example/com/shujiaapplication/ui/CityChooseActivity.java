@@ -94,6 +94,12 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
                 return false;
             }
         });
+
+//        CityDataGenerator cd = new CityDataGenerator();
+//        ArrayList<String> ans = cd.getList("");
+//        for(String str: ans){
+//            Log.e("CityChooseActivity",str);
+//        }
     }
 
     //返回主页

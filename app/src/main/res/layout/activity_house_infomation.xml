@@ -17,16 +17,16 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/price_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="198元/晚"
             android:textSize="18sp"
             android:textColor="@color/red"
             android:layout_marginTop="20dp"/>
         <TextView
+            android:id="@+id/location_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="这里是填写具体位置的一个比较长的字符串"
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_marginTop="20dp"/>
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
-            android:background="@color/boxing_gray">
+            android:background="#cccccc">
 
             <GridView
                 android:id="@+id/house_information_grid"
@@ -55,31 +55,6 @@
             </GridView>
 
         </LinearLayout>
-        
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="4.9分"
-                android:textSize="18dp"
-                android:textColor="@color/red"
-                android:gravity="center"/>
-
-            <TextView
-                android:id="@+id/look_commitment"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:gravity="center"
-                android:layout_marginRight="20dp"
-                android:text="查看全部29条点评 >"/>
-
-        </RelativeLayout>
 
     </LinearLayout>
 
@@ -87,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#eeeeee">
+        android:background="#ffffff">
 
 
         <LinearLayout
@@ -110,11 +85,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 app:Text="收藏"
-                app:Src="@drawable/littleback"
+                app:Src="@drawable/back"
                 app:Oriental="Vertical">
             </example.com.shujiaapplication.ui.MyImageView>
 
             <Button
+                android:id="@+id/reserve_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
@@ -125,7 +101,6 @@
                 />
 
         </LinearLayout>
-
 
     </RelativeLayout>
 
