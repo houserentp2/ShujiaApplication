@@ -6,7 +6,7 @@
     
     <Button
         android:layout_margin="10dp"
-        android:id = "@+id/reset_date"
+        android:id = "@+id/reset_button"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:background="@drawable/shape"
