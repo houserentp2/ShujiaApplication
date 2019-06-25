@@ -55,13 +55,13 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHo
         int a=building.getShortsymbol();
         switch(a){
             case 1:
-                holder.buildingMessage.setText("去支付");
+                holder.buildingTips.setText("去支付");
                 break;
             case 2:
-                holder.buildingMessage.setText("入住");
+                holder.buildingTips.setText("入住");
                 break;
             case 3:
-                holder.buildingMessage.setText("去评价");
+                holder.buildingTips.setText("去评价");
                 break;
             default:
                 break;

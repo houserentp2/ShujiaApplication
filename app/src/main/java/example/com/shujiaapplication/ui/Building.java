@@ -1,6 +1,7 @@
 package example.com.shujiaapplication.ui;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Building implements Comparable<Building>, Serializable {
@@ -20,6 +21,7 @@ public class Building implements Comparable<Building>, Serializable {
     private List<Integer> picture_id;
     private int living_people;
     private int collect_image;
+    private ArrayList<String> buildingView=new ArrayList<String>();
     public Building(int house_id,int price,int square,int shi,int ting,String title,String province,String city,String zone,String path,int shortsymbol,int longsymbol,List<Integer> picture_id,int build_head,int collect_image,int living_people){
         setHouse_id(house_id);
         setPrice(price);
@@ -93,6 +95,9 @@ public class Building implements Comparable<Building>, Serializable {
         this.picture_id=x;
     }
     public void setLiving_people(int x){this.living_people=x;}
+    public void setBuildingView(String a){
+        buildingView.add(a);
+    }
     public int getHouse_id(){
         return house_id;
     }
@@ -131,6 +136,7 @@ public class Building implements Comparable<Building>, Serializable {
         return picture_id;
     }
     public int getLiving_people(){return living_people;}
+    public ArrayList<String> getBuildingView(){return buildingView;}
 
     @Override
     public int compareTo(Building o) {

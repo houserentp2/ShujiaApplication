@@ -1,6 +1,7 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,8 @@ import java.util.List;
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.Building;
 import example.com.shujiaapplication.ui.BuildingAdapter;
+import example.com.shujiaapplication.ui.BuildingLiving;
+import example.com.shujiaapplication.ui.BuildingPay;
 import example.com.shujiaapplication.ui.OnRecyclerItemClickListener;
 
 
@@ -33,6 +36,7 @@ public class OrderFragmentS2 extends Fragment implements View.OnClickListener {
     private String mParam2;
     private View mview;
     private List<Building> buildingList=new ArrayList<>();
+    private List<Building> buildingList2=new ArrayList<>();
 
     public OrderFragmentS2() {
         // Required empty public constructor
@@ -72,13 +76,12 @@ public class OrderFragmentS2 extends Fragment implements View.OnClickListener {
         RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_pay);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        BuildingAdapter adapter=new BuildingAdapter(buildingList);
+        BuildingAdapter adapter=new BuildingAdapter(buildingList2);
         adapter.setRecyclerItemClickListener(new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(int Position, List<Building> buildingList) {
-                OrderPay a=new OrderPay();
-                a.setBuilding(buildingList.get(Position));
-                replaceFragment(a);
+                Intent intent=new Intent(getActivity(), BuildingPay.class);
+                startActivity(intent);
             }
         });
         recyclerView.setAdapter(adapter);
@@ -134,6 +137,11 @@ public class OrderFragmentS2 extends Fragment implements View.OnClickListener {
         buildingList.add(e);
         Building f=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,pictures,1,0,0);
         buildingList.add(f);
+        for(Building building:buildingList){
+            if(building.getShortsymbol()==1){
+                buildingList2.add(building);
+            }
+        }
     }
     public void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager=this.getActivity().getSupportFragmentManager();

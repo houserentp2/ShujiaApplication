@@ -32,7 +32,7 @@ public class OrderFragmentL3 extends Fragment implements View.OnClickListener {
     private String mParam2;
     private View mview;
     private List<Building> buildingList=new ArrayList<>();
-
+    private List<Building> buildingList2=new ArrayList<>();
     public OrderFragmentL3() {
         // Required empty public constructor
     }
@@ -73,7 +73,7 @@ public class OrderFragmentL3 extends Fragment implements View.OnClickListener {
         RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_finish);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        BuildingAdapter adapter=new BuildingAdapter(buildingList);
+        BuildingAdapter adapter=new BuildingAdapter(buildingList2);
         recyclerView.setAdapter(adapter);
         return mview;
     }
@@ -121,6 +121,11 @@ public class OrderFragmentL3 extends Fragment implements View.OnClickListener {
         buildingList.add(e);
         Building f=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,pictures,1,0,0);
         buildingList.add(f);
+        for(Building building:buildingList){
+            if(building.getLongsymbol()==3){
+                buildingList2.add(building);
+            }
+        }
     }
     public void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager=this.getActivity().getSupportFragmentManager();
