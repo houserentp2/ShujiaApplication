@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.ShowBuildListActivity">
 
     <View
@@ -65,6 +66,40 @@
         android:layout_height="2px"
         android:layout_width="match_parent"
         android:background="#80000000" />
+
+
+    <LinearLayout
+        android:layout_below="@id/buttons"
+        android:backgroundTint="#5E000000"
+        android:background="@drawable/shape"
+        android:layout_margin="5dp"
+        android:visibility="gone"
+        android:id = "@+id/choose_price_picker"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <example.com.shujiaapplication.ui.DoubleSlideSeekBar
+            android:id="@+id/doubleslide_withoutrule"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            custom:lineHeight="20dp"
+            custom:textSize="16sp"
+            custom:textColor="#e40627"
+            custom:inColor="#0a40f1"
+            custom:outColor="#ace208"
+            custom:imageLow="@drawable/imgv_slide"
+            custom:imageBig="@drawable/imgv_slide"
+            custom:imagewidth="20dp"
+            custom:imageheight="20dp"
+            custom:hasRule="false"
+            custom:bigValue="1080"
+            custom:smallValue="0"
+            />
+
+        <include layout="@layout/confirm_layout"/>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id = "@+id/building_recyclerView"

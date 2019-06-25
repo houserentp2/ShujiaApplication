@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CircleImageView">
-        <attr name="civ_border_width" format="dimension" />
-        <attr name="civ_border_color" format="color" />
-        <attr name="civ_border_overlay" format="boolean" />
-        <attr name="civ_fill_color" format="color" />
+    <attr name="lineHeight" format="dimension" />
+    <attr name="textSize" format="dimension" />
+    <attr name="textColor" format="color" />
+    <attr name="inColor" format="color" />
+    <attr name="outColor" format="color" />
+    <attr name="imageLow" format="reference"/>
+    <attr name="imageBig" format="reference"/>
+    <attr name="imagewidth" format="dimension" />
+    <attr name="imageheight" format="dimension" />
+    <attr name="hasRule" format="boolean" />
+    <attr name="ruleColor" format="color" />
+    <attr name="ruleTextColor" format="color" />
+    <attr name="unit" format="string"/>
+    <attr name="equal" format="integer"/>
+    <attr name="ruleUnit" format="string"/>
+    <attr name="ruleTextSize" format="dimension" />
+    <attr name="ruleLineHeight" format="dimension" />
+    <attr name="bigValue" format="integer"/>
+    <attr name="smallValue" format="integer"/>
+    <declare-styleable name="DoubleSlideSeekBar">
+        <attr name="lineHeight" />
+        <attr name="textSize" />
+        <attr name="textColor" />
+        <attr name="inColor" />
+        <attr name="outColor" />
+        <attr name="imageLow"/>
+        <attr name="imageBig"/>
+        <attr name="imagewidth" />
+        <attr name="imageheight" />
+        <attr name="hasRule" />
+        <attr name="ruleColor" />
+        <attr name="ruleTextColor" />
+        <attr name="unit" />
+        <attr name="equal" />
+        <attr name="ruleUnit" />
+        <attr name="ruleTextSize" />
+        <attr name="ruleLineHeight" />
+        <attr name="bigValue" />
+        <attr name="smallValue" />
     </declare-styleable>
 
     <declare-styleable name="MyImageView">
