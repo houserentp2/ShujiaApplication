@@ -69,5 +69,8 @@
             android:textColor="#ffff0000"
             android:textStyle="bold"/>
     </LinearLayout>
-
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/view_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

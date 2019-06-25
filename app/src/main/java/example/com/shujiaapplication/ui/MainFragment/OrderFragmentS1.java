@@ -19,6 +19,7 @@ import java.util.List;
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.Building;
 import example.com.shujiaapplication.ui.BuildingAdapter;
+import example.com.shujiaapplication.ui.OnRecyclerItemClickListener;
 
 
 public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
@@ -74,6 +75,14 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
         BuildingAdapter adapter=new BuildingAdapter(buildingList);
+        adapter.setRecyclerItemClickListener(new OnRecyclerItemClickListener() {
+            @Override
+            public void onItemClick(int Position, List<Building> buildingList) {
+                OrderPay a=new OrderPay();
+                a.setBuilding(buildingList.get(Position));
+                replaceFragment(a);
+            }
+        });
         recyclerView.setAdapter(adapter);
         return mview;
     }
@@ -107,8 +116,18 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
         }
     }
     public void initBuildings(){
-        Building a=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",1,0,R.drawable.seen,1);
+        Building a=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",1,0,R.drawable.seen,1,0,0);
         buildingList.add(a);
+        Building b=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",2,0,R.drawable.seen,1,0,0);
+        buildingList.add(b);
+        Building c=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",3,0,R.drawable.seen,1,0,0);
+        buildingList.add(c);
+        Building d=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
+        buildingList.add(d);
+        Building e=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
+        buildingList.add(e);
+        Building f=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,R.drawable.seen,1,0,0);
+        buildingList.add(f);
     }
     public void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager=this.getActivity().getSupportFragmentManager();

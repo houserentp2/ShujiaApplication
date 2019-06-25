@@ -13,7 +13,12 @@ import example.com.shujiaapplication.R;
 
 public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHolder>{
     private List<Building> mBuildingList;
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    private OnRecyclerItemClickListener monItemClickListener;
+    public void setRecyclerItemClickListener(OnRecyclerItemClickListener listener){
+        monItemClickListener=listener;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView buildingImage;
         TextView buildingMessage;
         TextView buildingTips;
@@ -22,6 +27,15 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHo
             buildingImage=(ImageView)view.findViewById(R.id.building_view);
             buildingMessage=(TextView)view.findViewById(R.id.buiding_message);
             buildingTips=(TextView)view.findViewById(R.id.buiding_tips);
+            view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (monItemClickListener!=null){
+
+                                monItemClickListener.onItemClick(getAdapterPosition(),mBuildingList);
+                            }
+                        }
+                    });
         }
     }
     public BuildingAdapter(List<Building> buildingList){
