@@ -28,6 +28,7 @@ public class DateChooseActivity extends BaseActivity {
     private CustomDatePicker inDatePicker,outDatePicker;
     private ImageView backImage;
     private Button confirmButton;
+    private Button resetButton;
 
     private Boolean hasInDate;
     private Boolean hasOutDate;
@@ -45,15 +46,34 @@ public class DateChooseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date_choose);
 
-        Intent intent = getIntent();
-        chooseType = intent.getIntExtra("ChooseType",0);
+        chooseType = getChooseType();
 
+        initView();
+        initDateInPicker();
+        initDateOutPicker();
+    }
+
+
+    private int getChooseType(){
+        Intent intent = getIntent();
+        return intent.getIntExtra("ChooseType",0);
+    }
+
+    private void initView(){
         //设定返回按钮
         backImage = (ImageView) findViewById(R.id.back_image_date);
         backImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        resetButton = (Button) findViewById(R.id.reset_button);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                initData();
+                initDataShow();
             }
         });
         confirmButton = (Button) findViewById(R.id.confirm_button);
@@ -69,8 +89,7 @@ public class DateChooseActivity extends BaseActivity {
             }
         });
 
-        hasInDate = false;
-        hasOutDate = false;
+        initData();
         nightText = (TextView) findViewById(R.id.night_count);
         inDate = (TextView) findViewById(R.id.in_data_textview);
         outDate = (TextView) findViewById(R.id.out_data_textview);
@@ -88,8 +107,21 @@ public class DateChooseActivity extends BaseActivity {
                 outDatePicker.show(outDate.getText().toString());
             }
         });
-        initDateInPicker();
-        initDateOutPicker();
+        initDataShow();
+    }
+
+    private void initData(){
+        hasInDate = false;
+        hasOutDate = false;
+        inDateStr = "入住日期";
+        outDateStr = "离开日期";
+        nightLong = 0;
+    }
+
+    private void initDataShow(){
+        inDate.setText(inDateStr);
+        outDate.setText(outDateStr);
+        nightText.setText("共"+nightLong+"晚");
     }
 
     private void initDateInPicker() {
@@ -129,6 +161,7 @@ public class DateChooseActivity extends BaseActivity {
         return (hasInDate && hasOutDate);
     }
 
+    //返回主页的数据传输
     private void backActivity(){
         String[] strs = new String[3];
         strs[0] = inDateStr;

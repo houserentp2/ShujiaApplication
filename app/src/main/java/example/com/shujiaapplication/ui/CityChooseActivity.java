@@ -33,6 +33,12 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_choose);
+       initView();
+
+
+    }
+
+    private void initView(){
         List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
         String[] name = new String[]{"北京","重庆","成都","广州","杭州","上海","深圳","武汉","厦门"};
         for(int i=0;i<9;i++){
@@ -63,6 +69,7 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
             }
         });
 
+
         mSearchView = (SearchView) findViewById(R.id.city_search_view);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -87,10 +94,9 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
                 return false;
             }
         });
-
-
     }
 
+    //返回主页
     private void switchActivity(){
         Intent intent = new Intent(CityChooseActivity.this,HomePageActivity.class);
         intent.putExtra("city",city);
