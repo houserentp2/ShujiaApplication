@@ -13,7 +13,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bilibili.boxing.Boxing;
+import com.bilibili.boxing.BoxingCrop;
 import com.bilibili.boxing.BoxingMediaLoader;
+import com.bilibili.boxing.impl.BoxingGlideLoader;
+import com.bilibili.boxing.impl.BoxingUcrop;
+import com.bilibili.boxing.loader.IBoxingMediaLoader;
 import com.bilibili.boxing.model.BoxingManager;
 import com.bilibili.boxing.model.config.BoxingConfig;
 import com.bilibili.boxing.model.entity.BaseMedia;
@@ -30,6 +34,9 @@ import java.util.List;
 import example.com.shujiaapplication.R;
 import pub.devrel.easypermissions.EasyPermissions;
 
+//import com.bilibili.boxing.impl.BoxingGlideLoader;
+//import com.bilibili.boxing.impl.BoxingUcrop;
+
 public class AddHouseActivity extends BaseActivity implements View.OnClickListener,EasyPermissions.PermissionCallbacks{
 
     private String[] permissions={Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -42,6 +49,9 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getPermission();
+        IBoxingMediaLoader loader=new BoxingGlideLoader();
+        BoxingMediaLoader.getInstance().init(loader);
+        BoxingCrop.getInstance().init(new BoxingUcrop());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_house);
         findViewById(R.id.btn_add_picture).setOnClickListener(this);
