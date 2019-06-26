@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import example.com.shujiaapplication.R;
 
-public class ManageTravelerActivity extends AppCompatActivity {
+public class ManageTravelerActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import example.com.shujiaapplication.R;
 
-public class OrderSecurity extends AppCompatActivity {
+public class OrderSecurity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

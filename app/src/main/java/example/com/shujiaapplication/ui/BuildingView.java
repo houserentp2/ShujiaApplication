@@ -14,7 +14,7 @@ import java.util.List;
 
 import example.com.shujiaapplication.R;
 
-public class BuildingView extends AppCompatActivity {
+public class BuildingView extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

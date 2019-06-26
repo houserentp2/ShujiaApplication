@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import example.com.shujiaapplication.R;
 
-public class OrderSuccess extends AppCompatActivity {
+public class OrderSuccess extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

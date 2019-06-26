@@ -15,7 +15,7 @@ import java.util.List;
 
 import example.com.shujiaapplication.R;
 
-public class BuildingPay extends AppCompatActivity {
+public class BuildingPay extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

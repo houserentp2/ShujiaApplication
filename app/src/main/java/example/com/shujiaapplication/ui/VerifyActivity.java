@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import example.com.shujiaapplication.R;
 
-public class VerifyActivity extends AppCompatActivity {
+public class VerifyActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
