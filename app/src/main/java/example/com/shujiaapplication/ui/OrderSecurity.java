@@ -23,6 +23,7 @@ public class OrderSecurity extends AppCompatActivity implements View.OnClickList
         mbuild=(Building)intent.getSerializableExtra("mbuild1");
         Button button =findViewById(R.id.view_button);
         editText=(EditText)findViewById(R.id.text_view);
+        button.setText("确认");
         button.setOnClickListener(this);
     }
     @Override

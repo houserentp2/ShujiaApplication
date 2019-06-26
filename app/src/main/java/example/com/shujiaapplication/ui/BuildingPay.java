@@ -17,6 +17,7 @@ import example.com.shujiaapplication.R;
 
 public class BuildingPay extends AppCompatActivity {
     private Building mbuild;
+    private ArrayList<String> a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +33,12 @@ public class BuildingPay extends AppCompatActivity {
         TextView buildingLivingPeople=findViewById(R.id.building_living_people);
         buildingLivingPeople.setText(String.valueOf(mbuild.getLiving_people()));
         Button button =findViewById(R.id.pay);
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,mbuild.getBuildingView());
+        a=new ArrayList<String>();
+        for(String view:mbuild.getBuildingView()){
+            String b="匿名用户："+view;
+            a.add(b);
+        }
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,a);
         ListView listView=(ListView)findViewById(R.id.building_pay_view);
         listView.setAdapter(adapter);
         button.setOnClickListener(new View.OnClickListener() {

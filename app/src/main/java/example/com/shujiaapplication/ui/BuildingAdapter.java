@@ -1,5 +1,6 @@
 package example.com.shujiaapplication.ui;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,13 +56,18 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHo
         int a=building.getShortsymbol();
         switch(a){
             case 1:
+                holder.buildingTips.setBackgroundColor(Color.RED);
                 holder.buildingTips.setText("去支付");
                 break;
             case 2:
+                holder.buildingTips.setBackgroundColor(Color.YELLOW);
                 holder.buildingTips.setText("入住");
+                holder.buildingTips.setTextColor(Color.BLACK);
                 break;
             case 3:
+                holder.buildingTips.setBackgroundColor(Color.GREEN);
                 holder.buildingTips.setText("去评价");
+                holder.buildingTips.setTextColor(Color.BLACK);
                 break;
             default:
                 break;
