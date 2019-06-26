@@ -73,7 +73,7 @@ public class OrderFragmentL2 extends Fragment implements View.OnClickListener {
         RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_sign);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        BuildingAdapter adapter=new BuildingAdapter(buildingList);
+        BuildingAdapter adapter=new BuildingAdapter(buildingList2);
         recyclerView.setAdapter(adapter);
         return mview;
     }

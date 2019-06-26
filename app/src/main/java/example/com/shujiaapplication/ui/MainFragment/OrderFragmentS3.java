@@ -76,7 +76,7 @@ public class OrderFragmentS3 extends Fragment implements View.OnClickListener{
         RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_live);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        BuildingAdapter adapter=new BuildingAdapter(buildingList);
+        BuildingAdapter adapter=new BuildingAdapter(buildingList2);
         adapter.setRecyclerItemClickListener(new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(int Position, List<Building> buildingList) {
