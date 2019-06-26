@@ -28,7 +28,7 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
     private LinearLayout pricePicker;
     private int order_mode = 0;
     private static int min = 0;
-    private static int max = 0;
+    private static int max = Integer.MAX_VALUE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +55,10 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
                 order_mode++;
                 if(order_mode%2==1){
                     chooseOrder.setText("价格降序");
-                    initBuildList(1,0,Integer.MAX_VALUE);
+                    initBuildList(1,min,max);
                 }else{
                     chooseOrder.setText("价格升序");
-                    initBuildList(2,0,Integer.MAX_VALUE);
+                    initBuildList(2,min,max);
                 }
                 initAdapter();
                 Toast.makeText(ShowBuildListActivity.this,"you click it",Toast.LENGTH_SHORT).show();
