@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="example.com.shujiaapplication">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".ui.MyApplication"
@@ -11,11 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.OrderSuccess"></activity>
-        <activity android:name=".ui.OrderSecurity" />
-        <activity android:name=".ui.BuildingView" />
-        <activity android:name=".ui.BuildingLiving" />
-        <activity android:name=".ui.BuildingPay" />
+        <activity android:name=".ui.VerifyActivity"></activity>
         <activity android:name=".ui.IntroduceAppActivity" />
         <activity android:name=".ui.ResetPasswordActivity" />
         <activity android:name=".ui.ShowBuildListActivity" />

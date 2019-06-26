@@ -34,6 +34,7 @@ import example.com.shujiaapplication.ui.MyApplication;
 import example.com.shujiaapplication.ui.PersonalInfoActivity;
 import example.com.shujiaapplication.ui.ScoreActivity;
 import example.com.shujiaapplication.ui.ShowBuildListActivity;
+import example.com.shujiaapplication.ui.VerifyActivity;
 
 public class MyFragment extends Fragment implements AdapterView.OnItemClickListener {
     private static final String ARG_PARAM1 = "param1";
@@ -104,7 +105,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my,container,false);
         List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
-        String[] name = new String[]{"优惠券","个人信息","发布房屋","我的评论","联系客服","积分","常用入住人","软件介绍","备用按钮"};
+        String[] name = new String[]{"优惠券","个人信息","发布房屋","我的评论","联系客服","积分","常用入住人","软件介绍","审核"};
         for(int i=0;i<9;i++){
             Map<String, Object> item = new HashMap<String, Object>();
             item.put("imageItem", R.drawable.tab_collect_selector);//添加图像资源的ID
@@ -172,7 +173,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
                 break;
             }
             case 8:{
-                Intent intent = new Intent(MyApplication.getContext(), ShowBuildListActivity.class);
+                Intent intent = new Intent(MyApplication.getContext(), VerifyActivity.class);
                 startActivity(intent);
                 break;
             }

@@ -47,6 +47,7 @@ public class HouseInfomationActivity extends BaseActivity {
     private int houseShi;
     private int houseTing;
     private int houseSquare;
+    private List<Integer> picture_id;
 
 
     // 定义是否开启自动滚动，默认开启
@@ -88,6 +89,7 @@ public class HouseInfomationActivity extends BaseActivity {
         houseShi = house.getShi();
         houseTing = house.getTing();
         houseSquare = house.getSquare();
+        picture_id = house.getPicture_id();
     }
 
     //绑定控件
@@ -102,7 +104,7 @@ public class HouseInfomationActivity extends BaseActivity {
 
         callView = (MyImageView) findViewById(R.id.call_view);
         collectView = (MyImageView) findViewById(R.id.collect_view);
-        reserveButton = (Button) findViewById(R.id.reset_button);
+        reserveButton = (Button) findViewById(R.id.reserve_button);
         reserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,14 +127,9 @@ public class HouseInfomationActivity extends BaseActivity {
          * 对于这几个想要动态载入的page页面，使用LayoutInflater.inflate()来找到其布局文件，并实例化为View对象
          */
         LayoutInflater inflater = LayoutInflater.from(this);
-        View page2 = inflater.inflate(R.layout.layout_2, null);
-        View page4 = inflater.inflate(R.layout.layout_4, null);
-
-        //添加到集合中
-        viewPages.add(buildLayout());
-        viewPages.add(page2);
-        viewPages.add(buildLayout());
-        viewPages.add(page4);
+        for(int picture : picture_id){
+            viewPages.add(buildLayout(picture));
+        }
 
         adapter = new PagerAdapter() {
             //获取当前界面个数
@@ -162,18 +159,19 @@ public class HouseInfomationActivity extends BaseActivity {
         };
     }
 
-    private LinearLayout buildLayout(){
+    private LinearLayout buildLayout(int picture){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
         LinearLayout layout = new LinearLayout(HouseInfomationActivity.this);
         layout.setLayoutParams(params);
-        addView(layout);
+        addView(layout,picture);
         return layout;
     }
 
-    private void addView(final LinearLayout lineLayout){
+    private void addView(final LinearLayout lineLayout ,int picture){
         ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         final ImageView iv = new ImageView(this);
-        iv.setImageDrawable(getResources().getDrawable(R.drawable.background));
+        iv.setImageResource(picture);
+//        iv.setImageDrawable(getResources().getDrawable(R.drawable.background));
         iv.setLayoutParams(vlp);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         lineLayout.addView(iv);
