@@ -75,10 +75,10 @@ public class HomePageActivity extends BaseActivity {
             }
         });
 
-        mTabLayout.addTab(mTabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.tab_home_selector)).setText(DataGenerator.mTabTitle[0]));
-        mTabLayout.addTab(mTabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.tab_collect_selector)).setText(DataGenerator.mTabTitle[1]));
-        mTabLayout.addTab(mTabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.tab_order_selector)).setText(DataGenerator.mTabTitle[2]));
-        mTabLayout.addTab(mTabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.tab_my_selector)).setText(DataGenerator.mTabTitle[3]));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.house_black)).setText(DataGenerator.mTabTitle[0]));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.collect_black)).setText(DataGenerator.mTabTitle[1]));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.bookmark_black)).setText(DataGenerator.mTabTitle[2]));
+        mTabLayout.addTab(mTabLayout.newTab().setIcon(getResources().getDrawable(R.drawable.person_black)).setText(DataGenerator.mTabTitle[3]));
 
 //        SharedPreferences preferences = getSharedPreferences("fragmentOrder",MODE_PRIVATE);
 //        int num = preferences.getInt("fragmentNum",0);

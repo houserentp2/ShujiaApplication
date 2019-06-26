@@ -43,9 +43,10 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
     private void initView(){
         List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
         String[] name = new String[]{"北京","重庆","成都","广州","杭州","上海","深圳","武汉","厦门"};
+        int[] cityImage = new int[]{R.drawable.beijing,R.drawable.shanghai,R.drawable.guangzhou,R.drawable.hangzhou,R.drawable.nanjing,R.drawable.tianjin,R.drawable.xian,R.drawable.zhuhai,R.drawable.aomen};
         for(int i=0;i<9;i++){
             Map<String, Object> item = new HashMap<String, Object>();
-            item.put("imageItem", R.drawable.tab_collect_selector);//添加图像资源的ID
+            item.put("imageItem",cityImage[i]);//添加图像资源的ID
             item.put("textItem", name[i]);//按序号添加ItemText
             items.add(item);
         }

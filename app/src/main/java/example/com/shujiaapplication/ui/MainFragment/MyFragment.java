@@ -106,9 +106,10 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
         View view = inflater.inflate(R.layout.fragment_my,container,false);
         List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
         String[] name = new String[]{"优惠券","个人信息","发布房屋","我的评论","联系客服","积分","常用入住人","软件介绍","审核"};
+        int[] images = new int[]{R.drawable.i1,R.drawable.i2,R.drawable.i3,R.drawable.i4,R.drawable.i5,R.drawable.i6,R.drawable.i7,R.drawable.i8,R.drawable.i9};
         for(int i=0;i<9;i++){
             Map<String, Object> item = new HashMap<String, Object>();
-            item.put("imageItem", R.drawable.tab_collect_selector);//添加图像资源的ID
+            item.put("imageItem",images[i]);//添加图像资源的ID
             item.put("textItem", name[i]);//按序号添加ItemText
             items.add(item);
         }

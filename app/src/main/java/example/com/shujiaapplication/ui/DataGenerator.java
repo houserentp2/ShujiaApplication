@@ -17,8 +17,8 @@ import example.com.shujiaapplication.ui.MainFragment.ShortFragment;
 
 public class DataGenerator {
 
-    public static final int []mTabRes = new int[]{R.drawable.tab_home_selector,R.drawable.tab_collect_selector,R.drawable.tab_order_selector,R.drawable.tab_my_selector};
-    public static final int []mTabResPressed = new int[]{R.drawable.tab_my_selected,R.drawable.tab_collect_selected,R.drawable.tab_order_selected,R.drawable.tab_order_selected};
+    public static final int []mTabRes = new int[]{R.drawable.house_black,R.drawable.collect_black,R.drawable.bookmark_black,R.drawable.person_black};
+    public static final int []mTabResPressed = new int[]{R.drawable.house_red,R.drawable.collect_red,R.drawable.bookmark_red,R.drawable.person_red};
     public static final String []mTabTitle = new String[]{"首页","收藏","订单","我的"};
 
     public static final String []mTabTitleHome = new String[]{"短租民宿","长租公寓"};

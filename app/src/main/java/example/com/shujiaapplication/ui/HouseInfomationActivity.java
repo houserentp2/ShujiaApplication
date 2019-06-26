@@ -73,7 +73,7 @@ public class HouseInfomationActivity extends BaseActivity {
         String[] name = new String[]{"整套出租",houseShi+"室"+houseTing+"厅","宜居"+housePeople+"人",houseSquare+"平方米"};
         for(int i=0;i<4;i++){
             Map<String, Object> item = new HashMap<String, Object>();
-            item.put("imageItem", R.drawable.tab_collect_selector);//添加图像资源的ID
+            item.put("imageItem", R.drawable.background);//添加图像资源的ID
             item.put("textItem", name[i]);//按序号添加ItemText
             items.add(item);
         }
