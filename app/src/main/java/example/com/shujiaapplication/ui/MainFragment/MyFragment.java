@@ -120,6 +120,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
             public void onClick(View v) {
                 ActivityCollector.finishAll();
                 Intent intent1 = new Intent(MyApplication.getContext(), MainActivity.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                 MyApplication.getContext().startActivity(intent1);
             }
         });

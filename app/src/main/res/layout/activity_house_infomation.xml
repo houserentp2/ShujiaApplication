@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
-            android:background="#cccccc">
+            android:background="#eeeeee">
 
             <GridView
                 android:id="@+id/house_information_grid"
@@ -68,7 +68,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginLeft="15dp">
 
             <example.com.shujiaapplication.ui.MyImageView
                 android:id="@+id/call_view"

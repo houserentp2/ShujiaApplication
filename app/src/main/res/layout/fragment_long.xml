@@ -25,6 +25,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:textSize="24sp"
+                    android:textColor="#000000"
                     android:gravity="center_vertical"
                     android:layout_weight="4"
                     android:text="武汉"/>
@@ -33,23 +34,31 @@
                     android:id="@+id/my_position_long"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:textSize="24sp"
-                    android:gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:textColor="#88000000"
+                    android:gravity="center_vertical|right"
                     android:layout_weight="1"
                     android:text="我的位置"/>
             </LinearLayout>
 
+            <View
+                android:layout_marginTop="15dp"
+                android:layout_height="2px"
+                android:layout_width="match_parent"
+                android:background="#3E000000" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:gravity="center">
 
                 <Button
                     android:id="@+id/all_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#ffffff"
+                    android:background="#fff678"
                     android:text="不限" />
                 <Button
                     android:id="@+id/one_type"
@@ -72,16 +81,24 @@
             </LinearLayout>
 
 
+            <View
+                android:layout_marginTop="15dp"
+                android:layout_height="2px"
+                android:layout_width="match_parent"
+                android:background="#3E000000" />
+
             <Button
                 android:id="@+id/search_long_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:backgroundTint="#ff4040"
                 android:background="@drawable/shape"
+                android:backgroundTint="#ff4040"
                 android:textColor="#ffffff"
                 android:textSize="25sp"
+                android:textStyle="bold"
                 android:text="开始搜索"
                 android:layout_marginBottom="20dp"
                 />

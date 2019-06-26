@@ -22,9 +22,9 @@
 
         <ImageView
             android:id="@+id/back_image"
-            android:layout_width="24dp"
-            android:layout_height="25dp"
-            android:src="@drawable/back"/>
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@drawable/back_button"/>
     </Toolbar>
 
     <SearchView
