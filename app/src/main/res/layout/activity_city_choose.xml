@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.CityChooseActivity"
     android:showDividers="end">
 
     <Toolbar
+        android:id = "@+id/choose_city_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
@@ -28,6 +28,7 @@
     </Toolbar>
 
     <SearchView
+        android:layout_below="@+id/choose_city_toolbar"
         android:id="@+id/city_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,24 +40,42 @@
         >
     </SearchView>
 
+    <ListView
+        android:background="@drawable/shape"
+        android:backgroundTint="#fff678"
+        android:layout_margin="10dp"
+        android:layout_below="@id/city_search_view"
+        android:id = "@+id/show_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
     <TextView
+        android:id = "@+id/gps_city"
+        android:layout_below="@+id/city_search_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:textSize="20dp"
         android:text="定位城市"/>
-    <Button
+
+    <TextView
+        android:layout_below="@+id/gps_city"
         android:id="@+id/choose_position_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
+        android:textSize="20sp"
         android:background="@drawable/shape"
-        android:backgroundTint="#ffffff"
+        android:backgroundTint="#6F000000"
         android:text="我的位置"/>
 
     <TextView
+        android:id = "@+id/warm_city"
+        android:layout_below="@id/choose_position_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -76,10 +95,10 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/mybackground"
+        android:layout_below="@+id/warm_city"
         android:layout_centerHorizontal="true">
 
 
 
     </GridView>
-</LinearLayout>
+</RelativeLayout>

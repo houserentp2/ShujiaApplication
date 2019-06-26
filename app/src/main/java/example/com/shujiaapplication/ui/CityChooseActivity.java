@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -25,7 +28,7 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
 
     private GridView gridView;
     private ImageView backView;
-    private Button myPosition;
+    private TextView myPosition;
     private String city;
     private SearchView mSearchView;
 
@@ -34,7 +37,6 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_choose);
        initView();
-
 
     }
 
@@ -60,7 +62,7 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
             }
         });
 
-        myPosition = (Button) findViewById(R.id.choose_position_button);
+        myPosition = (TextView) findViewById(R.id.choose_position_button);
         myPosition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +93,10 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
 
             @Override
             public boolean onQueryTextChange(String s) {
-                return false;
+                if(s.equals("")==true)
+                    s="'fjjsdlfj";
+                initAdapter(s);
+                return true;
             }
         });
 
@@ -100,6 +105,22 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
 //        for(String str: ans){
 //            Log.e("CityChooseActivity",str);
 //        }
+    }
+
+    public void initAdapter(String s){
+        CityDataGenerator cd = new CityDataGenerator();
+        ArrayList<String> ans = cd.getList(s);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CityChooseActivity.this,android.R.layout.simple_list_item_1,ans);
+       ListView  listView  = (ListView)findViewById(R.id.show_city);
+        listView.bringToFront();
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                 city = ans.get(position);
+                switchActivity();
+            }
+        });
     }
 
     //返回主页

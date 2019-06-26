@@ -121,11 +121,11 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
     public void initBuildList(int m,int low,int max){                   //从数据库获取信息
 
         List<Integer> pictures = new ArrayList<>();
+        pictures.add(R.drawable.user);
         pictures.add(R.drawable.imgv_slide);
         pictures.add(R.drawable.background);
         pictures.add(R.drawable.collect);
         pictures.add(R.drawable.mybackground);
-        pictures.add(R.drawable.user);
         pictures.add(R.drawable.unseen);
         List<Building> buildings = new ArrayList<>();
         for(int i=0;i<10;i++){
