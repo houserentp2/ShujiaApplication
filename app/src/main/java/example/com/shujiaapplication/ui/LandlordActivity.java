@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -152,6 +153,15 @@ public class LandlordActivity extends BaseActivity {
             ListView listView = (ListView) getActivity().findViewById(R.id.id_listview);
             MyPageFragmentAdapter listAdapter = new MyPageFragmentAdapter();
             listView.setAdapter(listAdapter);
+
+            //TODO 点击事件
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    HouseInfo houseInfo = houseInfos.get(i);
+                    /////////
+                }
+            });
         }
 
         public ArrayList<HouseInfo> getHouseInfos() {
@@ -186,6 +196,10 @@ public class LandlordActivity extends BaseActivity {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
+
+                //文字显示
+                HouseInfo data = (HouseInfo)getItem(position);
+
                 if(convertView == null)
                 {
                     LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -194,8 +208,6 @@ public class LandlordActivity extends BaseActivity {
                     //convertView = getLayoutInflater().inflate(R.layout.layout_student_item,parent,false);
                 }
 
-                //文字显示
-                HouseInfo data = (HouseInfo)getItem(position);
                 TextView textView = (TextView)convertView.findViewById(R.id.id_title);
                 textView.setText(data.getTitle());
 
@@ -213,6 +225,20 @@ public class LandlordActivity extends BaseActivity {
                 ImageView iconView = (ImageView)convertView.findViewById(R.id.id_picture);
 
                 iconView.setImageDrawable(data.getPicture());
+
+                ImageButton button = (ImageButton)convertView.findViewById(R.id.id_edithouse);
+
+                //View.OnClickListener
+
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //TODO 修改房屋界面...
+                        Intent intent = new Intent(MyApplication.getContext(), AddHouseActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                        startActivity(intent);
+                    }
+                });
 
                 return convertView;
             }
