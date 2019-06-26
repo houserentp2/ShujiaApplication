@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -197,8 +198,18 @@ public class CollectFragment extends Fragment {
             ListView listView = (ListView)getActivity().findViewById(R.id.id_listview);
             MyPageFragmentAdapter listAdapter = new MyPageFragmentAdapter();
             listView.setAdapter(listAdapter);
+
+            //TODO 点击事件
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    HouseInfo houseInfo = houseInfos.get(i);
+                    /////////
+                }
+            });
         }
 
+        //TODO 获取信息
         public ArrayList<HouseInfo> getHouseInfos(){
             ArrayList<HouseInfo> houseInfos = new ArrayList<>(3);
 
@@ -259,7 +270,7 @@ public class CollectFragment extends Fragment {
 
                 iconView.setImageDrawable(data.getPicture());
 
-                ImageButton button = (ImageButton)convertView.findViewById(R.id.id_imagebutton);
+                ImageButton button = (ImageButton)convertView.findViewById(R.id.id_edithouse);
 
                 //View.OnClickListener
 

@@ -70,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/id_struct" />
 
         <ImageButton
-            android:id="@+id/id_imagebutton"
+            android:id="@+id/id_edithouse"
             android:layout_width="51dp"
             android:layout_height="42dp"
             android:scaleType="fitXY"
