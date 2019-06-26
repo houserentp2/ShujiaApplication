@@ -14,6 +14,7 @@ public class OrderSuccess extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_order_success);
         Button a=(Button)findViewById(R.id.succeess);
         a.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -22,6 +23,5 @@ public class OrderSuccess extends BaseActivity{
                 startActivity(intent);
             }
         });
-        setContentView(R.layout.activity_order_success);
     }
 }

@@ -38,6 +38,7 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
 
     private View mview;
     private List<Building> buildingList=new ArrayList<>();
+    private List<Building> buildingList2=new ArrayList<>();
     public OrderFragmentS1() {
         // Required empty public constructor
     }
@@ -78,7 +79,7 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
         RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_all);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        BuildingAdapter adapter=new BuildingAdapter(buildingList);
+        BuildingAdapter adapter=new BuildingAdapter(buildingList2);
         adapter.setRecyclerItemClickListener(new OnRecyclerItemClickListener() {
             @Override
             public void onItemClick(int Position, List<Building> buildingList) {
@@ -86,14 +87,17 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
                 switch (selector){
                     case 1:
                         Intent intent1=new Intent(getActivity(), BuildingPay.class);
+                        intent1.putExtra("mbuild",buildingList.get(Position));
                         startActivity(intent1);
                         break;
                     case 2:
                         Intent intent2=new Intent(getActivity(), BuildingLiving.class);
+                        intent2.putExtra("mbuild",buildingList.get(Position));
                         startActivity(intent2);
                         break;
                     case 3:
                         Intent intent3=new Intent(getActivity(), BuildingView.class);
+                        intent3.putExtra("mbuild",buildingList.get(Position));
                         startActivity(intent3);
                         break;
                 }
@@ -151,6 +155,11 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
         buildingList.add(e);
         Building f=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,pictures,1,0,0);
         buildingList.add(f);
+        for(Building building:buildingList){
+            if(building.getLongsymbol()==0){
+                buildingList2.add(building);
+            }
+        }
     }
     public void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager=this.getActivity().getSupportFragmentManager();

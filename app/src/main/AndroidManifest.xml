@@ -30,6 +30,12 @@
         <activity android:name=".ui.PersonalInfoActivity" />
         <activity android:name=".ui.ScoreActivity" />
         <activity android:name=".ui.ManageTravelerActivity" />
+        <activity android:name=".ui.OrderSecurity" />
+        <activity android:name=".ui.OrderSuccess" />
+        <activity android:name=".ui.BuildingPay" />
+        <activity android:name=".ui.BuildingView" />
+        <activity android:name=".ui.BuildingLiving" />
+        <activity android:name=".ui.BuildingWritng" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

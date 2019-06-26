@@ -80,6 +80,7 @@ public class OrderFragmentS4 extends Fragment implements View.OnClickListener{
             @Override
             public void onItemClick(int Position, List<Building> buildingList) {
                 Intent intent=new Intent(getActivity(), BuildingView.class);
+                intent.putExtra("mbuild",buildingList.get(Position));
                 startActivity(intent);
             }
         });

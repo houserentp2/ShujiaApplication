@@ -15,20 +15,14 @@ import java.util.List;
 
 import example.com.shujiaapplication.R;
 
-public class BuildingPay extends BaseActivity {
-
+public class BuildingPay extends AppCompatActivity {
+    private Building mbuild;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_building_pay);
-        List<Integer> pictures = new ArrayList<>();
-        pictures.add(R.drawable.imgv_slide);
-        pictures.add(R.drawable.background);
-        pictures.add(R.drawable.collect);
-        pictures.add(R.drawable.mybackground);
-        pictures.add(R.drawable.user);
-        pictures.add(R.drawable.unseen);
-        Building mbuild=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",1,0,pictures,1,0,0);
+        Intent intent=getIntent();
+        mbuild=(Building)intent.getSerializableExtra("mbuild");
         ImageView imageView=findViewById(R.id.building_order_image);
         imageView.setImageResource(mbuild.getPicture_id().get(0));
         TextView buildingDetail=findViewById(R.id.building_details);
@@ -45,6 +39,7 @@ public class BuildingPay extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(BuildingPay.this,OrderSecurity.class);
+                intent.putExtra("mbuild1",mbuild);
                 startActivity(intent);
             }
         });

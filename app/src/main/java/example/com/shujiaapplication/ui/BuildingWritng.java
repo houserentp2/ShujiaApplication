@@ -6,19 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import example.com.shujiaapplication.R;
 
-public class OrderSecurity extends AppCompatActivity implements View.OnClickListener{
+public class BuildingWritng extends AppCompatActivity implements View.OnClickListener{
     private EditText editText;
     private Building mbuild;
-    private String a;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_building_writng);
-        a="a";
         Intent intent=getIntent();
         mbuild=(Building)intent.getSerializableExtra("mbuild1");
         Button button =findViewById(R.id.view_button);
@@ -29,13 +26,8 @@ public class OrderSecurity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v){
         switch (v.getId()){
             case R.id.view_button:
-                String input =editText.getText().toString();
-                if (input.equals(a)){
-                    Intent intent=new Intent(OrderSecurity.this,OrderSuccess.class);
-                    startActivity(intent);
-                }else{
-                    Toast.makeText(OrderSecurity.this,"wrong number",Toast.LENGTH_SHORT).show();
-                }
+                Intent intent=new Intent(BuildingWritng.this,OrderSuccess.class);
+                startActivity(intent);
                 break;
             default:
                 break;
