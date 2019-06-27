@@ -147,7 +147,7 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
                 try{
                     OkHttpClient client = new OkHttpClient();
                     Gson gson=new Gson();
-                    NewAccountData newAccount=new NewAccountData(editAccount.getText().toString(),editPassword.getText().toString(),"1111");
+                    NewAccountData newAccount=new NewAccountData(editAccount.getText().toString(),"1111",null,editPassword.getText().toString());
                     RequestBody requestBody=RequestBody.create(JSON,gson.toJson(newAccount));
                     Request request=new Request.Builder()
                             .url("http://192.168.43.57:1323/register")
@@ -155,6 +155,30 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
                             .build();
                     Response response=client.newCall(request).execute();
                     String responseData=response.body().string();
+                    Person p =gson.fromJson(responseData,Person.class);//返回的数据
+                    if(responseData.contains("userid")){
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try{
+                                    OkHttpClient client = new OkHttpClient();
+                                    Gson gson=new Gson();
+                                    DiscountData discountData=new DiscountData(p.userid,p.token);
+                                    RequestBody requestBody=RequestBody.create(JSON,gson.toJson(discountData));
+                                    Request request=new Request.Builder()
+                                            .url("http://192.168.43.57:1323/getdiscountlist")
+                                            .post(requestBody)
+                                            .build();
+                                    Response response=client.newCall(request).execute();
+                                    String responseData=response.body().string();
+                                    showResponse(responseData);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+                    }
                     showResponse(responseData);
                 }catch (Exception e){
                     e.printStackTrace();
