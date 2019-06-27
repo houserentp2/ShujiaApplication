@@ -2,7 +2,7 @@ package example.com.shujiaapplication.ui;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginData {
+public class LoginData extends Data{
     @SerializedName("phonenum")
     private String newAccountName;
     @SerializedName("password")

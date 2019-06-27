@@ -52,31 +52,12 @@ public class PersonalInfoActivity extends BaseActivity {
                 String IDnum = PIIDNum.getText().toString();
                 String Phonenum = PIeditPhone.getText().toString();
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try{
-                            OkHttpClient client = new OkHttpClient();
-                            Gson gson=new Gson();
-                            Resident resident = new Resident(PICity.getText().toString().split("\t")[0],PICity.getText().toString().split("\t")[1],PICity.getText().toString().split("\t")[2],detailHome);
-                            PersonInfoData personInfoData=new PersonInfoData(AuthInfo.userid,AuthInfo.token,realName,IDnum,resident);
-                            RequestBody requestBody=RequestBody.create(JSON,gson.toJson(personInfoData));
-                            Request request=new Request.Builder()
-                                    .url("http://192.168.43.57:1323/userinfo")
-                                    .post(requestBody)
-                                    .build();
-                            Response response=client.newCall(request).execute();
-                            String responseData=response.body().string();
-                            if(responseData.equals("Update Success")){
-                                Toast.makeText(PersonalInfoActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
+                Resident resident = new Resident(PICity.getText().toString().split("\t")[0],PICity.getText().toString().split("\t")[1],PICity.getText().toString().split("\t")[2],detailHome);
+                PersonInfoData personInfoData=new PersonInfoData(AuthInfo.userid,AuthInfo.token,realName,IDnum,resident);
+                String rusult = RequsetData.requestData(personInfoData,"userinfo");
+                if(rusult.equals("Update Success")){
+                    Toast.makeText(PersonalInfoActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
                             }
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
-
-
             }
         });
 
