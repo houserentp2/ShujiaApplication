@@ -52,7 +52,6 @@ public class PersonalInfoActivity extends BaseActivity {
                 String IDnum = PIIDNum.getText().toString();
                 String Phonenum = PIeditPhone.getText().toString();
 
-
                 Resident resident = new Resident(PICity.getText().toString().split("\t")[0],PICity.getText().toString().split("\t")[1],PICity.getText().toString().split("\t")[2],detailHome);
                 PersonInfoData personInfoData=new PersonInfoData(AuthInfo.userid,AuthInfo.token,realName,IDnum,resident);
                 String rusult = RequsetData.requestData(personInfoData,"userinfo");

@@ -1,5 +1,6 @@
 package example.com.shujiaapplication.ui;
 
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -27,6 +28,13 @@ public class RequsetData {
                             .build();
                     Response response=client.newCall(request).execute();
                      responseData=response.body().string();
+
+
+                     if(responseData.contains("userid")){
+                         Person p =gson.fromJson(responseData,Person.class);//返回的数据
+                         AuthInfo.setAuth(p.userid,p.token);
+                     }
+
                 }catch (Exception e){
                     e.printStackTrace();
                 }
