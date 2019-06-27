@@ -4,20 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/building_background"
     android:orientation="vertical"
     tools:context=".ui.BuildingWritng">
+
     <EditText
         android:id="@+id/text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <Button
-        android:id="@+id/view_button"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="bottom"
-        android:text="提交评论"/>
-</LinearLayout>
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/view_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:text="提交评论"
+            android:textColor="#000000"/>
+    </LinearLayout>
 </LinearLayout>
