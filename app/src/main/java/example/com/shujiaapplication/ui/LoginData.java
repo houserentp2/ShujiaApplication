@@ -2,32 +2,39 @@ package example.com.shujiaapplication.ui;
 
 import com.google.gson.annotations.SerializedName;
 
-public class NewAccountData {
+public class LoginData {
     @SerializedName("phonenum")
     private String newAccountName;
     @SerializedName("password")
     private String newAccountPassword;
-    @SerializedName("code")
-    private String code;
-    @SerializedName("time")
-    private String time;
+    @SerializedName("userid")
+    private String userid;
+    @SerializedName("nickname")
+    private String nickname;
 
-    public NewAccountData(String ph,String c,String t,String p){
+    public LoginData(String ph,String u,String n,String p){
         this.newAccountName = ph;
-        this.code = c;
-        this.time = t;
+        this.userid = u;
+        this.nickname = n;
         this.newAccountPassword = p;
 
     }
 
-    public String getTime() {
-        return time;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
 
     public String getNewAccountName() {
         return newAccountName;
@@ -43,13 +50,5 @@ public class NewAccountData {
 
     public void setNewAccountPassword(String newAccountPassword) {
         this.newAccountPassword = newAccountPassword;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 }
