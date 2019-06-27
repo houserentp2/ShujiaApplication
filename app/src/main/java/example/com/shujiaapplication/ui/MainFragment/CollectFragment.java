@@ -24,7 +24,6 @@ public class CollectFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -79,14 +78,6 @@ public class CollectFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 onTabItemSelected(tab.getPosition());
-
-//                //改变Tab 状态
-//                for(int i=0;i< tabLayout.getTabCount();i++){
-//                    //TODO
-//                }
-//                tabLayout.addTab(tabLayout.newTab().setText(mTabTitle[0]));
-//                tabLayout.addTab(tabLayout.newTab().setText(mTabTitle[1]));
-
             }
 
             @Override
@@ -140,7 +131,6 @@ public class CollectFragment extends Fragment {
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private static final String ARG_PARAM1 = "ARG_PAGE";
 
-        // TODO: Rename and change types of parameters
         private int mPage;
         private boolean isRefreshData = false;
         ArrayList<HouseInfo> houseInfos;
@@ -149,7 +139,6 @@ public class CollectFragment extends Fragment {
             // Required empty public constructor
         }
 
-        // TODO: Rename and change types and number of parameters
         public static PageFragment newInstance(int page) {
             PageFragment fragment = new PageFragment();
             Bundle args = new Bundle();
