@@ -6,12 +6,21 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import example.com.shujiaapplication.R;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Button setSeen;
@@ -19,6 +28,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private EditText editPassword;
     private TextView forgetPassward;
     private TextView newAccount;
+    public static final MediaType JSON=MediaType.get("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login:{                                                                       //if登录条件
+                LoginData loginData=new LoginData(editAccount.getText().toString(),null,null,editPassword.getText().toString());
+             //   String responseData= RequsetData.requestData(loginData,"login");
+              //  AuthInfo.setAuth(p.userid,p.token);
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try{
+//                            OkHttpClient client = new OkHttpClient();
+//                            Gson gson=new Gson();
+//                            LoginData loginData=new LoginData(editAccount.getText().toString(),null,null,editPassword.getText().toString());
+//                            RequestBody requestBody=RequestBody.create(JSON,gson.toJson(loginData));
+//                            Request request=new Request.Builder()
+//                                    .url("http://192.168.43.57:1323/login")
+//                                    .post(requestBody)
+//                                    .build();
+//                            Response response=client.newCall(request).execute();
+//                            String responseData=response.body().string();
+//                            Person p =gson.fromJson(responseData,Person.class);//返回的数据
+//                            AuthInfo.setAuth(p.userid,p.token);
+//                        }catch (Exception e){
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }).start();
                 Intent intent1 = new Intent(MainActivity.this,HomePageActivity.class);
                 startActivity(intent1);
                 break;

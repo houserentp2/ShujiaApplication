@@ -10,9 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.lljjcoder.citypickerview.widget.CityPicker;
 
 import example.com.shujiaapplication.R;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class PersonalInfoActivity extends BaseActivity {
@@ -24,6 +30,7 @@ public class PersonalInfoActivity extends BaseActivity {
     private EditText PIIDNum;
     private EditText PIeditPhone;
     private CityPicker cityPicker;
+    public static final MediaType JSON=MediaType.get("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +51,13 @@ public class PersonalInfoActivity extends BaseActivity {
                 String realName = PIeditName.getText().toString();
                 String IDnum = PIIDNum.getText().toString();
                 String Phonenum = PIeditPhone.getText().toString();
-                Toast.makeText(PersonalInfoActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
 
+                Resident resident = new Resident(PICity.getText().toString().split("\t")[0],PICity.getText().toString().split("\t")[1],PICity.getText().toString().split("\t")[2],detailHome);
+                PersonInfoData personInfoData=new PersonInfoData(AuthInfo.userid,AuthInfo.token,realName,IDnum,resident);
+                String rusult = RequsetData.requestData(personInfoData,"userinfo");
+                if(rusult.equals("Update Success")){
+                    Toast.makeText(PersonalInfoActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
+                            }
             }
         });
 
@@ -118,7 +130,7 @@ public class PersonalInfoActivity extends BaseActivity {
                 String city = citySelected[1];
                 String district = citySelected[2];
                 String code = citySelected[3];
-                PICity.setText(province + city + district);
+                PICity.setText(province +"\t" +city +"\t"+ district);
             }
 
             @Override
