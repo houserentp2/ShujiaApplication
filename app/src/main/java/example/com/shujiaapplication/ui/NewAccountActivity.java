@@ -1,18 +1,10 @@
 package example.com.shujiaapplication.ui;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Handler;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,8 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-
-import java.util.Random;
 
 import example.com.shujiaapplication.R;
 import okhttp3.MediaType;
@@ -64,7 +54,7 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
                 Code.daotime(getCode);
                 break;
             }
-            case R.id.register:{
+            case R.id.btn_subscribe:{
                 int accountLen = editAccount.getText().toString().length();
                 int passwordLen = editPassword.getText().toString().length();
                 String editCode1 = editCode.getText().toString();
@@ -198,7 +188,7 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
 
     public void initControl(){
         getCode = (Button)findViewById(R.id.getCode);
-        register = (Button)findViewById(R.id.register);
+        register = (Button)findViewById(R.id.btn_subscribe);
         setSeen1 = (Button)findViewById(R.id.setseen1);
         setSeen2 = (Button)findViewById(R.id.setseen2);
         editCode = (EditText)findViewById(R.id.editCode);

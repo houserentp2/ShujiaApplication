@@ -1,26 +1,46 @@
 package example.com.shujiaapplication.model;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.google.gson.Gson;
 
-public class HTTPAccess extends HttpURLConnection {
-    protected HTTPAccess(URL u) {
-        super(u);
-    }
+import example.com.shujiaapplication.ui.Building;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
-    @Override
-    public void disconnect() {
+public class HTTPAccess {
 
-    }
+    public static final MediaType JSON=MediaType.get("application/json; charset=utf-8");
+    public static int houseid = 0;
 
-    @Override
-    public boolean usingProxy() {
-        return false;
-    }
+    public static int puthouse(Building building){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    OkHttpClient client = new OkHttpClient();
+                    Gson gson=new Gson();
+                    RequestBody requestBody=RequestBody.create(JSON,gson.toJson(building));
+                    Request request=new Request.Builder()
+                            .url("http://192.168.43.57:1323/login")
+                            .post(requestBody)
+                            .build();
+                    Response response=client.newCall(request).execute();
+                    String responseData=response.body().string();
+                    houseid =gson.fromJson(responseData,int.class);//返回的数据
 
-    @Override
-    public void connect() throws IOException {
-
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        try {
+            t.start();
+            t.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return houseid;
     }
 }

@@ -1,6 +1,5 @@
 package example.com.shujiaapplication.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -165,7 +164,8 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
     public void screenPrice(List<Building> buildings,int low,int max){
 
         for(int i=buildings.size()-1;i>=0;i--){
-            if(!((buildings.get(i).getPrice()>=low)&&(buildings.get(i).getPrice()<=max))){
+            if(!((Integer.parseInt(buildings.get(i).getPrice())>=low)&&
+                    (Integer.parseInt(buildings.get(i).getPrice())<=max))){
                 buildings.remove(i);
 
             }

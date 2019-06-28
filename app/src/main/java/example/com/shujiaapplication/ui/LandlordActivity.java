@@ -229,13 +229,8 @@ public class LandlordActivity extends BaseActivity {
                         startActivity(intent);
                     }
                 });
-
                 return convertView;
             }
         }
     }
-
-
-
-
 }
