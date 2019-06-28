@@ -1,11 +1,10 @@
 package example.com.shujiaapplication.ui;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.transform.Source;
-
 import example.com.shujiaapplication.R;
 
 import static example.com.shujiaapplication.ui.DateChooseActivity.LONG_CHOOSE;
-import static example.com.shujiaapplication.ui.DateChooseActivity.SHORT_CHOOSE;
 
 public class HouseInfomationActivity extends BaseActivity {
 
@@ -88,7 +84,7 @@ public class HouseInfomationActivity extends BaseActivity {
         housePeople = house.getLiving_people();
         houseShi = house.getShi();
         houseTing = house.getTing();
-        houseSquare = house.getSquare();
+        houseSquare = Integer.parseInt(house.getSquare());
         picture_id = house.getPicture_id();
     }
 

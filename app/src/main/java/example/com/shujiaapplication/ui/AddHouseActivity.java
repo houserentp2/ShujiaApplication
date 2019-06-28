@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.bilibili.boxing.Boxing;
 import com.bilibili.boxing.BoxingCrop;
 import com.bilibili.boxing.BoxingMediaLoader;
+import com.bilibili.boxing.impl.Base64Util;
 import com.bilibili.boxing.impl.BoxingGlideLoader;
 import com.bilibili.boxing.impl.BoxingUcrop;
 import com.bilibili.boxing.loader.IBoxingMediaLoader;
@@ -30,11 +32,15 @@ import com.bilibili.boxing_impl.ui.BoxingActivity;
 import com.bilibili.boxing_impl.view.SpacesItemDecoration;
 
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import example.com.shujiaapplication.R;
+import example.com.shujiaapplication.model.HTTPAccess;
 import pub.devrel.easypermissions.EasyPermissions;
 
 //import com.bilibili.boxing.impl.BoxingGlideLoader;
@@ -48,6 +54,7 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
     private RecyclerView mRecyclerView;
     private MediaResultAdapter mAdapter;
     public LinkedList<String> ImagesBag=new LinkedList<String>();
+    Building building;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +70,7 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
-        mRecyclerView.setOnClickListener(this);
+        //mRecyclerView.setOnClickListener(this);
 
         String [] data = new String[]{"1","2","3","4","5"};
 
@@ -77,23 +84,103 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
 
         Button button = findViewById(R.id.btn_subscribe);
         button.setOnClickListener(this);
+        button = findViewById(R.id.btn_add_picture);
+        button.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.media_recycle_view:
-                BoxingConfig config = new BoxingConfig(BoxingConfig.Mode.MULTI_IMG).needCamera(R.drawable.ic_boxing_default_image).needGif();
-                Boxing.of(config).withIntent(this, BoxingActivity.class).start(this, REQUEST_CODE);
+            case R.id.btn_add_picture:
+                BoxingConfig singleImgConfig = new BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).withMediaPlaceHolderRes(R.drawable.ic_boxing_default_image);
+                Boxing.of(singleImgConfig).withIntent(this, BoxingActivity.class).start(this, COMPRESS_REQUEST_CODE);
                 break;
             case R.id.btn_subscribe:
-                //TODO 提交
+                if(checkReg()){
+                    //TODO 提交
+                    EditText editText = findViewById(R.id.editprice);
+                    String price = editText.getText().toString();
+                    editText = findViewById(R.id.editsquare);
+                    String square = editText.getText().toString();
+                    //时间
+                    Date now=new Date();
+                    //指定格式化格式
+                    //"2019-06-26T21:56:02.455+08:00"
+                    SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+08:00");
+                    String timeStr = f.format(now);
 
+                    Spinner spinner = (Spinner)findViewById(R.id.editShi);
+                    String shi = (String)spinner.getSelectedItem();
+                    spinner = (Spinner)findViewById(R.id.editTing);
+                    String ting = (String)spinner.getSelectedItem();
+
+                    editText = findViewById(R.id.edittitle);
+                    String title = editText.getText().toString();
+                    editText = findViewById(R.id.editdiscription);
+                    String discription = editText.getText().toString();
+                    editText = findViewById(R.id.editprovince);
+                    String province = editText.getText().toString();
+                    editText = findViewById(R.id.editcity);
+                    String city = editText.getText().toString();
+                    editText = findViewById(R.id.editzone);
+                    String zone = editText.getText().toString();
+                    editText = findViewById(R.id.editpath);
+                    String path = editText.getText().toString();
+
+                    int n = mRecyclerView.getChildCount();
+                    String[] pictures = new String[n];
+                    for (int i = 0; i < n; i++){
+                        ImageView imageView = (ImageView) mRecyclerView.getChildAt(i);
+                        pictures[i] = Base64Util.DrawableToBase64(imageView.getDrawable());
+                    }
+                    Building building = new Building(
+                            AuthInfo.userid,
+                            AuthInfo.token,
+                            "",
+                            timeStr,
+                            price,
+                            square,
+                            shi,
+                            ting,
+                            title,
+                            discription,
+                            province,
+                            city,
+                            zone,
+                            path,
+                            pictures
+
+                    );
+                    HTTPAccess.puthouse(building);
+                    finish();
+
+                }
             default:
         }
 
         //TODO 多选
     }
+    private boolean checkReg(){
+        boolean flag = true;
+
+        EditText editText = findViewById(R.id.editsquare);
+        String regx = "[1-9][0-9]*";
+        if(!Pattern.matches(regx,editText.getText()))
+        {
+            flag = false;
+            editText.setError("格式错误");
+        }
+        editText = findViewById(R.id.editprice);
+        if(!Pattern.matches(regx,editText.getText()))
+        {
+            flag = false;
+            editText.setError("格式错误");
+        }
+        //editText = findViewById(R.id.)
+        //regx = "^[\\u4e00-\\u9fa5]*$ ";
+        return flag;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -105,7 +192,7 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
             final ArrayList<BaseMedia> medias = Boxing.getResult(data);
             if (requestCode == REQUEST_CODE) {
                 mAdapter.setList(medias);
-            } else if (requestCode == COMPRESS_REQUEST_CODE) {
+            } else if (requestCode == COMPRESS_REQUEST_CODE) { //图片单选
                 final List<BaseMedia> imageMedias = new ArrayList<>(1);
                 BaseMedia baseMedia = medias.get(0);
                 if (!(baseMedia instanceof ImageMedia)) {
@@ -153,7 +240,7 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
             if (list == null) {
                 return;
             }
-            mList.clear();
+            //mList.clear();
             mList.addAll(list);
             notifyDataSetChanged();
         }

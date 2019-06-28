@@ -14,7 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class Base64Util {
-    private static String BitmapToBase64(Bitmap bitmap){
+    public static String BitmapToBase64(Bitmap bitmap){
         String result = null;
         ByteArrayOutputStream baos = null;
         try {
@@ -42,11 +42,11 @@ public class Base64Util {
         }
         return result;
     }
-    private static Bitmap Base64ToBitmap(String base64Data){
+    public static Bitmap Base64ToBitmap(String base64Data){
         byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
-    private static Bitmap drawableToBitmap(Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
         if (drawable instanceof BitmapDrawable) {
             return ((BitmapDrawable) drawable).getBitmap();
         } else if (drawable instanceof NinePatchDrawable) {
