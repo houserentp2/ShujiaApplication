@@ -40,14 +40,6 @@ public class LandlordActivity extends BaseActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 onTabItemSelected(tab.getPosition());
-
-//                //改变Tab 状态
-//                for(int i=0;i< tabLayout.getTabCount();i++){
-//                    //TODO
-//                }
-//                tabLayout.addTab(tabLayout.newTab().setText(mTabTitle[0]));
-//                tabLayout.addTab(tabLayout.newTab().setText(mTabTitle[1]));
-
             }
 
             @Override
@@ -106,7 +98,6 @@ public class LandlordActivity extends BaseActivity {
         // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
         private static final String ARG_PARAM1 = "ARG_PAGE";
 
-        // TODO: Rename and change types of parameters
         private int mPage;
 
         ArrayList<HouseInfo> houseInfos;
@@ -115,7 +106,6 @@ public class LandlordActivity extends BaseActivity {
             // Required empty public constructor
         }
 
-        // TODO: Rename and change types and number of parameters
         public static PageFragment newInstance(int page) {
             PageFragment fragment = new PageFragment();
             Bundle args = new Bundle();
@@ -239,13 +229,8 @@ public class LandlordActivity extends BaseActivity {
                         startActivity(intent);
                     }
                 });
-
                 return convertView;
             }
         }
     }
-
-
-
-
 }

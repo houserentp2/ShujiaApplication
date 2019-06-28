@@ -8,11 +8,11 @@ import java.util.Date;
 
 public class DateCalculate {
     public static int calculateDays(String inDate,String outDate) throws ParseException {
-        return ((int) ( myGetTime(inDate,outDate) / (1000 * 60 * 60 *24)))+1;
+        return ((int) ( myGetTime(inDate,outDate) / (1000 * 60 * 60 *24)));
     }
 
     public static int calculateMonths(String inDate,String outDate) throws ParseException {
-        return (int) ( myGetTime(inDate,outDate) / (1000 * 60 * 60 *24 * 30));
+        return (int) ( myGetTime(inDate,outDate) / (1000 * 60 * 60 *24 * 30))+1;
 
     }
 

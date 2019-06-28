@@ -138,7 +138,7 @@
         </LinearLayout>
 
         <Button
-            android:id = "@+id/register"
+            android:id = "@+id/btn_subscribe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

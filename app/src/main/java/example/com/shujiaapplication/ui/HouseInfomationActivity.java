@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,10 +45,6 @@ public class HouseInfomationActivity extends BaseActivity {
 
     private Building house;
 
-    private int housePeople;
-    private int houseShi;
-    private int houseTing;
-    private int houseSquare;
     private List<Integer> picture_id;
 
 
@@ -70,7 +68,7 @@ public class HouseInfomationActivity extends BaseActivity {
         startAutoPlay();
 
         List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
-        String[] name = new String[]{"整套出租",houseShi+"室"+houseTing+"厅","宜居"+housePeople+"人",houseSquare+"平方米"};
+        String[] name = new String[]{"整套出租",house.getShiting().getShi()+"室"+house.getShiting().getTing()+"厅","宜居"+house.getOthers().getStatus().getLiving()+"人",house.getSquare()+"平方米"};
         for(int i=0;i<4;i++){
             Map<String, Object> item = new HashMap<String, Object>();
             item.put("imageItem", R.drawable.background);//添加图像资源的ID
@@ -82,14 +80,11 @@ public class HouseInfomationActivity extends BaseActivity {
         gridView.setAdapter(adapter);
     }
 
-    private void getBuilding(){
+    private void getBuilding(){                    //得到数据库信息
         Intent intent = getIntent();
-        house = (Building) intent.getSerializableExtra("selectedHouse");
-        housePeople = house.getLiving_people();
-        houseShi = house.getShi();
-        houseTing = house.getTing();
-        houseSquare = house.getSquare();
-        picture_id = house.getPicture_id();
+        String responesStr = intent.getStringExtra("houseInformation");
+        Gson gson = new Gson();
+        house = gson.fromJson(responesStr,Building.class);
     }
 
     //绑定控件
@@ -97,13 +92,19 @@ public class HouseInfomationActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.page_view);
 
         priceText = (TextView) findViewById(R.id.price_text);
-        priceText.setText(house.getPrice()+"元/晚");
+        priceText.setText(house.getPriceByInt()+"元/晚");
 
         locationText = (TextView) findViewById(R.id.location_text);
-        locationText.setText(house.getTitle()+house.getProvince()+house.getCity()+house.getZone()+house.getPath());
+        locationText.setText(house.getTitle()+house.getLocation().getProvince()+house.getLocation().getCity()+house.getLocation().getZone()+house.getLocation().getPath());
 
         callView = (MyImageView) findViewById(R.id.call_view);
         collectView = (MyImageView) findViewById(R.id.collect_view);
+        collectView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                collectView.setImage(R.drawable.collect_red);
+            }
+        });
         reserveButton = (Button) findViewById(R.id.reserve_button);
         reserveButton.setOnClickListener(new View.OnClickListener() {
             @Override

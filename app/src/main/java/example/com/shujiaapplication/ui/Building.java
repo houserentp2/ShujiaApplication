@@ -1,151 +1,236 @@
 package example.com.shujiaapplication.ui;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Building implements Comparable<Building>, Serializable {
-    private int build_head;
-    private int house_id;
-    private int price;
-    private int square;
-    private int shi;
-    private int ting;
+public class Building implements Serializable {
+
+    @SerializedName("userid")
+    private String userid;
+    @SerializedName("headpicture")
+    private String headpicture;
+    @SerializedName("token")
+    private String token;
+    @SerializedName("houseid")
+    private String houseid;
+    @SerializedName("time")
+    private String time;
+    @SerializedName("price")
+    private String price;
+    @SerializedName("square")
+    private String square;
+
+    @SerializedName("shiting")
+    private ShiTing shiting;
+    @SerializedName("title")
     private String title;
-    private String province;
-    private String city;
-    private String zone;
-    private String path;
-    private int shortsymbol;
-    private int longsymbol;
-    private List<Integer> picture_id;
-    private int living_people;
-    private int collect_image;
-    private ArrayList<String> buildingView=new ArrayList<String>();
-    public Building(int house_id,int price,int square,int shi,int ting,String title,String province,String city,String zone,String path,int shortsymbol,int longsymbol,List<Integer> picture_id,int build_head,int collect_image,int living_people){
-        setHouse_id(house_id);
-        setPrice(price);
-        setSquare(square);
-        setShi(shi);
-        setTing(ting);
-        setTitle(title);
-        setProvince(province);
-        setCity(city);
-        setZone(zone);
-        setPath(path);
-        setShortsymbol(shortsymbol);
-        setLongsymbol(longsymbol);
-        setPicture_id(picture_id);
-        setBuild_head(build_head);
-        setCollect_image(collect_image);
-        setLiving_people(living_people);
+
+    @SerializedName("location")
+    private Resident location;
+    @SerializedName("description")
+    private String description;
+    @SerializedName("pictures")
+    private String[] pictures;
+    @SerializedName("pay")
+    private String pay;
+    @SerializedName("view")
+    private String view;
+    @SerializedName("live")
+    private String live;
+    @SerializedName("sign")
+    private String sign;
+    @SerializedName("apply")
+    private String apply;
+    @SerializedName("finish")
+    private String finish;
+    @SerializedName("others")
+    private OthersData others;
+    @SerializedName("symbol")
+    private String symbol;
+
+
+//    public Building(String userid, String token, String houseid,String time, String price, String square,
+//                    String shi, String ting, String title,String description,
+//                    String province, String city, String zone, String path, String[] pictures){
+//        setUserid(userid);
+//        setToken(token);
+//        setHouseid(houseid);
+//        setTime(time);
+//        setPrice(price);
+//        setSquare(square);
+//        this.shiting = new ShiTing(shi,ting);
+//        setTitle(title);
+//        setDescription(description);
+//        this.location = new Resident(province, city, zone, path);
+//        setPictures(pictures);
+//    }
+
+
+
+    public String getSymbol() {
+        return symbol;
     }
 
-    public int getCollect_image() {
-        return collect_image;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public void setCollect_image(int collect_image) {
-        this.collect_image = collect_image;
+    public String getHeadpicture() {
+        return headpicture;
     }
 
-    public int getBuild_head() {
-        return build_head;
+    public void setHeadpicture(String headpicture) {
+        this.headpicture = headpicture;
     }
 
-    public void setBuild_head(int build_head) {
-        this.build_head = build_head;
+    public String getDescription() {
+        return description;
     }
 
-    public void setHouse_id(int x){
-        this.house_id=x;
-    }
-    public void setPrice(int x){
-        this.price=x;
-    }
-    public void setSquare(int x){
-        this.square=x;
-    }
-    public void setShi(int x){
-        this.shi=x;
-    }
-    public void setTing(int x){
-        this.ting=x;
-    }
-    public void setTitle(String x){
-        this.title=x;
-    }
-    public void setProvince(String x){
-        this.province=x;
-    }
-    public void setCity(String x){
-        this.city=x;
-    }
-    public void setZone(String x){
-        this.zone=x;
-    }
-    public void setPath(String x){
-        this.path=x;
-    }
-    public void setShortsymbol(int x){
-        this.shortsymbol=x;
-    }
-    public void setLongsymbol(int x){ this.longsymbol=x;}
-    public void setPicture_id(List<Integer> x){
-        this.picture_id=x;
-    }
-    public void setLiving_people(int x){this.living_people=x;}
-    public void setBuildingView(String a){
-        buildingView.add(a);
-    }
-    public int getHouse_id(){
-        return house_id;
-    }
-    public int getPrice(){
+    public String getPrice() {
         return price;
     }
-    public int getSquare(){
+
+    public String getToken() {
+        return token;
+    }
+
+    public OthersData getOthers() {
+        return others;
+    }
+
+    public String[] getPictures() {
+        return pictures;
+    }
+
+    public String getApply() {
+        return apply;
+    }
+
+    public String getFinish() {
+        return finish;
+    }
+
+    public String getLive() {
+        return live;
+    }
+
+    public String getPay() {
+        return pay;
+    }
+
+    public String getSign() {
+        return sign;
+    }
+
+    public String getView() {
+        return view;
+    }
+
+    public Resident getLocation() {
+        return location;
+    }
+
+    public String getHouseid() {
+        return houseid;
+    }
+
+    public String getSquare() {
         return square;
     }
-    public int getShi(){
-        return shi;
+
+    public String getTime() {
+        return time;
     }
-    public int getTing(){ return ting;}
-    public String getTitle(){
+
+    public String getTitle() {
         return title;
     }
-    public String getProvince(){
-        return province;
-    }
-    public String getCity(){
-        return city;
-    }
-    public String getZone(){
-        return zone;
-    }
-    public String getPath(){
-        return path;
-    }
-    public int getShortsymbol(){
-        return shortsymbol;
-    }
-    public int getLongsymbol(){
-        return longsymbol;
-    }
-    public List<Integer> getPicture_id(){
-        return picture_id;
-    }
-    public int getLiving_people(){return living_people;}
-    public ArrayList<String> getBuildingView(){return buildingView;}
 
-    @Override
-    public int compareTo(Building o) {
-        if(this.getPrice()>o.getPrice()){
-            return 1;
-        }else if(this.getPrice()==o.getPrice()){
-            return 0;
-        }else{
-            return -1;
-        }
+    public String getUserid() {
+        return userid;
+    }
+
+    public ShiTing getShiting() {
+        return shiting;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setOthers(OthersData others) {
+        this.others = others;
+    }
+
+    public void setPictures(String[] pictures) {
+        this.pictures = pictures;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public void setView(String view) {
+        this.view = view;
+    }
+
+    public void setApply(String apply) {
+        this.apply = apply;
+    }
+
+    public void setFinish(String finish) {
+        this.finish = finish;
+    }
+
+    public void setHouseid(String houseid) {
+        this.houseid = houseid;
+    }
+
+    public void setLive(String live) {
+        this.live = live;
+    }
+
+    public void setLocation(Resident location) {
+        this.location = location;
+    }
+
+    public void setPay(String pay) {
+        this.pay = pay;
+    }
+
+    public void setShiting(ShiTing shiting) {
+        this.shiting = shiting;
+    }
+
+    public void setSign(String sign) {
+        this.sign = sign;
+    }
+
+    public void setSquare(String square) {
+        this.square = square;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public int getPriceByInt(){
+        return Integer.parseInt(price);
     }
 }
