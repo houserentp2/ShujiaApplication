@@ -9,7 +9,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.bilibili.boxing.Boxing;
@@ -62,12 +65,34 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
         mRecyclerView.setOnClickListener(this);
 
+        String [] data = new String[]{"1","2","3","4","5"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,data);
+        Spinner s = (Spinner)findViewById(R.id.editShi);
+        s.setAdapter(adapter);
+
+        s = (Spinner)findViewById(R.id.editTing);
+        s.setAdapter(adapter);
+
+        Button button = findViewById(R.id.btn_subscribe);
+        button.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        BoxingConfig singleImgConfig = new BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).withMediaPlaceHolderRes(R.drawable.ic_boxing_default_image);
-        Boxing.of(singleImgConfig).withIntent(this, BoxingActivity.class).start(this, COMPRESS_REQUEST_CODE);
+        switch (view.getId()){
+            case R.id.media_recycle_view:
+                BoxingConfig config = new BoxingConfig(BoxingConfig.Mode.MULTI_IMG).needCamera(R.drawable.ic_boxing_default_image).needGif();
+                Boxing.of(config).withIntent(this, BoxingActivity.class).start(this, REQUEST_CODE);
+                break;
+            case R.id.btn_subscribe:
+                //TODO 提交
+
+            default:
+        }
+
+        //TODO 多选
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -110,7 +135,7 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
     private void getPermission(){
         if(EasyPermissions.hasPermissions(this,permissions)){
             //已经打开权限
-            Toast.makeText(this,"已经申请相关权限",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"已经申请相关权限",Toast.LENGTH_SHORT).show();
         }else {
             //没有权限，申请权限
             EasyPermissions.requestPermissions(this,"需要申请相册权限",1,permissions);
