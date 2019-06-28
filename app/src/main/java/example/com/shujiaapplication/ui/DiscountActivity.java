@@ -10,6 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +20,7 @@ import example.com.shujiaapplication.R;
 
 public class DiscountActivity extends BaseActivity implements View.OnClickListener, DiscountListAdapter.IonSlidingViewClickListener{
 
-    private List<Discount> discountLists = new ArrayList<>();
+    private List<DiscountListData> discountLists = new ArrayList<>();
     private RecyclerView selectDiscountList;
     private DiscountListAdapter adapter;
 
@@ -41,11 +44,10 @@ public class DiscountActivity extends BaseActivity implements View.OnClickListen
     }
 
     public void initDiscount(){    //从服务器获取优惠券列表
-        for(int i=0;i<10;i++){
-            Discount discount = new Discount(R.drawable.discount,"10","天猫","2019.06.01-2019.09.01");
-            discountLists.add(discount);
-        }
-
+        Person p = new Person();
+        String responseStr = RequsetData.requestData(p,"getdiscountlist");
+        Gson gson = new Gson();
+        discountLists = gson.fromJson(responseStr,new TypeToken<List<DiscountActivity>>(){}.getType());
     }
 
     @Override

@@ -33,7 +33,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:layout_marginTop="20dp"
             android:background="#eeeeee">
 
@@ -53,8 +53,29 @@
                 android:layout_centerHorizontal="true"
                 >
             </GridView>
-
         </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评论"
+                android:textSize="26sp"
+                android:layout_marginLeft="10dp"/>
+            <TextView
+                android:id="@+id/look_commitment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看评论 >"
+                android:textSize="20sp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -86,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
                 app:Text="收藏"
-                app:Src="@drawable/back"
+                app:Src="@drawable/collect_black"
                 app:Oriental="Vertical">
             </example.com.shujiaapplication.ui.MyImageView>
 

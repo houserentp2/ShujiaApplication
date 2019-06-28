@@ -1,5 +1,7 @@
 package example.com.shujiaapplication.ui;
 
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,15 +11,27 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import example.com.shujiaapplication.R;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class ShowBuildListActivity extends BaseActivity implements View.OnClickListener {
 
-    private List<Building> buildingList = new ArrayList<>();
+    private List<BuildingListData> buildingList = new ArrayList<>();
     private DoubleSlideSeekBar mDoubleslideWithoutrule;
     private Button choosePrice;
     private Button chooseDate;
@@ -28,6 +42,7 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
     private int order_mode = 0;
     private static int min = 0;
     private static int max = Integer.MAX_VALUE;
+    public static final MediaType JSON=MediaType.get("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,17 +141,13 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
         pictures.add(R.drawable.collect);
         pictures.add(R.drawable.mybackground);
         pictures.add(R.drawable.unseen);
-        List<Building> buildings = new ArrayList<>();
-        for(int i=0;i<10;i++){
-            Building building2 = new Building(i,(228+i*i),50,1,1,"梦幻一号","湖北省","武汉市","洪山区","华中科技大学",0,0,pictures,R.drawable.user,R.drawable.collect,2);
-            Building building1 = new Building(i,(228-i*i),50,1,1,"梦幻一号","湖北省","武汉市","洪山区","华中科技大学",0,0,pictures,R.drawable.user,R.drawable.collect,2);
-            Building building = new Building(i,(228+i),50,1,1,"梦幻一号","湖北省","武汉市","洪山区","华中科技大学",0,0,pictures,R.drawable.user,R.drawable.collect,2);
-            buildings.add(building);
-            buildings.add(building1);
-            buildings.add(building2);
-        }
+        List<BuildingListData> buildings = new ArrayList<>();
 
-        Collections.sort(buildings);
+        Intent intent = getIntent();
+        String responseStr = intent.getStringExtra("getHouseList");
+        Gson gson = new Gson();
+        buildings = gson.fromJson(responseStr,new TypeToken<List<BuildingListData>>(){}.getType());
+
         if(m==1){
             if(buildingList.size()!=0){
                 for(int i=buildingList.size()-1;i>=0;i--){
@@ -161,13 +172,13 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    public void screenPrice(List<Building> buildings,int low,int max){
+
+
+    public void screenPrice(List<BuildingListData> buildings,int low,int max){
 
         for(int i=buildings.size()-1;i>=0;i--){
-            if(!((Integer.parseInt(buildings.get(i).getPrice())>=low)&&
-                    (Integer.parseInt(buildings.get(i).getPrice())<=max))){
+            if(!((buildings.get(i).getPriceByInt()>=low)&&(buildings.get(i).getPriceByInt())<=max)){
                 buildings.remove(i);
-
             }
         }
     }

@@ -17,11 +17,11 @@ import example.com.shujiaapplication.R;
 public class DiscountListAdapter extends RecyclerView.Adapter<DiscountListAdapter.ViewHolder> implements LeftSlideView.IonSlidingButtonListener{
 
     private Context mContext;
-    private List<Discount> mdiscountList;
+    private List<DiscountListData> mdiscountList;
     private IonSlidingViewClickListener mIDeleteBtnClickListener;
     private LeftSlideView mMenu = null;
 
-    public DiscountListAdapter(List<Discount> d,Context context){
+    public DiscountListAdapter(List<DiscountListData> d,Context context){
         mdiscountList = d;
         mIDeleteBtnClickListener = (IonSlidingViewClickListener)context;
     }
@@ -49,11 +49,11 @@ public class DiscountListAdapter extends RecyclerView.Adapter<DiscountListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull final DiscountListAdapter.ViewHolder viewHolder, int i) {
-        Discount discount = mdiscountList.get(i);
-        viewHolder.discountMoney.setText("¥"+discount.getDiscountMoney());
-        viewHolder.discountStore.setText(discount.getDiscountStore());
-        viewHolder.discountDate.setText(discount.getDisCouuntDate());
-        viewHolder.discountImage.setImageResource(discount.getImageID());
+        DiscountListData discount = mdiscountList.get(i);
+        viewHolder.discountMoney.setText("¥"+discount.getDiscounted());
+        viewHolder.discountStore.setText(discount.getDescription());
+        viewHolder.discountDate.setText(discount.getOutdate());
+        viewHolder.discountImage.setImageResource(R.drawable.discount);
 
         viewHolder.layout_content.getLayoutParams().width = Utils.getScreenWidth(mContext);
 

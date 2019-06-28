@@ -51,9 +51,9 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder,int positon){
         Building building =mBuildingList.get(positon);
-        holder.buildingImage.setImageResource(building.getPicture_id().get(0));
-        holder.buildingMessage.setText(building.getPath());
-        int a=building.getShortsymbol();
+        holder.buildingImage.setImageBitmap();
+        holder.buildingMessage.setText(building.getLocation().getPath());
+        int a=building.getSymbol();
         switch(a){
             case 1:
                 holder.buildingTips.setBackgroundColor(Color.RED);

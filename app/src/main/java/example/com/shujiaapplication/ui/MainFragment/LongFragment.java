@@ -2,24 +2,20 @@ package example.com.shujiaapplication.ui.MainFragment;
 
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import example.com.shujiaapplication.R;
-import example.com.shujiaapplication.ui.Building;
-import example.com.shujiaapplication.ui.HouseChooseActivity;
-import example.com.shujiaapplication.ui.MyApplication;
+import example.com.shujiaapplication.ui.AuthInfo;
+import example.com.shujiaapplication.ui.RequsetData;
+import example.com.shujiaapplication.ui.SearchData;
+import example.com.shujiaapplication.ui.ShowBuildListActivity;
 
 public class LongFragment extends MainFatherFragment {
     private static final String ARG_PARAM1 = "param1";
@@ -90,7 +86,10 @@ public class LongFragment extends MainFatherFragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent houseIntent = new Intent(getActivity(), HouseChooseActivity.class);
+                Intent houseIntent = new Intent(getActivity(), ShowBuildListActivity.class);
+                SearchData searchData = new SearchData(AuthInfo.userid,AuthInfo.token,"","",city,1,searchType);
+                String str = RequsetData.requestData(searchData, "gethouselist");
+                houseIntent.putExtra("getHouseList",str);
                 startActivity(houseIntent);
             }
         });

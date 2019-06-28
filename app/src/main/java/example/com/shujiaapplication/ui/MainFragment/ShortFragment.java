@@ -1,12 +1,10 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +12,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import example.com.shujiaapplication.R;
-import example.com.shujiaapplication.ui.CityChooseActivity;
+import example.com.shujiaapplication.ui.AuthInfo;
 import example.com.shujiaapplication.ui.DateChooseActivity;
-import example.com.shujiaapplication.ui.HomePageActivity;
-import example.com.shujiaapplication.ui.HouseChooseActivity;
-import example.com.shujiaapplication.ui.HouseInfomationActivity;
-import example.com.shujiaapplication.ui.MyApplication;
+import example.com.shujiaapplication.ui.RequsetData;
+import example.com.shujiaapplication.ui.SearchData;
 import example.com.shujiaapplication.ui.ShowBuildListActivity;
 
 import static example.com.shujiaapplication.ui.DateChooseActivity.SHORT_CHOOSE;
@@ -50,6 +46,7 @@ public class ShortFragment extends MainFatherFragment{
     private TextView nightText;
     private TextView positionText;
     private Button searhButton;
+
     private String[] strs;
     private String inDate;
     private String outDate;
@@ -140,6 +137,9 @@ public class ShortFragment extends MainFatherFragment{
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ShowBuildListActivity.class);
+                SearchData searchData = new SearchData(AuthInfo.userid,AuthInfo.token,inDate,outDate,city,0,0);
+                String str = RequsetData.requestData(searchData, "gethouselist");
+                intent.putExtra("getHouseList",str);
                 startActivity(intent);
             }
         });

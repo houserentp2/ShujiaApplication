@@ -18,7 +18,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import example.com.shujiaapplication.R;
 
 public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.ViewHolder> {
-    private List<Building> mBuildList;
+    private List<BuildingListData> mBuildList;
     private Context mContext;
 
     static class ViewHolder extends RecyclerView.ViewHolder{
@@ -44,7 +44,7 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
         }
     }
 
-    public ShowBuildAdapter(List<Building> buildings){
+    public ShowBuildAdapter(List<BuildingListData> buildings){
         mBuildList = buildings;
     }
 
@@ -60,9 +60,10 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
-                Building building = mBuildList.get(position);
+                BuildingListData building = mBuildList.get(position);
                 Intent intent = new Intent(mContext,HouseInfomationActivity.class);
-                intent.putExtra("selectedHouse",building);
+                HouseRequestData h = new HouseRequestData(AuthInfo.userid,AuthInfo.token,building.getHouseid());
+                intent.putExtra("houseInformation",RequsetData.requestData(h,"gethouse"));
                 mContext.startActivity(intent);
             }
         });
@@ -71,13 +72,12 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Building building = mBuildList.get(i);
-        viewHolder.collect_image.setImageResource(building.getCollect_image());
-        viewHolder.building_image.setImageResource(building.getPicture_id().get(1));
+        BuildingListData building = mBuildList.get(i);
+        viewHolder.building_image.setImageBitmap(building.getPictureByBitmap());
         viewHolder.building_title.setText(building.getTitle());
-        viewHolder.building_head.setImageResource(building.getBuild_head());
+        viewHolder.building_head.setImageBitmap(building.getIconByBitmap());
         viewHolder.building_price.setText("¥"+building.getPrice());
-        viewHolder.building_details.setText(building.getShi()+"室"+building.getTing()+"厅 |宜居"+building.getLiving_people()+"人 |"+building.getSquare()+"m²");
+        viewHolder.building_details.setText(building.getShiting().getShi()+"室"+building.getShiting().getTing()+"厅 |宜居"+building.getSquare()+"m²");
     }
 
     @Override

@@ -11,12 +11,15 @@ import android.widget.TextView;
 import example.com.shujiaapplication.R;
 
 public class MyImageView extends LinearLayout {
+
+    private ImageView iv;
+    private TextView tv;
     public MyImageView(Context context,AttributeSet attrs) {
         super(context, attrs);
         int resourceId = -1;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyImageView);
-        ImageView iv = new ImageView(context);
-        TextView tv = new TextView(context);
+        iv = new ImageView(context);
+        tv = new TextView(context);
         int N = typedArray.getIndexCount();
         for (int i = 0; i < N; i++) {
             int attr = typedArray.getIndex(i);
@@ -33,7 +36,7 @@ public class MyImageView extends LinearLayout {
                     break;
                 case R.styleable.MyImageView_Src:
                     resourceId = typedArray.getResourceId(R.styleable.MyImageView_Src, 0);
-                    iv.setImageResource(resourceId > 0 ?resourceId:R.drawable.beij);
+                    iv.setImageResource(resourceId > 0 ?resourceId:R.drawable.collect_black);
                     iv.setAdjustViewBounds(true);
                     iv.setMaxHeight(70);
                     break;
@@ -42,5 +45,9 @@ public class MyImageView extends LinearLayout {
         addView(iv);
         addView(tv);
         typedArray.recycle();
+    }
+
+    public void setImage(int picture) {
+        iv.setImageResource(picture);
     }
 }
