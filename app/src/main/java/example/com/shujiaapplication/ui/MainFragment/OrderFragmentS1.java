@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import example.com.shujiaapplication.R;
+import example.com.shujiaapplication.ui.AuthInfo;
 import example.com.shujiaapplication.ui.Building;
 import example.com.shujiaapplication.ui.BuildingAdapter;
 import example.com.shujiaapplication.ui.BuildingListData;
@@ -56,6 +57,7 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
     private List<NewBuilding> buildingList2=new ArrayList<>();
     private String houseid;
     private BuildingListData buildinglistdata;
+    private static  final int GETRENTHOUSELIST = 1;
     private static  final int GETHOUSELIST = 0;
     private static String responseData = "";
     private Handler handler = new Handler(){
@@ -74,6 +76,11 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
                         buildinglistdata=building;
                     }
                 }
+            }else if(msg.what==GETRENTHOUSELIST){
+                SharedPreferences preferences = getContext().getSharedPreferences("requestData",getContext().MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                Gson gson = new Gson();
+                buildingList = gson.fromJson(responseData,new TypeToken<List<NewBuilding>>(){}.getType());
             }
         }
     };
@@ -179,9 +186,7 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
         }
     }
     public void initBuildings(){
-        NewBuilding a=new NewBuilding();
-        buildingList.add(a);
-        houseid=a.getHouseid();
+        getRentBuildingInformation();
         for(NewBuilding building:buildingList){
             getBuildingInformation(building.getUserid(),building.getToken(),building.getHouseid());
             BuildingListData b=buildinglistdata;
@@ -189,6 +194,18 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
                 buildingList2.add(building);
             }
         }
+    }
+    public void getRentBuildingInformation(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GetHouseInfo a=new GetHouseInfo(AuthInfo.userid,AuthInfo.token);
+                RequsetData.requestData(a,"getmyrented");
+                Message message = new Message();
+                message.what = GETRENTHOUSELIST;
+                handler.sendMessage(message);
+            }
+        }).start();
     }
     public void getBuildingInformation(String Userid, String Token,String Houseid){
         new Thread(new Runnable() {
