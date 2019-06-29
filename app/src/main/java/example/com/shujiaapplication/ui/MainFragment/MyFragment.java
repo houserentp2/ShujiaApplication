@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,8 +52,37 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
     private String mParam2;
     private GridView gridView;
     private Button exitAccount;
+    private static String responseData = "";
 
     private OnFragmentInteractionListener mListener;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==0){
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                if(!responseData.equals("")){
+                    Log.e("HomePageActivity","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+responseData);
+                    Toast.makeText(MyApplication.getContext(),"恭喜你成为审核员", Toast.LENGTH_SHORT).show();
+                    switchVerify();
+                }else{
+                    Toast.makeText(getActivity(),responseData,Toast.LENGTH_SHORT).show();
+                }
+            }
+            else if(msg.what == 1){
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                if(!responseData.equals("")){
+                    Log.e("HomePageActivity","discount"+responseData);
+                    switchVerify();
+                }
+                else{
+                    joinCheck();
+                }
+            }
+        }
+    };
 
     public MyFragment() {
 
@@ -191,21 +223,34 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
                 Intent intent = new Intent(MyApplication.getContext(), VerifyActivity.class);
                 startActivity(intent);
 
-                CheckerData checker = new CheckerData(AuthInfo.userid,AuthInfo.token,"");
-//                String responseStr = RequsetData.requestData(checker,"joinchecker");
-//                if (responseStr.contains("Existed")){
-//                    Toast.makeText(MyApplication.getContext(),"恭喜你成为审核员", Toast.LENGTH_SHORT).show();
-//                    switchVerify();
-//                }
-
                 DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
-//                String responseGet = RequsetData.requestData(discount,"getcheckerinfo");
-//                if(responseGet.contains("Existed")){
-//                    switchVerify();
-//                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        RequsetData.requestData(discount,"getcheckerinfo");
+                        Message message = new Message();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                }).start();
                 break;
             }
         }
+    }
+
+    private void joinCheck(){
+
+        CheckerData checker = new CheckerData(AuthInfo.userid,AuthInfo.token,"");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RequsetData.requestData(checker,"joinchecker");
+                Message message = new Message();
+                message.what = 0;
+                handler.sendMessage(message);
+            }
+        }).start();
+
     }
 
     private void switchVerify(){

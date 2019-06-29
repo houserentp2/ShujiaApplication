@@ -77,17 +77,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login:{                                                                       //if登录条件
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MainActivity.this,"登录中...",Toast.LENGTH_SHORT).show();
-                         loginData=new LoginData(editAccount.getText().toString(),null,null,editPassword.getText().toString());
-                        RequsetData.requestData(loginData,"login");
-                        Message message = new Message();
-                        message.what = LOGIN;
-                        handler.sendMessage(message);
+                String phone = editAccount.getText().toString();
+                String passward = editPassword.getText().toString();
+                if(phone.length()!=11){
+                    Toast.makeText(MainActivity.this,"请输入11位手机号",Toast.LENGTH_SHORT).show();
+                }else if(passward.length()<6||passward.length()>20){
+                    Toast.makeText(MainActivity.this,"请输入6-20位的密码",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this,"登录中...",Toast.LENGTH_SHORT).show();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            loginData=new LoginData(editAccount.getText().toString(),null,null,editPassword.getText().toString());
+                            RequsetData.requestData(loginData,"login");
+                            Message message = new Message();
+                            message.what = LOGIN;
+                            handler.sendMessage(message);
+                        }
+                    }).start();
                 }
-                }).start();
                 break;
             }
             case R.id.forgetPassword:{

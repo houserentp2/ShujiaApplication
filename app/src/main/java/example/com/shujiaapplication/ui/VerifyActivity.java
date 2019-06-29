@@ -71,6 +71,7 @@ public class VerifyActivity extends BaseActivity {
                     Toast.makeText(VerifyActivity.this,"成功!",Toast.LENGTH_SHORT).show();
                     Gson gson = new Gson();
                     house = gson.fromJson(responseData,Building.class);
+                    init();
                 }else{
                     Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
                 }
@@ -82,6 +83,7 @@ public class VerifyActivity extends BaseActivity {
                     Intent intent = new Intent(VerifyActivity.this,VerifyResultActivity.class);
                     intent.putExtra("result",""+result);
                     startActivity(intent);
+
                 }
                 else
                     Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
@@ -92,13 +94,16 @@ public class VerifyActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_house_infomation);
+        setContentView(R.layout.activity_verify);
         getBuilding();
+
+    }
+
+    private void init(){
         initView();
         initPageAdapter();
         initEvent();
         startAutoPlay();
-
         List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
         String[] name = new String[]{"整套出租",house.getShiting().getShi()+"室"+house.getShiting().getTing()+"厅","宜居"+house.getOthers().getStatus().getLiving()+"人",house.getSquare()+"平方米"};
         for(int i=0;i<4;i++){
@@ -301,4 +306,10 @@ public class VerifyActivity extends BaseActivity {
             }
         }
     };
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.finish();
+    }
 }

@@ -27,7 +27,7 @@ public class RequsetData {
                     Response response=client.newCall(request).execute();
                      responseData=response.body().string();
 
-                     Thread.sleep(500);
+                     Thread.sleep(300);
                     SharedPreferences.Editor editor = MyApplication.getContext().getSharedPreferences("requestData", Context.MODE_PRIVATE).edit();
                     editor.putString("requestGetData",responseData);
                      editor.apply();

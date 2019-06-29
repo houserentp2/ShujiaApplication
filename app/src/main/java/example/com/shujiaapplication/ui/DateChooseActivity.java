@@ -165,7 +165,7 @@ public class DateChooseActivity extends BaseActivity {
     private void backActivity(){
         String[] strs = new String[3];
         strs[0] = inDateStr;
-        strs[1] = inDateStr;
+        strs[1] = outDateStr;
         strs[2] = ""+nightLong;
         Intent intent = new Intent(DateChooseActivity.this,HomePageActivity.class);
         intent.putExtra("dateData",strs);

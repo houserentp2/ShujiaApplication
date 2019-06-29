@@ -52,7 +52,11 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                 String editCode = forget_editgetCode.getText().toString();
                 SharedPreferences preferences = getSharedPreferences("setCode",MODE_PRIVATE);
                 String getCode = preferences.getString("code","null");
-                if(editCode.equals(getCode)==false){
+                String editPhone = forget_editgetPhone.getText().toString();
+                if(editPhone.length()!=11){
+                    Toast.makeText(ForgetPasswordActivity.this,"请输入您需要找回密码的手机号",Toast.LENGTH_SHORT).show();
+                }
+                else if(editCode.equals(getCode)==false){
                     Toast.makeText(ForgetPasswordActivity.this,"验证码有误，请重新输入",Toast.LENGTH_SHORT).show();
                 }else{
                     Intent intent1 = new Intent(ForgetPasswordActivity.this,ResetPasswordActivity.class);

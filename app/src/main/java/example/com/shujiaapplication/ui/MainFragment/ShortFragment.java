@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class ShortFragment extends MainFatherFragment{
                 SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
                 if(!responseData.equals("")){
-                    Toast.makeText(getActivity(),"成功!",Toast.LENGTH_SHORT).show();
+                    Log.e("HomePageActivity","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+responseData);
                     Intent intent = new Intent(getActivity(), ShowBuildListActivity.class);
                     intent.putExtra("getHouseList",responseData);
                     startActivity(intent);
@@ -168,7 +169,7 @@ public class ShortFragment extends MainFatherFragment{
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        RequsetData.requestData(discount,"gethouselist/:"+city);
+                        RequsetData.requestData(discount,"gethouselist/"+"wuhan");
                         Message message = new Message();
                         message.what = 0;
                         handler.sendMessage(message);
