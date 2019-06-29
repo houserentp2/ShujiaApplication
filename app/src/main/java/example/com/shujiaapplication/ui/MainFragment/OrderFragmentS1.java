@@ -1,7 +1,11 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,6 +32,10 @@ import example.com.shujiaapplication.ui.BuildingLiving;
 import example.com.shujiaapplication.ui.BuildingPay;
 import example.com.shujiaapplication.ui.BuildingView;
 import example.com.shujiaapplication.ui.GetHouseInfo;
+import example.com.shujiaapplication.ui.HomePageActivity;
+import example.com.shujiaapplication.ui.LoginData;
+import example.com.shujiaapplication.ui.MainActivity;
+import example.com.shujiaapplication.ui.MyApplication;
 import example.com.shujiaapplication.ui.NewBuilding;
 import example.com.shujiaapplication.ui.OnRecyclerItemClickListener;
 import example.com.shujiaapplication.ui.RequsetData;
@@ -45,6 +54,29 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
     private View mview;
     private List<NewBuilding> buildingList=new ArrayList<>();
     private List<NewBuilding> buildingList2=new ArrayList<>();
+    private String houseid;
+    private BuildingListData buildinglistdata;
+    private static  final int GETHOUSELIST = 0;
+    private static String responseData = "";
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==GETHOUSELIST){
+                SharedPreferences preferences = getContext().getSharedPreferences("requestData",getContext().MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
+                Gson gson = new Gson();
+                buildings = gson.fromJson(responseData,new TypeToken<List<BuildingListData>>(){}.getType());
+                BuildingListData building=new BuildingListData();
+                for(BuildingListData build:buildings){
+                    if(build.getHouseid().equals(houseid)){
+                        building=build;
+                        buildinglistdata=building;
+                    }
+                }
+            }
+        }
+    };
     public OrderFragmentS1() {
         // Required empty public constructor
     }
@@ -149,26 +181,26 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
     public void initBuildings(){
         NewBuilding a=new NewBuilding();
         buildingList.add(a);
+        houseid=a.getHouseid();
         for(NewBuilding building:buildingList){
-            BuildingListData b=getBuildingInformation(building.getUserid(),building.getToken(),building.getHouseid());
+            getBuildingInformation(building.getUserid(),building.getToken(),building.getHouseid());
+            BuildingListData b=buildinglistdata;
             if(b.getOthers().getShortx()==1){
                 buildingList2.add(building);
             }
         }
     }
-    public BuildingListData getBuildingInformation(String Userid, String Token,String Houseid){
-        GetHouseInfo a=new GetHouseInfo(Userid,Token);
-        String s= RequsetData.requestData(a,"gethouselist");
-        ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
-        Gson gson = new Gson();
-        buildings = gson.fromJson(s,new TypeToken<List<BuildingListData>>(){}.getType());
-        BuildingListData building=new BuildingListData();
-        for(BuildingListData build:buildings){
-                if(build.getHouseid().equals(Houseid)){
-                    building=build;
-                }
-        }
-        return building;
+    public void getBuildingInformation(String Userid, String Token,String Houseid){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GetHouseInfo a=new GetHouseInfo(Userid,Token);
+                RequsetData.requestData(a,"gethouselist");
+                Message message = new Message();
+                message.what = GETHOUSELIST;
+                handler.sendMessage(message);
+            }
+        }).start();
     }
     //传入时间比当前时间小时，返回0
     public int isLaterToLocalTime(String a){

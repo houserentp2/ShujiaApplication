@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.VerifyResultActivity"></activity>
+        <activity android:name=".ui.ShowBuildingView"></activity>
+        <activity android:name=".ui.VerifyResultActivity" />
         <activity android:name=".ui.VerifyActivity" />
         <activity android:name=".ui.IntroduceAppActivity" />
         <activity android:name=".ui.ResetPasswordActivity" />

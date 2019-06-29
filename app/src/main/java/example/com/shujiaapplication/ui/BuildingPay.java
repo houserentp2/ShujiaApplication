@@ -1,6 +1,9 @@
 package example.com.shujiaapplication.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +25,29 @@ public class BuildingPay extends AppCompatActivity {
     private BuildingListData mbuild;
     private NewBuilding nbuild;
     private ArrayList<String> a;
+    private String houseid;
+    private BuildingListData buildinglistdata;
+    private static  final int GETHOUSELIST = 0;
+    private static String responseData = "";
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==GETHOUSELIST){
+                SharedPreferences preferences = getSharedPreferences("requestData",MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
+                Gson gson = new Gson();
+                buildings = gson.fromJson(responseData,new TypeToken<List<BuildingListData>>(){}.getType());
+                BuildingListData building=new BuildingListData();
+                for(BuildingListData build:buildings){
+                    if(build.getHouseid().equals(houseid)){
+                        building=build;
+                        buildinglistdata=building;
+                    }
+                }
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String[] newString=new String[5];
@@ -29,7 +55,8 @@ public class BuildingPay extends AppCompatActivity {
         setContentView(R.layout.activity_building_pay);
         Intent intent=getIntent();
         nbuild=(NewBuilding)intent.getSerializableExtra("nbuild");
-        mbuild=getBuildingInformation(nbuild.getUserid(),nbuild.getToken(),nbuild.getHouseid());
+        getBuildingInformation(nbuild.getUserid(),nbuild.getToken(),nbuild.getHouseid());
+        mbuild=buildinglistdata;
         ImageView imageView=findViewById(R.id.building_order_image);
         imageView.setImageBitmap(mbuild.getPictureByBitmap());
         TextView buildingDetail=findViewById(R.id.building_details);
@@ -56,18 +83,16 @@ public class BuildingPay extends AppCompatActivity {
             }
         });
     }
-    public BuildingListData getBuildingInformation(String Userid, String Token, String Houseid){
-        GetHouseInfo a=new GetHouseInfo(Userid,Token);
-        String s= RequsetData.requestData(a,"gethouselist");
-        ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
-        Gson gson = new Gson();
-        buildings = gson.fromJson(s,new TypeToken<List<BuildingListData>>(){}.getType());
-        BuildingListData building=new BuildingListData();
-        for(BuildingListData build:buildings){
-            if(build.getHouseid().equals(Houseid)){
-                building=build;
+    public void getBuildingInformation(String Userid, String Token,String Houseid){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GetHouseInfo a=new GetHouseInfo(Userid,Token);
+                RequsetData.requestData(a,"gethouselist");
+                Message message = new Message();
+                message.what = GETHOUSELIST;
+                handler.sendMessage(message);
             }
-        }
-        return building;
+        }).start();
     }
 }

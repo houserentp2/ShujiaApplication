@@ -86,7 +86,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         Message message = new Message();
                         message.what = LOGIN;
                         handler.sendMessage(message);
-                    }
+                }
                 }).start();
                 break;
             }
