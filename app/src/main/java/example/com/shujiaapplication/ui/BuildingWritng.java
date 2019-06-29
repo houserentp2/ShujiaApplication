@@ -11,13 +11,13 @@ import example.com.shujiaapplication.R;
 
 public class BuildingWritng extends AppCompatActivity implements View.OnClickListener{
     private EditText editText;
-    private Building mbuild;
+    private NewBuilding nbuild;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_building_writng);
         Intent intent=getIntent();
-        mbuild=(Building)intent.getSerializableExtra("mbuild1");
+        nbuild=(NewBuilding)intent.getSerializableExtra("nbuild1");
         Button button =findViewById(R.id.view_button);
         editText=(EditText)findViewById(R.id.text_view);
         button.setOnClickListener(this);

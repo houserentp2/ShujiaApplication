@@ -1,8 +1,7 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,15 +13,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.Building;
 import example.com.shujiaapplication.ui.BuildingAdapter;
+import example.com.shujiaapplication.ui.BuildingListData;
 import example.com.shujiaapplication.ui.BuildingLiving;
 import example.com.shujiaapplication.ui.BuildingPay;
+import example.com.shujiaapplication.ui.BuildingView;
+import example.com.shujiaapplication.ui.GetHouseInfo;
+import example.com.shujiaapplication.ui.NewBuilding;
 import example.com.shujiaapplication.ui.OnRecyclerItemClickListener;
+import example.com.shujiaapplication.ui.RequsetData;
 
 
 public class OrderFragmentS2 extends Fragment implements View.OnClickListener {
@@ -35,8 +43,8 @@ public class OrderFragmentS2 extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
     private View mview;
-    private List<Building> buildingList=new ArrayList<>();
-    private List<Building> buildingList2=new ArrayList<>();
+    private List<NewBuilding> buildingList=new ArrayList<>();
+    private List<NewBuilding> buildingList2=new ArrayList<>();
 
     public OrderFragmentS2() {
         // Required empty public constructor
@@ -79,9 +87,9 @@ public class OrderFragmentS2 extends Fragment implements View.OnClickListener {
         BuildingAdapter adapter=new BuildingAdapter(buildingList2);
         adapter.setRecyclerItemClickListener(new OnRecyclerItemClickListener() {
             @Override
-            public void onItemClick(int Position, List<Building> buildingList) {
+            public void onItemClick(int Position, List<NewBuilding> buildingList) {
                 Intent intent=new Intent(getActivity(), BuildingPay.class);
-                intent.putExtra("mbuild",buildingList.get(Position));
+                intent.putExtra("nbuild",buildingList.get(Position));
                 startActivity(intent);
             }
         });
@@ -119,28 +127,72 @@ public class OrderFragmentS2 extends Fragment implements View.OnClickListener {
         }
     }
     public void initBuildings(){
-        List<Integer> pictures = new ArrayList<>();
-        pictures.add(R.drawable.imgv_slide);
-        pictures.add(R.drawable.background);
-        pictures.add(R.drawable.collect);
-        pictures.add(R.drawable.mybackground);
-        pictures.add(R.drawable.user);
-        pictures.add(R.drawable.unseen);
-        Building a=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",1,0,pictures,1,0,0);
+        NewBuilding a=new NewBuilding();
         buildingList.add(a);
-        Building b=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",2,0,pictures,1,0,0);
-        buildingList.add(b);
-        Building c=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",3,0,pictures,1,0,0);
-        buildingList.add(c);
-        Building d=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,pictures,1,0,0);
-        buildingList.add(d);
-        Building e=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,pictures,1,0,0);
-        buildingList.add(e);
-        Building f=new Building(1,1,1,1,1,"fuck","fuck","fuck","fuck","fuck",0,1,pictures,1,0,0);
-        buildingList.add(f);
-        for(Building building:buildingList){
-            if(building.getShortsymbol()==1){
-                buildingList2.add(building);
+        for(NewBuilding building:buildingList){
+            BuildingListData b=getBuildingInformation(building.getUserid(),building.getToken(),building.getHouseid());
+            String start=a.getStart();
+            String stop=a.getStop();
+            int getpaied=Integer.valueOf(a.getResult());
+            if(b.getOthers().getShortx()==1){
+                if(getpaied==1){
+                    buildingList2.add(building);
+                }else{
+                    if(isLaterToLocalTime(start)==1){
+
+                    }else{
+                        if(isLaterToLocalTime(stop)==1){
+
+                        }else{
+                        }
+                    }
+                }
+            }
+        }
+    }
+    public BuildingListData getBuildingInformation(String Userid, String Token, String Houseid){
+        GetHouseInfo a=new GetHouseInfo(Userid,Token);
+        String s= RequsetData.requestData(a,"gethouselist");
+        ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
+        Gson gson = new Gson();
+        buildings = gson.fromJson(s,new TypeToken<List<BuildingListData>>(){}.getType());
+        BuildingListData building=new BuildingListData();
+        for(BuildingListData build:buildings){
+            if(build.getHouseid().equals(Houseid)){
+                building=build;
+            }
+        }
+        return building;
+    }
+    public int isLaterToLocalTime(String a){
+        Calendar cal=Calendar.getInstance();
+        int y=cal.get(Calendar.YEAR);
+        int m=cal.get(Calendar.MONTH)+1;
+        int d=cal.get(Calendar.DATE);
+        int h=cal.get(Calendar.HOUR_OF_DAY);
+        int mi=cal.get(Calendar.MINUTE);
+        int s=cal.get(Calendar.SECOND);
+        String[] a1=a.split("\\+");
+        String[] a2=a1[0].split(":");
+        String a3=a2[0]+a2[1]+a2[2];
+        String[] a4=a3.split("T");
+        String a5=a4[0]+"."+a4[1];
+        String[] a6=a5.split("-");
+        String a7=a6[0]+a6[1]+a6[2];
+        String[] a8=a7.split("\\.");
+        int fortime=Integer.valueOf(a8[0]);
+        int backtime=Integer.valueOf(a8[1]);
+        int fortime1=y*10000+m*100+d;
+        int backtime1=h*10000+mi*100+s;
+        if(fortime1>fortime) {
+            return 0;
+        }else if(fortime1<fortime) {
+            return 1;
+        }else {
+            if(backtime1>backtime) {
+                return 0;
+            }else {
+                return 1;
             }
         }
     }

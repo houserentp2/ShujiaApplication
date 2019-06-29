@@ -15,6 +15,10 @@ public class OthersData extends Data {
     private String aircon;
     @SerializedName("bus")
     private String bus;
+    @SerializedName("short")
+    private int shortx;
+    @SerializedName("long")
+    private int longx;
     @SerializedName("capacity")
     private String capacity;
     @SerializedName("comments")
@@ -26,6 +30,11 @@ public class OthersData extends Data {
     public String getCapacity() {
         return capacity;
     }
+
+    public int getShortx(){return shortx;}
+
+    public int getLongx(){return longx;}
+
 
     public StatusData getStatus() {
         return status;
@@ -94,4 +103,8 @@ public class OthersData extends Data {
     public void setWater(String water) {
         this.water = water;
     }
+
+    public void setShortx(int a){this.shortx=a;}
+
+    public void setLongxx(int a){this.longx=a;}
 }
