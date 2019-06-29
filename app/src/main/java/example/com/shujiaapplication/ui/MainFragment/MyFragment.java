@@ -25,13 +25,17 @@ import java.util.List;
 import java.util.Map;
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.ActivityCollector;
+import example.com.shujiaapplication.ui.AuthInfo;
+import example.com.shujiaapplication.ui.CheckerData;
 import example.com.shujiaapplication.ui.DiscountActivity;
+import example.com.shujiaapplication.ui.DiscountData;
 import example.com.shujiaapplication.ui.IntroduceAppActivity;
 import example.com.shujiaapplication.ui.LandlordActivity;
 import example.com.shujiaapplication.ui.MainActivity;
 import example.com.shujiaapplication.ui.ManageTravelerActivity;
 import example.com.shujiaapplication.ui.MyApplication;
 import example.com.shujiaapplication.ui.PersonalInfoActivity;
+import example.com.shujiaapplication.ui.RequsetData;
 import example.com.shujiaapplication.ui.ScoreActivity;
 import example.com.shujiaapplication.ui.ShowBuildListActivity;
 import example.com.shujiaapplication.ui.VerifyActivity;
@@ -179,9 +183,27 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
             case 8:{
                 Intent intent = new Intent(MyApplication.getContext(), VerifyActivity.class);
                 startActivity(intent);
+
+                CheckerData checker = new CheckerData(AuthInfo.userid,AuthInfo.token,"");
+                String responseStr = RequsetData.requestData(checker,"joinchecker");
+                if (responseStr.contains("Existed")){
+                    Toast.makeText(MyApplication.getContext(),"恭喜你成为审核员", Toast.LENGTH_SHORT).show();
+                    switchVerify();
+                }
+
+                DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
+                String responseGet = RequsetData.requestData(discount,"getcheckerinfo");
+                if(responseGet.contains("Existed")){
+                    switchVerify();
+                }
                 break;
             }
         }
+    }
+
+    private void switchVerify(){
+        Intent intent = new Intent(MyApplication.getContext(), VerifyActivity.class);
+        startActivity(intent);
     }
 
     @Override

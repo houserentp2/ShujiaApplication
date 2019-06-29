@@ -110,9 +110,9 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
                     String timeStr = f.format(now);
 
                     Spinner spinner = (Spinner)findViewById(R.id.editShi);
-                    String shi = (String)spinner.getSelectedItem();
+                    int shi = (Integer) spinner.getSelectedItem();
                     spinner = (Spinner)findViewById(R.id.editTing);
-                    String ting = (String)spinner.getSelectedItem();
+                    int ting = (Integer)spinner.getSelectedItem();
 
                     editText = findViewById(R.id.edittitle);
                     String title = editText.getText().toString();

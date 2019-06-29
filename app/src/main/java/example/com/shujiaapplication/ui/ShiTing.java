@@ -8,6 +8,11 @@ public class ShiTing extends Data{
     @SerializedName("ting")
     private int ting;
 
+    public ShiTing(int a,int b){
+        setShi(a);
+        setTing(b);
+    }
+
     public int getShi() {
         return shi;
     }

@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -25,8 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import example.com.shujiaapplication.R;
-
-import static example.com.shujiaapplication.ui.DateChooseActivity.LONG_CHOOSE;
 
 public class VerifyActivity extends BaseActivity {
 
@@ -37,15 +38,15 @@ public class VerifyActivity extends BaseActivity {
 
     private TextView priceText;
     private TextView locationText;
-    private MyImageView callView;
-    private MyImageView collectView;
-    private Button reserveButton;
+    private Button verifyButton;
+    private Button cancelButton;
 
     private Building house;
 
     private List<Integer> picture_id;
 
 
+    private int result;
     // 定义是否开启自动滚动，默认开启
     private boolean isAutoPlay = true;
     // 默认自动滚动任务延时两秒执行
@@ -59,7 +60,7 @@ public class VerifyActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_house_infomation);
-        //getBuilding();
+        getBuilding();
         initView();
         initPageAdapter();
         initEvent();
@@ -78,12 +79,12 @@ public class VerifyActivity extends BaseActivity {
         gridView.setAdapter(adapter);
     }
 
-//    private void getBuilding(){                    //得到数据库信息
-//        Intent intent = getIntent();
-//        String responesStr = intent.getStringExtra("houseInformation");
-//        Gson gson = new Gson();
-//        house = gson.fromJson(responesStr,Building.class);
-//    }
+    private void getBuilding(){                    //得到数据库信息
+        DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
+        String responseStr = RequsetData.requestData(discount,"gettocheckhouse");
+        Gson gson = new Gson();
+        house = gson.fromJson(responseStr,Building.class);
+    }
 
     //绑定控件
     private void initView() {
@@ -95,23 +96,33 @@ public class VerifyActivity extends BaseActivity {
         locationText = (TextView) findViewById(R.id.location_text);
         locationText.setText(house.getTitle()+house.getLocation().getProvince()+house.getLocation().getCity()+house.getLocation().getZone()+house.getLocation().getPath());
 
-        callView = (MyImageView) findViewById(R.id.call_view);
-        collectView = (MyImageView) findViewById(R.id.collect_view);
-        collectView.setOnClickListener(new View.OnClickListener() {
+
+        cancelButton = (Button) findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                collectView.setImage(R.drawable.collect_red);
+                result = 0;
+                sendResult();
             }
         });
-        reserveButton = (Button) findViewById(R.id.reserve_button);
-        reserveButton.setOnClickListener(new View.OnClickListener() {
+
+        verifyButton = (Button) findViewById(R.id.verify_button);
+        verifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent dateIntent = new Intent(VerifyActivity.this,DateChooseActivity.class);
-                dateIntent.putExtra("ChooseType",LONG_CHOOSE);
-                startActivity(dateIntent);
+                result = 1;
+                sendResult();
             }
         });
+    }
+
+    private void sendResult(){
+        CheckerResultData check = new CheckerResultData(AuthInfo.userid,AuthInfo.token,house.getHouseid(),result);
+        String response = RequsetData.requestData(check,"putcheckresult");
+        Log.e("VerifyActivity",response);
+        Intent intent = new Intent(VerifyActivity.this,VerifyResultActivity.class);
+        intent.putExtra("result",""+result);
+        startActivity(intent);
     }
 
     //为控件绑定事件,绑定适配器

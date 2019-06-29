@@ -42,6 +42,7 @@ public class HouseInfomationActivity extends BaseActivity {
     private MyImageView callView;
     private MyImageView collectView;
     private Button reserveButton;
+    private TextView lookCommit;
 
     private Building house;
 
@@ -112,6 +113,14 @@ public class HouseInfomationActivity extends BaseActivity {
                 Intent dateIntent = new Intent(HouseInfomationActivity.this,DateChooseActivity.class);
                 dateIntent.putExtra("ChooseType",LONG_CHOOSE);
                 startActivity(dateIntent);
+            }
+        });
+        lookCommit = (TextView) findViewById(R.id.look_commitment);
+        lookCommit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(HouseInfomationActivity.this,);
+//                intent.
             }
         });
     }

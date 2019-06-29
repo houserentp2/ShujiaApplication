@@ -48,11 +48,7 @@ public class Building implements Serializable {
     @SerializedName("symbol")
     private String symbol;
 
-//    public Building(String house_id, String price, String square, String shi, String ting, String title,
-//                    String province, String city, String zone, String path, String shortsymbol,
-//                    String longsymbol, List<Integer> picture_id, String build_head, String collect_image,
-//                    String living_people){
-public Building(String userid, String token, String houseid,String time, String price, String square, String shi, String ting,
+public Building(String userid, String token, String houseid,String time, String price, String square, int shi, int ting,
                 String title,String description, String province, String city, String zone, String path,
                 String[] pictures){
         setUserid(userid);
@@ -68,234 +64,8 @@ public Building(String userid, String token, String houseid,String time, String 
         setPictures(pictures);
     }
 
-    public class Resident{
-        @SerializedName("province")
-        private String province;
-
-        @SerializedName("city")
-        private String city;
-
-        @SerializedName("zone")
-        private String zone;
-
-        @SerializedName("path")
-        private String path;
-
-        public Resident(String province,String city,String zone,String path){
-            this.province = province;
-            this.city = city;
-            this.zone = zone;
-            this.path = path;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public String getPath() {
-            return path;
-        }
-
-        public String getProvince() {
-            return province;
-        }
-
-        public String getZone() {
-            return zone;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
-
-        public void setProvince(String province) {
-            this.province = province;
-        }
-
-        public void setZone(String zone) {
-            this.zone = zone;
-        }
-    }
-
-    public class OthersData {
-        @SerializedName("water")
-        private String water;
-        @SerializedName("power")
-        private String power;
-        @SerializedName("net")
-        private String net;
-        @SerializedName("hot")
-        private String hot;
-        @SerializedName("aircon")
-        private String aircon;
-        @SerializedName("bus")
-        private String bus;
-        @SerializedName("capacity")
-        private String capacity;
-        @SerializedName("comments")
-        private String[] comments;
-        @SerializedName("status")
-        private StatusData status;
-
-        OthersData(String water, String power, String net, String hot, String aircon, String bus,
-                   String capacity, String[]comments,String living, String tolive, String lived ){
-            setWater(water);
-            setPower(power);
-            setNet(net);
-            setHot(hot);
-            setAircon(aircon);
-            setBus(bus);
-            setCapacity(capacity);
-            setComments(comments);
-            this.status = new StatusData(living, tolive, lived);
-        }
 
 
-        public class StatusData {
-            @SerializedName("living")
-            private String living;
-            @SerializedName("tolive")
-            private String tolive;
-            @SerializedName("lived")
-            private String lived;
-
-            StatusData(String living, String tolive, String lived){
-                setLiving(living);
-                setTolive(tolive);
-                setLived(lived);
-            }
-
-            public void setLived(String lived) {
-                this.lived = lived;
-            }
-
-            public void setLiving(String living) {
-                this.living = living;
-            }
-
-            public void setTolive(String tolive) {
-                this.tolive = tolive;
-            }
-
-            public String getLived() {
-                return lived;
-            }
-
-            public String getLiving() {
-                return living;
-            }
-
-            public String getTolive() {
-                return tolive;
-            }
-        }
-
-
-        public String getCapacity() {
-            return capacity;
-        }
-
-        public StatusData getStatus() {
-            return status;
-        }
-
-        public String[] getComments() {
-            return comments;
-        }
-
-        public void setCapacity(String capacity) {
-            this.capacity = capacity;
-        }
-
-        public void setComments(String[] comments) {
-            this.comments = comments;
-        }
-
-        public void setStatus(StatusData status) {
-            this.status = status;
-        }
-
-        public String getAircon() {
-            return aircon;
-        }
-
-        public String getBus() {
-            return bus;
-        }
-
-        public String getHot() {
-            return hot;
-        }
-
-        public String getNet() {
-            return net;
-        }
-
-        public String getPower() {
-            return power;
-        }
-
-        public String getWater() {
-            return water;
-        }
-
-        public void setAircon(String aircon) {
-            this.aircon = aircon;
-        }
-
-        public void setBus(String bus) {
-            this.bus = bus;
-        }
-
-        public void setHot(String hot) {
-            this.hot = hot;
-        }
-
-        public void setNet(String net) {
-            this.net = net;
-        }
-
-        public void setPower(String power) {
-            this.power = power;
-        }
-
-        public void setWater(String water) {
-            this.water = water;
-        }
-    }
-
-
-    public class ShiTing {
-        @SerializedName("shi")
-        private String shi;
-
-        @SerializedName("ting")
-        private String ting;
-
-        ShiTing(String shi, String ting){
-            setShi(shi);
-            setTing(ting);
-        }
-
-        public String getShi() {
-            return shi;
-        }
-        public void setShi(String s){
-            shi = s;
-        }
-
-        public String getTing() {
-            return ting;
-        }
-
-        public void setTing(String ting) {
-            this.ting = ting;
-        }
-    }
 
     public String getSymbol() {
         return symbol;
@@ -433,7 +203,7 @@ public Building(String userid, String token, String houseid,String time, String 
         this.pay = pay;
     }
 
-    public void setShiting(String Shi, String Ting) {
+    public void setShiting(int Shi, int Ting) {
         this.shiting.setShi(Shi);
         this.shiting.setTing(Ting);
     }
@@ -466,5 +236,8 @@ public Building(String userid, String token, String houseid,String time, String 
         }else{
             return -1;
         }
+    }
+    public int getPriceByInt(){
+        return Integer.parseInt(price);
     }
 }
