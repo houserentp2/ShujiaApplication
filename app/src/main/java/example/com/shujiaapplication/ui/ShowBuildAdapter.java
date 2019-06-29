@@ -2,6 +2,9 @@ package example.com.shujiaapplication.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -19,6 +23,25 @@ import example.com.shujiaapplication.R;
 public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.ViewHolder> {
     private List<BuildingListData> mBuildList;
     private Context mContext;
+    private static String responseData = "";
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==0){
+                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData",Context.MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                if(!responseData.equals("")){
+                    Toast.makeText(MyApplication.getContext(),"成功!",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MyApplication.getContext(), ShowBuildListActivity.class);
+                    intent.putExtra("houseInformation",responseData);
+                    MyApplication.getContext().startActivity(intent);
+                }else{
+                    Toast.makeText(MyApplication.getContext(),responseData,Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
 
     static class ViewHolder extends RecyclerView.ViewHolder{
         View buildView;
@@ -60,10 +83,18 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 BuildingListData building = mBuildList.get(position);
-                Intent intent = new Intent(mContext,HouseInfomationActivity.class);
+
                 HouseRequestData h = new HouseRequestData(AuthInfo.userid,AuthInfo.token,building.getHouseid());
-                intent.putExtra("houseInformation",RequsetData.requestData(h,"gethouse"));
-                mContext.startActivity(intent);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        RequsetData.requestData(h,"gethouse");
+                        Message message = new Message();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
+                }).start();
+
             }
         });
         return holder;

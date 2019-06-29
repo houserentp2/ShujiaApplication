@@ -1,5 +1,8 @@
 package example.com.shujiaapplication.ui;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -55,6 +58,36 @@ public class VerifyActivity extends BaseActivity {
     private Handler handler = new Handler();
     // 当前ViewPager展示页
     private int currentItem;
+    private static String responseData = "";
+    private static String responseStr = "";
+
+    private Handler hand = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==0){
+                SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                if(!responseData.equals("")){
+                    Toast.makeText(VerifyActivity.this,"成功!",Toast.LENGTH_SHORT).show();
+                    Gson gson = new Gson();
+                    house = gson.fromJson(responseData,Building.class);
+                }else{
+                    Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
+                }
+            }
+            else if(msg.what == 1){
+                SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
+                responseStr = preferences.getString("requestGetData","");
+                if(!responseStr.equals("")){
+                    Intent intent = new Intent(VerifyActivity.this,VerifyResultActivity.class);
+                    intent.putExtra("result",""+result);
+                    startActivity(intent);
+                }
+                else
+                    Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +114,16 @@ public class VerifyActivity extends BaseActivity {
 
     private void getBuilding(){                    //得到数据库信息
         DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
-        String responseStr = RequsetData.requestData(discount,"gettocheckhouse");
-        Gson gson = new Gson();
-        house = gson.fromJson(responseStr,Building.class);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RequsetData.requestData(discount,"gettocheckhouse");
+                Message message = new Message();
+                message.what = 0;
+                handler.sendMessage(message);
+            }
+        }).start();
+
     }
 
     //绑定控件
@@ -118,11 +158,16 @@ public class VerifyActivity extends BaseActivity {
 
     private void sendResult(){
         CheckerResultData check = new CheckerResultData(AuthInfo.userid,AuthInfo.token,house.getHouseid(),result);
-        String response = RequsetData.requestData(check,"putcheckresult");
-        Log.e("VerifyActivity",response);
-        Intent intent = new Intent(VerifyActivity.this,VerifyResultActivity.class);
-        intent.putExtra("result",""+result);
-        startActivity(intent);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RequsetData.requestData(check,"putcheckresult");
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
+            }
+        }).start();
     }
 
     //为控件绑定事件,绑定适配器

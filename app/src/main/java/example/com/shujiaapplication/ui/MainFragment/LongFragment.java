@@ -1,18 +1,24 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.AuthInfo;
+import example.com.shujiaapplication.ui.DiscountData;
 import example.com.shujiaapplication.ui.RequsetData;
 import example.com.shujiaapplication.ui.SearchData;
 import example.com.shujiaapplication.ui.ShowBuildListActivity;
@@ -31,6 +37,25 @@ public class LongFragment extends MainFatherFragment {
     private Button twoRooms;
     private Button threeRooms;
     private Button intifeRooms;
+    private static String responseData = "";
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==0){
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData", Context.MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                if(!responseData.equals("")){
+                    Toast.makeText(getActivity(),"成功!",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), ShowBuildListActivity.class);
+                    intent.putExtra("getHouseList",responseData);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(),responseData,Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
 
     public LongFragment() {
         // Required empty public constructor
@@ -86,11 +111,17 @@ public class LongFragment extends MainFatherFragment {
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent houseIntent = new Intent(getActivity(), ShowBuildListActivity.class);
-                SearchData searchData = new SearchData(AuthInfo.userid,AuthInfo.token,"","",city,1,searchType);
-                String str = RequsetData.requestData(searchData, "gethouselist");
-                houseIntent.putExtra("getHouseList",str);
-                startActivity(houseIntent);
+                DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(),"登录中...",Toast.LENGTH_SHORT).show();
+                        RequsetData.requestData(discount,"gethouselist/:"+city);
+                        Message message = new Message();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
+                }).start();
             }
         });
 

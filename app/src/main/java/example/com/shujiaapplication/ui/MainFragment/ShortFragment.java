@@ -1,8 +1,12 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,10 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.AuthInfo;
 import example.com.shujiaapplication.ui.DateChooseActivity;
+import example.com.shujiaapplication.ui.DiscountData;
+import example.com.shujiaapplication.ui.HomePageActivity;
+import example.com.shujiaapplication.ui.LoginData;
+import example.com.shujiaapplication.ui.MainActivity;
+import example.com.shujiaapplication.ui.MyApplication;
 import example.com.shujiaapplication.ui.RequsetData;
 import example.com.shujiaapplication.ui.SearchData;
 import example.com.shujiaapplication.ui.ShowBuildListActivity;
@@ -46,11 +56,29 @@ public class ShortFragment extends MainFatherFragment{
     private TextView nightText;
     private TextView positionText;
     private Button searhButton;
+    private static String responseData = "";
 
     private String[] strs;
     private String inDate;
     private String outDate;
     private String dateCount;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==0){
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                if(!responseData.equals("")){
+                    Toast.makeText(getActivity(),"成功!",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), ShowBuildListActivity.class);
+                    intent.putExtra("getHouseList",responseData);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(),responseData,Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
 
     public ShortFragment() {
         // Required empty public constructor
@@ -136,11 +164,17 @@ public class ShortFragment extends MainFatherFragment{
         searhButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ShowBuildListActivity.class);
-                SearchData searchData = new SearchData(AuthInfo.userid,AuthInfo.token,inDate,outDate,city,0,0);
-                String str = RequsetData.requestData(searchData, "gethouselist");
-                intent.putExtra("getHouseList",str);
-                startActivity(intent);
+                DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        RequsetData.requestData(discount,"gethouselist/:"+city);
+                        Message message = new Message();
+                        message.what = 0;
+                        handler.sendMessage(message);
+                    }
+                }).start();
+
             }
         });
         inDateText.setOnClickListener(new DateOnClickListener());
