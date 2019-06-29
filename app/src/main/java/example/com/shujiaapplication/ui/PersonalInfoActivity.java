@@ -1,9 +1,12 @@
 package example.com.shujiaapplication.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -28,9 +31,42 @@ public class PersonalInfoActivity extends BaseActivity {
     private EditText PICity;
     private EditText PIeditName;
     private EditText PIIDNum;
-    private EditText PIeditPhone;
     private CityPicker cityPicker;
+    private static final int SETINFO = 0;
+    private static final int GETINFO = 1;
+    private static String responseData = "";
     public static final MediaType JSON=MediaType.get("application/json; charset=utf-8");
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case SETINFO:{
+                    SharedPreferences preferences = getSharedPreferences("requestData",MODE_PRIVATE);
+                    responseData = preferences.getString("requestGetData","");
+                    Gson gson = new Gson();
+                    PersonInfoData p = gson.fromJson(responseData,PersonInfoData.class);
+                    if(p!=null&&p.getResident()!=null){
+                        PIeditName.setText(p.getNickname());
+                        PIIDNum.setText(p.getId());
+                        PICity.setText(p.getResident().getProvince()+p.getResident().getCity()+p.getResident().getZone());
+                        PIHome.setText(p.getResident().getPath());
+                    }
+                    break;
+                }
+
+                case GETINFO:{
+                    SharedPreferences preferences = getSharedPreferences("requestData",MODE_PRIVATE);
+                    responseData = preferences.getString("requestGetData","");
+                    if(responseData.equals("Update Success")){
+                        Toast.makeText(PersonalInfoActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(PersonalInfoActivity.this,responseData,Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +78,25 @@ public class PersonalInfoActivity extends BaseActivity {
         }
         setContentView(R.layout.activity_personal_info);
         initControl();
+        setOldInfo();
         notKorad(PICity);
         PIsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String  detailHome = PIHome.getText().toString();
-                String City = PICity.getText().toString();
-                String realName = PIeditName.getText().toString();
-                String IDnum = PIIDNum.getText().toString();
-                String Phonenum = PIeditPhone.getText().toString();
-
-                Resident resident = new Resident(PICity.getText().toString().split("\t")[0],PICity.getText().toString().split("\t")[1],PICity.getText().toString().split("\t")[2],detailHome);
-                PersonInfoData personInfoData=new PersonInfoData(AuthInfo.userid,AuthInfo.token,realName,IDnum,resident);
-                String rusult = RequsetData.requestData(personInfoData,"userinfo");
-                if(rusult.equals("Update Success")){
-                    Toast.makeText(PersonalInfoActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
-                            }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String  detailHome = PIHome.getText().toString();
+                        String realName = PIeditName.getText().toString();
+                        String IDnum = PIIDNum.getText().toString();
+                        Resident resident = new Resident(PICity.getText().toString().split("\t")[0],PICity.getText().toString().split("\t")[1],PICity.getText().toString().split("\t")[2],detailHome);
+                        PersonInfoData personInfoData=new PersonInfoData(AuthInfo.userid,AuthInfo.token,realName,IDnum,resident);
+                        RequsetData.requestData(personInfoData,"userinfo");
+                        Message message = new Message();
+                        message.what =GETINFO;
+                        handler.sendMessage(message);
+                    }
+                }).start();
             }
         });
 
@@ -70,6 +109,19 @@ public class PersonalInfoActivity extends BaseActivity {
         });
     }
 
+    public void setOldInfo(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DiscountData discountData=new DiscountData(AuthInfo.userid,AuthInfo.token);
+                RequsetData.requestData(discountData,"getuserinfo");
+                Message message = new Message();
+                message.what = SETINFO;
+                handler.sendMessage(message);
+            }
+        }).start();
+    }
+
     public void initControl(){
         return_myfragment = (Button)findViewById(R.id.return_myfragment);
         PIsave = (Button)findViewById(R.id.PIsave);
@@ -77,7 +129,6 @@ public class PersonalInfoActivity extends BaseActivity {
         PICity = (EditText)findViewById(R.id.PICity);
         PIeditName = (EditText)findViewById(R.id.PIeditName);
         PIIDNum = (EditText)findViewById(R.id.PIIDNum);
-        PIeditPhone = (EditText)findViewById(R.id.PIeditPhone);
     }
 
     public void notKorad(EditText editText){

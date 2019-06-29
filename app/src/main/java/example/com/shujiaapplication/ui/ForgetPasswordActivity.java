@@ -1,6 +1,7 @@
 package example.com.shujiaapplication.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import example.com.shujiaapplication.R;
 
@@ -28,8 +30,6 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
         }
         setContentView(R.layout.activity_forget_password);
         initControl();
-
-
     }
 
     public void initControl(){
@@ -49,9 +49,18 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
                 break;
             }
             case R.id.reGetPassword:{
-                Intent intent1 = new Intent(ForgetPasswordActivity.this,ResetPasswordActivity.class);
-                startActivity(intent1);
-                break;
+                String editCode = forget_editgetCode.getText().toString();
+                SharedPreferences preferences = getSharedPreferences("setCode",MODE_PRIVATE);
+                String getCode = preferences.getString("code","null");
+                if(editCode.equals(getCode)==false){
+                    Toast.makeText(ForgetPasswordActivity.this,"验证码有误，请重新输入",Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent intent1 = new Intent(ForgetPasswordActivity.this,ResetPasswordActivity.class);
+                    intent1.putExtra("reset_phonenum",forget_editgetPhone.getText().toString());
+                    startActivity(intent1);
+                    break;
+                }
+
             }
         }
     }

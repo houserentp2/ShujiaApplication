@@ -50,7 +50,7 @@ public class DiscountListAdapter extends RecyclerView.Adapter<DiscountListAdapte
     @Override
     public void onBindViewHolder(@NonNull final DiscountListAdapter.ViewHolder viewHolder, int i) {
         DiscountListData discount = mdiscountList.get(i);
-        viewHolder.discountMoney.setText("¥"+discount.getDiscounted());
+        viewHolder.discountMoney.setText("¥"+discount.getReduce());
         viewHolder.discountStore.setText(discount.getDescription());
         viewHolder.discountDate.setText(discount.getOutdate());
         viewHolder.discountImage.setImageResource(R.drawable.discount);

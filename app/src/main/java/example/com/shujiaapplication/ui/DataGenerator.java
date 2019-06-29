@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.MainFragment.CollectFragment;
 import example.com.shujiaapplication.ui.MainFragment.HomeFragment;

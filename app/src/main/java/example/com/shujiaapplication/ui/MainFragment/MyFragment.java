@@ -1,6 +1,8 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -124,6 +126,11 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
         exitAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor editor = MyApplication.getContext().getSharedPreferences("autoLogin", Context.MODE_PRIVATE).edit();
+                editor.putString("autoLoginPhone","");
+                editor.putString("autoLoginPassword","");
+                editor.apply();
+
                 ActivityCollector.finishAll();
                 Intent intent1 = new Intent(MyApplication.getContext(), MainActivity.class);
                 intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
@@ -185,17 +192,17 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
                 startActivity(intent);
 
                 CheckerData checker = new CheckerData(AuthInfo.userid,AuthInfo.token,"");
-                String responseStr = RequsetData.requestData(checker,"joinchecker");
-                if (responseStr.contains("Existed")){
-                    Toast.makeText(MyApplication.getContext(),"恭喜你成为审核员", Toast.LENGTH_SHORT).show();
-                    switchVerify();
-                }
+//                String responseStr = RequsetData.requestData(checker,"joinchecker");
+//                if (responseStr.contains("Existed")){
+//                    Toast.makeText(MyApplication.getContext(),"恭喜你成为审核员", Toast.LENGTH_SHORT).show();
+//                    switchVerify();
+//                }
 
                 DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
-                String responseGet = RequsetData.requestData(discount,"getcheckerinfo");
-                if(responseGet.contains("Existed")){
-                    switchVerify();
-                }
+//                String responseGet = RequsetData.requestData(discount,"getcheckerinfo");
+//                if(responseGet.contains("Existed")){
+//                    switchVerify();
+//                }
                 break;
             }
         }

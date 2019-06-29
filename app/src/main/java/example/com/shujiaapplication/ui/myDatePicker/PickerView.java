@@ -41,7 +41,6 @@ public class PickerView extends View {
     private OnSelectListener mOnSelectListener;
     private ObjectAnimator mScrollAnim;
     private boolean mCanShowAnim = true;
-
     private Timer mTimer = new Timer();
     private TimerTask mTimerTask;
     private Handler mHandler = new ScrollHandler(this);

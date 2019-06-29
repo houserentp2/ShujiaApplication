@@ -1,26 +1,23 @@
 package example.com.shujiaapplication.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.res.ResourcesCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 import example.com.shujiaapplication.R;
 import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Button setSeen;
@@ -28,7 +25,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private EditText editPassword;
     private TextView forgetPassward;
     private TextView newAccount;
+    private static String responseData = "";
+    private static LoginData loginData;
+    private static  final int LOGIN = 0;
     public static final MediaType JSON=MediaType.get("application/json; charset=utf-8");
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==LOGIN){
+                SharedPreferences preferences = getSharedPreferences("requestData",MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                if(responseData.contains("userid")){
+                    Toast.makeText(MainActivity.this,"登录成功!",Toast.LENGTH_SHORT).show();
+                    SharedPreferences.Editor editor = MyApplication.getContext().getSharedPreferences("autoLogin", Context.MODE_PRIVATE).edit();
+                    editor.putString("autoLoginPhone",loginData.getNewAccountName());
+                    editor.putString("autoLoginPassword",loginData.getNewAccountPassword());
+                    editor.apply();
+                    Intent intent1 = new Intent(MainActivity.this,HomePageActivity.class);
+                    startActivity(intent1);
+                }else{
+                    Toast.makeText(MainActivity.this,responseData,Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,38 +60,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         setContentView(R.layout.activity_main);
         initControl();
+
+        SharedPreferences preferences = getSharedPreferences("autoLogin",MODE_PRIVATE);
+        String phone = preferences.getString("autoLoginPhone","");
+        String password = preferences.getString("autoLoginPhone","");
+        if(phone.equals("")==false&&password.equals("")==false){                                    //自动登录
+            loginData=new LoginData(phone,null,null,password);
+            RequsetData.requestData(loginData,"login");
+            Message message = new Message();
+            message.what = LOGIN;
+            handler.sendMessage(message);
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login:{                                                                       //if登录条件
-                LoginData loginData=new LoginData(editAccount.getText().toString(),null,null,editPassword.getText().toString());
-             //   String responseData= RequsetData.requestData(loginData,"login");
-              //  AuthInfo.setAuth(p.userid,p.token);
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try{
-//                            OkHttpClient client = new OkHttpClient();
-//                            Gson gson=new Gson();
-//                            LoginData loginData=new LoginData(editAccount.getText().toString(),null,null,editPassword.getText().toString());
-//                            RequestBody requestBody=RequestBody.create(JSON,gson.toJson(loginData));
-//                            Request request=new Request.Builder()
-//                                    .url("http://192.168.43.57:1323/login")
-//                                    .post(requestBody)
-//                                    .build();
-//                            Response response=client.newCall(request).execute();
-//                            String responseData=response.body().string();
-//                            Person p =gson.fromJson(responseData,Person.class);//返回的数据
-//                            AuthInfo.setAuth(p.userid,p.token);
-//                        }catch (Exception e){
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }).start();
-                Intent intent1 = new Intent(MainActivity.this,HomePageActivity.class);
-                startActivity(intent1);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this,"登录中...",Toast.LENGTH_SHORT).show();
+                         loginData=new LoginData(editAccount.getText().toString(),null,null,editPassword.getText().toString());
+                        RequsetData.requestData(loginData,"login");
+                        Message message = new Message();
+                        message.what = LOGIN;
+                        handler.sendMessage(message);
+                    }
+                }).start();
                 break;
             }
             case R.id.forgetPassword:{
@@ -110,4 +126,5 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         newAccount.setOnClickListener(this);
         setSeen.setOnClickListener(this);
     }
-}
+
+    }

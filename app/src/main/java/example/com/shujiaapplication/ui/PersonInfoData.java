@@ -11,6 +11,7 @@ public class PersonInfoData  extends Data{
     private String nickname;
     @SerializedName("id")
     private String id;
+    @SerializedName("resident")
     private Resident resident;
 
     public PersonInfoData(String u,String t,String n,String i,Resident resident){

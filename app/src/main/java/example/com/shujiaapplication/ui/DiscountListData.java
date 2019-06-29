@@ -2,11 +2,13 @@ package example.com.shujiaapplication.ui;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.DecimalFormat;
+
 public class DiscountListData extends Data {
     @SerializedName("userid")
     private String userid;
-    @SerializedName("discounted")
-    private String discounted;
+    @SerializedName("discountid")
+    private String discountid;
     @SerializedName("reduce")
     private String reduce;
     @SerializedName("type")
@@ -14,7 +16,7 @@ public class DiscountListData extends Data {
     @SerializedName("description")
     private String description;
     @SerializedName("useable")
-    private String useable;
+    private int useable;
     @SerializedName("outdate")
     private String outdate;
 
@@ -32,8 +34,8 @@ public class DiscountListData extends Data {
         return description;
     }
 
-    public String getDiscounted() {
-        return discounted;
+    public String getDiscountid() {
+        return discountid;
     }
 
     public String getReduce() {
@@ -44,7 +46,7 @@ public class DiscountListData extends Data {
         return type;
     }
 
-    public String getUseable() {
+    public int getUseable() {
         return useable;
     }
 
@@ -56,8 +58,8 @@ public class DiscountListData extends Data {
         this.description = description;
     }
 
-    public void setDiscounted(String discounted) {
-        this.discounted = discounted;
+    public void setDiscountid(String discountid) {
+        this.discountid = discountid;
     }
 
     public void setReduce(String reduce) {
@@ -68,7 +70,7 @@ public class DiscountListData extends Data {
         this.type = type;
     }
 
-    public void setUseable(String useable) {
+    public void setUseable(int useable) {
         this.useable = useable;
     }
 }
