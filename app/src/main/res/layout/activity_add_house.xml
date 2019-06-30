@@ -260,12 +260,12 @@
                 android:id="@+id/btn_add_picture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="添加图片" />
+                android:text="添加图片(至少4张)" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/media_recycle_view"
                 android:layout_width="match_parent"
-                android:layout_height="103dp" />
+                android:layout_height="236dp" />
         </LinearLayout>
 
         <Button

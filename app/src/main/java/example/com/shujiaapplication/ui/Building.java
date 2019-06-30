@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class Building implements Serializable {
+public class Building extends Data implements Serializable {
     @SerializedName("userid")
     private String userid;
     @SerializedName("headpicture")

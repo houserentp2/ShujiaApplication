@@ -1,8 +1,12 @@
 package example.com.shujiaapplication.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,7 +35,6 @@ import com.bilibili.boxing.utils.ImageCompressor;
 import com.bilibili.boxing_impl.ui.BoxingActivity;
 import com.bilibili.boxing_impl.view.SpacesItemDecoration;
 
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +43,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import example.com.shujiaapplication.R;
-import example.com.shujiaapplication.model.HTTPAccess;
 import pub.devrel.easypermissions.EasyPermissions;
 
 //import com.bilibili.boxing.impl.BoxingGlideLoader;
@@ -54,7 +56,25 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
     private RecyclerView mRecyclerView;
     private MediaResultAdapter mAdapter;
     public LinkedList<String> ImagesBag=new LinkedList<String>();
-    Building building;
+    //Building building;
+    private static String responseData = "";
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==0){
+                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData", Context.MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                if(!responseData.equals("")){
+                    Toast.makeText(MyApplication.getContext(),"成功!",Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(MyApplication.getContext(), ShowBuildListActivity.class);
+//                    intent.putExtra("houseInformation",responseData);
+//                    MyApplication.getContext().startActivity(intent);
+                }else{
+                    Toast.makeText(MyApplication.getContext(),responseData,Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +85,7 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_house);
         findViewById(R.id.btn_add_picture).setOnClickListener(this);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.media_recycle_view);
         mAdapter = new MediaResultAdapter();
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -92,11 +113,15 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_add_picture:
-                BoxingConfig singleImgConfig = new BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).withMediaPlaceHolderRes(R.drawable.ic_boxing_default_image);
-                Boxing.of(singleImgConfig).withIntent(this, BoxingActivity.class).start(this, COMPRESS_REQUEST_CODE);
+//                BoxingConfig singleImgConfig = new BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).withMediaPlaceHolderRes(R.drawable.ic_boxing_default_image);
+//                Boxing.of(singleImgConfig).withIntent(this, BoxingActivity.class).start(this, COMPRESS_REQUEST_CODE);
+                //BoxingConfig config = new BoxingConfig(BoxingConfig.Mode.MULTI_IMG).needCamera(R.drawable.ic_boxing_default_image).needGif();
+                BoxingConfig config = new BoxingConfig(BoxingConfig.Mode.MULTI_IMG).needGif();
+                Boxing.of(config).withIntent(this, BoxingActivity.class).start(this, REQUEST_CODE);
                 break;
             case R.id.btn_subscribe:
                 if(checkReg()){
+                    Toast.makeText(AddHouseActivity.this,"正在提交...",Toast.LENGTH_SHORT).show();
                     //TODO 提交
                     EditText editText = findViewById(R.id.editprice);
                     String price = editText.getText().toString();
@@ -106,13 +131,14 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
                     Date now=new Date();
                     //指定格式化格式
                     //"2019-06-26T21:56:02.455+08:00"
-                    SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS+08:00");
+                    SimpleDateFormat f=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
                     String timeStr = f.format(now);
+                    timeStr = timeStr.substring(0, timeStr.length()-2)+":"+timeStr.substring(timeStr.length()-2,timeStr.length());
 
                     Spinner spinner = (Spinner)findViewById(R.id.editShi);
-                    int shi = (Integer) spinner.getSelectedItem();
+                    int shi = Integer.parseInt( spinner.getSelectedItem().toString());
                     spinner = (Spinner)findViewById(R.id.editTing);
-                    int ting = (Integer)spinner.getSelectedItem();
+                    int ting = Integer.parseInt( spinner.getSelectedItem().toString());
 
                     editText = findViewById(R.id.edittitle);
                     String title = editText.getText().toString();
@@ -151,7 +177,9 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
                             pictures
 
                     );
-                    HTTPAccess.puthouse(building);
+
+                    sendBuildingMessage(building);
+                    //HTTPAccess.puthouse(building);
                     finish();
 
                 }
@@ -160,6 +188,22 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
 
         //TODO 多选
     }
+
+    private void sendBuildingMessage(Building building) {
+
+//        HouseRequestData h = new HouseRequestData(AuthInfo.userid,AuthInfo.token,building.getHouseid());
+        //int houseid;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RequsetData.requestData(building,"puthouse");
+                Message message = new Message();
+                message.what = 0;
+                handler.sendMessage(message);
+            }
+        }).start();
+    }
+
     private boolean checkReg(){
         boolean flag = true;
 
@@ -175,6 +219,10 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
         {
             flag = false;
             editText.setError("格式错误");
+        }
+        if(mRecyclerView.getChildCount() < 4){
+            flag = false;
+            Toast.makeText(AddHouseActivity.this,"至少需要四张图片",Toast.LENGTH_SHORT).show();
         }
         //editText = findViewById(R.id.)
         //regx = "^[\\u4e00-\\u9fa5]*$ ";
@@ -240,7 +288,7 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
             if (list == null) {
                 return;
             }
-            //mList.clear();
+            mList.clear();
             mList.addAll(list);
             notifyDataSetChanged();
         }
@@ -274,14 +322,15 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
                 }
                 //BoxingMediaLoader.getInstance().displayThumbnail(mediaViewHolder.mImageView, path, 150, 150);
 
-                try{
-                    Method method=null;
-                    method= BoxingMediaLoader.getInstance().getLoader().getClass().getMethod("displayThumbnailandTran", ImageView.class, LinkedList.class,String.class,int.class,int.class);
-                    method.invoke(BoxingMediaLoader.getInstance().getLoader(),mediaViewHolder.mImageView,ImagesBag, path, 150, 150);
-
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+//                try{
+//                    Method method=null;
+//                    method= BoxingMediaLoader.getInstance().getLoader().getClass().getMethod("displayThumbnailandTran", ImageView.class, LinkedList.class,String.class,int.class,int.class);
+//                    method.invoke(BoxingMediaLoader.getInstance().getLoader(),mediaViewHolder.mImageView,ImagesBag, path, 150, 150);
+//
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+                BoxingMediaLoader.getInstance().displayThumbnail(mediaViewHolder.mImageView, path, 150, 150);
 
             }
         }
