@@ -24,6 +24,8 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,7 @@ import java.util.Map;
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.ActivityCollector;
 import example.com.shujiaapplication.ui.AuthInfo;
+import example.com.shujiaapplication.ui.Building;
 import example.com.shujiaapplication.ui.CheckerData;
 import example.com.shujiaapplication.ui.DiscountActivity;
 import example.com.shujiaapplication.ui.DiscountData;
@@ -52,33 +55,47 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
     private String mParam2;
     private GridView gridView;
     private Button exitAccount;
-    private static String responseData = "";
+    private static String responseJoin = "";
+    private static String responseCheck = "";
+    private static String responseSwitch = "";
 
     private OnFragmentInteractionListener mListener;
 
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==0){
+            if(msg.what==0){                   //第一次加入审核
                 SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
-                responseData = preferences.getString("requestGetData","");
-                if(!responseData.equals("")){
-                    Log.e("HomePageActivity","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+responseData);
+                responseJoin = preferences.getString("requestGetData","");
+                if(responseJoin.contains("Existed")){
+                    Log.e("HomePageActivity","newAccountJoin"+responseJoin);
                     Toast.makeText(MyApplication.getContext(),"恭喜你成为审核员", Toast.LENGTH_SHORT).show();
                     switchVerify();
-                }else{
-                    Toast.makeText(getActivity(),responseData,Toast.LENGTH_SHORT).show();
+                }else{                            //检测是否为审核员，是的话直接进入页面
+                    Toast.makeText(getActivity(),"成为审核员失败",Toast.LENGTH_SHORT).show();
                 }
             }
             else if(msg.what == 1){
                 SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
-                responseData = preferences.getString("requestGetData","");
-                if(!responseData.equals("")){
-                    Log.e("HomePageActivity","discount"+responseData);
+                responseCheck = preferences.getString("requestGetData","");
+                if(responseCheck.contains("Existed")){
+                    Log.e("HomePageActivity","checker!!!!"+responseCheck);
                     switchVerify();
                 }
                 else{
                     joinCheck();
+                }
+            }
+            else if(msg.what==2){                        //如果审核页面有数据则进入审核页面。
+                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData", Context.MODE_PRIVATE);
+                responseSwitch = preferences.getString("requestGetData","");
+                Log.e("VerfityActivity","resonseData!!!"+responseSwitch);
+                if(responseSwitch.contains("userid")){
+                    Intent intent = new Intent(MyApplication.getContext(), VerifyActivity.class);
+                    intent.putExtra("checkerHouse",responseSwitch);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(),"暂时没有需要审核的房屋",Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -88,6 +105,8 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
 
     }
 
+
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -95,6 +114,8 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
         Toolbar toolbar= (Toolbar) appCompatActivity.findViewById(R.id.myToolbar);
         appCompatActivity.setSupportActionBar(toolbar);
         super.onActivityCreated(savedInstanceState);
+
+        Log.e("MyFragment","activity!!!!!"+AuthInfo.token);
     }
 
     @Override
@@ -220,9 +241,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
                 break;
             }
             case 8:{
-                Intent intent = new Intent(MyApplication.getContext(), VerifyActivity.class);
-                startActivity(intent);
-
+                Log.e("MyFragment","checker!!!!!"+AuthInfo.token);
                 DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
                 new Thread(new Runnable() {
                     @Override
@@ -239,7 +258,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
     }
 
     private void joinCheck(){
-
+        Log.e("MyFragment","join!!!!!"+AuthInfo.token);
         CheckerData checker = new CheckerData(AuthInfo.userid,AuthInfo.token,"");
         new Thread(new Runnable() {
             @Override
@@ -254,8 +273,16 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
     }
 
     private void switchVerify(){
-        Intent intent = new Intent(MyApplication.getContext(), VerifyActivity.class);
-        startActivity(intent);
+        DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RequsetData.requestData(discount,"gettocheckhouse");
+                Message message = new Message();
+                message.what = 2;
+                handler.sendMessage(message);
+            }
+        }).start();
     }
 
     @Override

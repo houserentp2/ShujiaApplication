@@ -115,8 +115,7 @@ public class LongFragment extends MainFatherFragment {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(),"登录中...",Toast.LENGTH_SHORT).show();
-                        RequsetData.requestData(discount,"gethouselist/:"+city);
+                        RequsetData.requestData(discount,"gethouselist");
                         Message message = new Message();
                         message.what = 0;
                         handler.sendMessage(message);

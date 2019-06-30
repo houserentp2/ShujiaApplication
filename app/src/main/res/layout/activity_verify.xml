@@ -33,10 +33,11 @@
             android:layout_marginTop="20dp"/>
 
         <LinearLayout
+            android:background="@drawable/shape"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
-            android:background="#cccccc">
+            android:backgroundTint="#1D000000">
 
             <GridView
                 android:id="@+id/house_information_grid"
@@ -73,19 +74,25 @@
 
             <Button
                 android:id="@+id/cancel_button"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
                 android:layout_height="match_parent"
-                android:background="@color/boxing_gray"
+                android:backgroundTint="@color/boxing_gray"
+                android:background="@drawable/shape"
                 android:text="禁止通过"
                 android:textColor="#eeeeee"
                 android:textSize="18dp"/>
 
             <Button
+                android:layout_marginRight="5dp"
+                android:background="@drawable/shape"
                 android:id="@+id/verify_button"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="3"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:background="@color/red"
+                android:layout_marginLeft="10dp"
+                android:backgroundTint="@color/red"
                 android:text="通过审核"
                 android:textColor="#eeeeee"
                 android:textSize="18dp"

@@ -51,7 +51,7 @@ public class OrderFragmentL2 extends Fragment implements View.OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             if(msg.what==GETHOUSELIST){
-                SharedPreferences preferences = getContext().getSharedPreferences("requestData",getContext().MODE_PRIVATE);
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",getActivity().MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
                 ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
                 Gson gson = new Gson();
@@ -64,7 +64,7 @@ public class OrderFragmentL2 extends Fragment implements View.OnClickListener {
                     }
                 }
             }else if(msg.what==GETRENTHOUSELIST){
-                SharedPreferences preferences = getContext().getSharedPreferences("requestData",getContext().MODE_PRIVATE);
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",getActivity().MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
                 Gson gson = new Gson();
                 buildingList = gson.fromJson(responseData,new TypeToken<List<NewBuilding>>(){}.getType());

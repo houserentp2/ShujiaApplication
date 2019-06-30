@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.res.ResourcesCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,14 +64,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         SharedPreferences preferences = getSharedPreferences("autoLogin",MODE_PRIVATE);
         String phone = preferences.getString("autoLoginPhone","");
-        String password = preferences.getString("autoLoginPhone","");
-        if(phone.equals("")==false&&password.equals("")==false){                                    //自动登录
-            loginData=new LoginData(phone,null,null,password);
-            RequsetData.requestData(loginData,"login");
-            Message message = new Message();
-            message.what = LOGIN;
-            handler.sendMessage(message);
-        }
+        String password = preferences.getString("autoLoginPassword","");
+        login(phone,password);
+
+//        if((!phone.equals(""))&&(!password.equals(""))){                                    //自动登录
+//            loginData=new LoginData(phone,"","",password);
+//            Log.e("MainActivity","in if");
+//            RequsetData.requestData(loginData,"login");
+//            Message message = new Message();
+//            message.what = LOGIN;
+//            handler.sendMessage(message);
+//        }
     }
 
     @Override
@@ -79,23 +83,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.login:{                                                                       //if登录条件
                 String phone = editAccount.getText().toString();
                 String passward = editPassword.getText().toString();
-                if(phone.length()!=11){
-                    Toast.makeText(MainActivity.this,"请输入11位手机号",Toast.LENGTH_SHORT).show();
-                }else if(passward.length()<6||passward.length()>20){
-                    Toast.makeText(MainActivity.this,"请输入6-20位的密码",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(MainActivity.this,"登录中...",Toast.LENGTH_SHORT).show();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            loginData=new LoginData(editAccount.getText().toString(),null,null,editPassword.getText().toString());
-                            RequsetData.requestData(loginData,"login");
-                            Message message = new Message();
-                            message.what = LOGIN;
-                            handler.sendMessage(message);
-                        }
-                    }).start();
-                }
+                login(phone,passward);
                 break;
             }
             case R.id.forgetPassword:{
@@ -122,6 +110,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+
+    public void login(String phone,String password){
+
+        if(phone.length()!=11){
+            Toast.makeText(MainActivity.this,"请输入11位手机号",Toast.LENGTH_SHORT).show();
+        }else if(password.length()<6||password.length()>20){
+            Toast.makeText(MainActivity.this,"请输入6-20位的密码",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(MainActivity.this,"登录中...",Toast.LENGTH_SHORT).show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    loginData=new LoginData(phone,"","",password);
+                    RequsetData.requestData(loginData,"login");
+                    Message message = new Message();
+                    message.what = LOGIN;
+                    handler.sendMessage(message);
+                }
+            }).start();
+        }
+    }
     public void initControl(){
         Button login = (Button)findViewById(R.id.login);
         setSeen = (Button)findViewById(R.id.setseen);

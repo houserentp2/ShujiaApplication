@@ -37,7 +37,7 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
                     intent.putExtra("houseInformation",responseData);
                     MyApplication.getContext().startActivity(intent);
                 }else{
-                    Toast.makeText(MyApplication.getContext(),responseData,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyApplication.getContext(),"获取详情失败",Toast.LENGTH_SHORT).show();
                 }
             }
         }

@@ -69,13 +69,14 @@ public class ShortFragment extends MainFatherFragment{
             if(msg.what==0){
                 SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
-                if(!responseData.equals("")){
+                if(responseData.contains("userid")){
                     Log.e("HomePageActivity","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+responseData);
                     Intent intent = new Intent(getActivity(), ShowBuildListActivity.class);
                     intent.putExtra("getHouseList",responseData);
                     startActivity(intent);
                 }else{
-                    Toast.makeText(getActivity(),responseData,Toast.LENGTH_SHORT).show();
+                    Log.e("HomePageActivity","!!!!???????!!!!!!!!!!!!!"+responseData);
+                    Toast.makeText(getActivity(),"没有符合搜索条件的房屋",Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -169,7 +170,7 @@ public class ShortFragment extends MainFatherFragment{
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        RequsetData.requestData(discount,"gethouselist/"+"wuhan");
+                        RequsetData.requestData(discount,"gethouselist");
                         Message message = new Message();
                         message.what = 0;
                         handler.sendMessage(message);

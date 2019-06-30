@@ -41,6 +41,7 @@ public class VerifyActivity extends BaseActivity {
 
     private TextView priceText;
     private TextView locationText;
+
     private Button verifyButton;
     private Button cancelButton;
 
@@ -58,32 +59,31 @@ public class VerifyActivity extends BaseActivity {
     private Handler handler = new Handler();
     // 当前ViewPager展示页
     private int currentItem;
-    private static String responseData = "";
+    private  String responseData = "";
     private static String responseStr = "";
 
     private Handler hand = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==0){
-                SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
-                responseData = preferences.getString("requestGetData","");
-                if(!responseData.equals("")){
-                    Toast.makeText(VerifyActivity.this,"成功!",Toast.LENGTH_SHORT).show();
-                    Gson gson = new Gson();
-                    house = gson.fromJson(responseData,Building.class);
-                    init();
-                }else{
-                    Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
-                }
-            }
-            else if(msg.what == 1){
+//            if(msg.what==0){
+//                SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
+//                responseData = preferences.getString("requestGetData","");
+//                Log.e("VerfityActivity","resonseData!!!"+responseData);
+//                if(responseData.contains("userid")){
+//                    Gson gson = new Gson();
+//                    house = gson.fromJson(responseData,Building.class);
+//                    init();
+//                }else{
+//                    Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
+//                }
+//            }
+            if(msg.what == 1){
                 SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
                 responseStr = preferences.getString("requestGetData","");
-                if(!responseStr.equals("")){
+                if(!responseStr.contains("Su")){
                     Intent intent = new Intent(VerifyActivity.this,VerifyResultActivity.class);
                     intent.putExtra("result",""+result);
                     startActivity(intent);
-
                 }
                 else
                     Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
@@ -96,7 +96,6 @@ public class VerifyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify);
         getBuilding();
-
     }
 
     private void init(){
@@ -118,16 +117,21 @@ public class VerifyActivity extends BaseActivity {
     }
 
     private void getBuilding(){                    //得到数据库信息
-        DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                RequsetData.requestData(discount,"gettocheckhouse");
-                Message message = new Message();
-                message.what = 0;
-                handler.sendMessage(message);
-            }
-        }).start();
+//        DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                RequsetData.requestData(discount,"gettocheckhouse");
+//                Message message = new Message();
+//                message.what = 0;
+//                handler.sendMessage(message);
+//            }
+//        }).start();
+        Intent intent = getIntent();
+        responseData = intent.getStringExtra("checkerHouse");
+        Gson gson = new Gson();
+        house = gson.fromJson(responseData,Building.class);
+        init();
 
     }
 
@@ -147,6 +151,7 @@ public class VerifyActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 result = 0;
+                Log.e("VerifyActivity","cancelButton"+result);
                 sendResult();
             }
         });
@@ -156,6 +161,7 @@ public class VerifyActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 result = 1;
+                Log.e("VerifyActivity","verifyButton"+result);
                 sendResult();
             }
         });
@@ -163,7 +169,6 @@ public class VerifyActivity extends BaseActivity {
 
     private void sendResult(){
         CheckerResultData check = new CheckerResultData(AuthInfo.userid,AuthInfo.token,house.getHouseid(),result);
-
         new Thread(new Runnable() {
             @Override
             public void run() {

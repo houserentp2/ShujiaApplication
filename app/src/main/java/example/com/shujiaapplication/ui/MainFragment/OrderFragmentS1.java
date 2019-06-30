@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +65,7 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             if(msg.what==GETHOUSELIST){
-                SharedPreferences preferences = getContext().getSharedPreferences("requestData",getContext().MODE_PRIVATE);
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",getActivity().MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
                 ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
                 Gson gson = new Gson();
@@ -77,10 +78,16 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
                     }
                 }
             }else if(msg.what==GETRENTHOUSELIST){
-                SharedPreferences preferences = getContext().getSharedPreferences("requestData",getContext().MODE_PRIVATE);
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",getActivity().MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
-                Gson gson = new Gson();
-                buildingList = gson.fromJson(responseData,new TypeToken<List<NewBuilding>>(){}.getType());
+                if(responseData.equals("No Record")){
+                    Log.e("++++++++++=", "handleMessage: "+responseData );
+                }else {
+                    Log.e("++++++++++=", "handleMessage: " + responseData);
+                    Gson gson = new Gson();
+                    buildingList = gson.fromJson(responseData, new TypeToken<List<NewBuilding>>() {
+                    }.getType());
+                }
             }
         }
     };
@@ -113,7 +120,7 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        initBuildings();
+
     }
 
     @Override
@@ -158,6 +165,7 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
     }
     public void onActivityCreated(Bundle saveInstanceState){
         super.onActivityCreated(saveInstanceState);
+        initBuildings();
         Button a=mview.findViewById(R.id.button_pay);
         Button b=mview.findViewById(R.id.button_live);
         Button c=mview.findViewById(R.id.button_view);

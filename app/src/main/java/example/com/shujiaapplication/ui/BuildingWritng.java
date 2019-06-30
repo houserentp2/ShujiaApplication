@@ -18,7 +18,7 @@ import java.util.List;
 
 import example.com.shujiaapplication.R;
 
-public class BuildingWritng extends AppCompatActivity implements View.OnClickListener{
+public class BuildingWritng extends BaseActivity implements View.OnClickListener{
     private EditText editText;
     private NewBuilding nbuild;
     private static  final int SETCOMMENT = 0;
