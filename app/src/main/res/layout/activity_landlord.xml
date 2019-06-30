@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.CollectFragment">
+    tools:context="ui.LandlordActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -37,32 +37,15 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         tools:layout_editor_absoluteX="-8dp" />
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/id_listview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#F4F4F4"
-        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp">
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/id_tablayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:id="@+id/id_house_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#F4F4F4"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_tablayout"
-            tools:layout_editor_absoluteX="8dp" />
-
-    </LinearLayout>
+        tools:layout_editor_absoluteX="0dp" />
 
     <ImageButton
         android:id="@+id/id_add"

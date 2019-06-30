@@ -1,11 +1,10 @@
 package example.com.shujiaapplication.ui;
 
-import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Message;
-import android.util.Log;
+
 import com.google.gson.Gson;
+
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,7 +20,8 @@ public class RequsetData {
                     Gson gson=new Gson();
                     RequestBody requestBody=RequestBody.create(JSON,gson.toJson(d));
                     Request request=new Request.Builder()
-                            .url("http://210.42.105.207/"+url)
+                            //.url("http://210.42.105.207/"+url)
+                            .url("http://192.168.31.71:1323/"+url)
                             .post(requestBody)
                             .build();
                     Response response=client.newCall(request).execute();

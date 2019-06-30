@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -157,7 +158,8 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
                     String[] pictures = new String[n];
                     for (int i = 0; i < n; i++){
                         ImageView imageView = (ImageView) mRecyclerView.getChildAt(i);
-                        pictures[i] = Base64Util.DrawableToBase64(imageView.getDrawable());
+                        Drawable d = imageView.getDrawable();
+                        pictures[i] = Base64Util.DrawableToBase64(d);
                     }
                     Building building = new Building(
                             AuthInfo.userid,
@@ -180,6 +182,13 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
 
                     sendBuildingMessage(building);
                     //HTTPAccess.puthouse(building);
+                    //数据是使用Intent返回
+                    Intent intent = new Intent();
+                    //把返回数据存入Intent
+                    intent.putExtra("refresh", "true");
+                    //设置返回数据
+                    AddHouseActivity.this.setResult(RESULT_OK, intent);
+                    //关闭Activity
                     finish();
 
                 }
