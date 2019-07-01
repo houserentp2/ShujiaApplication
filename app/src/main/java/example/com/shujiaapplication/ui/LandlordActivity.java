@@ -177,7 +177,7 @@ public class LandlordActivity extends BaseActivity {
             textView.setText("价钱：" + data.getPrice());
 
             textView = (TextView)convertView.findViewById(R.id.id_struct);
-            textView.setText(data.getSquare() + "m^2");
+            textView.setText("大小：" + data.getSquare() + "m^2");
 
             //指定格式化格式
             //"2019-06-26T21:56:02.455+08:00"

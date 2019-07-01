@@ -4,30 +4,57 @@ import com.google.gson.annotations.SerializedName;
 
 public class OthersData extends Data {
     @SerializedName("water")
-    private String water;
+    private int water;
     @SerializedName("power")
-    private String power;
+    private int power;
     @SerializedName("net")
-    private String net;
+    private int net;
     @SerializedName("hot")
-    private String hot;
+    private int hot;
     @SerializedName("aircon")
-    private String aircon;
+    private int aircon;
     @SerializedName("bus")
-    private String bus;
+    private int bus;
     @SerializedName("short")
     private int shortx;
     @SerializedName("long")
     private int longx;
     @SerializedName("capacity")
-    private String capacity;
+    private int capacity;
     @SerializedName("comments")
     private String[] comments;
     @SerializedName("status")
     private StatusData status;
 
+    OthersData(int water, int power, int net, int hot, int aircon, int bus, int shortx,int longx,
+               int capacity,String []comments,int living, int tolive, int lived){
+        setWater(water);
+        setPower(power);
+        setNet(net);
+        setHot(hot);
+        setAircon(aircon);
+        setBus(bus);
+        setShortx(shortx);
+        setLongxx(longx);
+        setCapacity(capacity);
+        setComments(comments);
+        status = new StatusData(living,tolive,lived);
+    }
+//    OthersData(String water, String power, String net, String hot, String aircon, String bus, int shortx,int longx,
+//               String capacity,String []comments){
+//        setWater(water);
+//        setPower(power);
+//        setNet(net);
+//        setHot(hot);
+//        setAircon(aircon);
+//        setBus(bus);
+//        setShortx(shortx);
+//        setLongxx(longx);
+//        setCapacity(capacity);
+//        setComments(comments);
+//    }
 
-    public String getCapacity() {
+    public int getCapacity() {
         return capacity;
     }
 
@@ -44,7 +71,7 @@ public class OthersData extends Data {
         return comments;
     }
 
-    public void setCapacity(String capacity) {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
@@ -56,51 +83,51 @@ public class OthersData extends Data {
         this.status = status;
     }
 
-    public String getAircon() {
+    public int getAircon() {
         return aircon;
     }
 
-    public String getBus() {
+    public int getBus() {
         return bus;
     }
 
-    public String getHot() {
+    public int getHot() {
         return hot;
     }
 
-    public String getNet() {
+    public int getNet() {
         return net;
     }
 
-    public String getPower() {
+    public int getPower() {
         return power;
     }
 
-    public String getWater() {
+    public int getWater() {
         return water;
     }
 
-    public void setAircon(String aircon) {
+    public void setAircon(int aircon) {
         this.aircon = aircon;
     }
 
-    public void setBus(String bus) {
+    public void setBus(int bus) {
         this.bus = bus;
     }
 
-    public void setHot(String hot) {
+    public void setHot(int hot) {
         this.hot = hot;
     }
 
-    public void setNet(String net) {
+    public void setNet(int net) {
         this.net = net;
     }
 
-    public void setPower(String power) {
+    public void setPower(int power) {
         this.power = power;
     }
 
-    public void setWater(String water) {
+    public void setWater(int water) {
         this.water = water;
     }
 

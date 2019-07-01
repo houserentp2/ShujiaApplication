@@ -48,9 +48,27 @@ public class Building extends Data implements Serializable {
     @SerializedName("symbol")
     private String symbol;
 
-public Building(String userid, String token, String houseid,String time, String price, String square, int shi, int ting,
-                String title,String description, String province, String city, String zone, String path,
-                String[] pictures){
+    public Building(String userid, String token, String houseid,String time, String price, String square, int shi, int ting,
+                    String title,String description, String province, String city, String zone, String path, String[] pictures,
+                    int water, int power, int net, int hot, int aircon, int bus, int shortx,int longx,
+                    int capacity,String []comments,int living, int tolive, int lived ){
+        setUserid(userid);
+        setToken(token);
+        setHouseid(houseid);
+        setTime(time);
+        setPrice(price);
+        setSquare(square);
+        this.shiting = new ShiTing(shi,ting);
+        setTitle(title);
+        setDescription(description);
+        this.location = new Resident(province, city, zone, path);
+        setPictures(pictures);
+
+        this.others = new OthersData(water,power,net, hot,aircon, bus, shortx, longx,capacity,comments,living,tolive,lived);
+    }
+    public Building(String userid, String token, String houseid,String time, String price, String square, int shi, int ting,
+                    String title,String description, String province, String city, String zone, String path,
+                    String[] pictures){
         setUserid(userid);
         setToken(token);
         setHouseid(houseid);
@@ -63,7 +81,6 @@ public Building(String userid, String token, String houseid,String time, String 
         this.location = new Resident(province, city, zone, path);
         setPictures(pictures);
     }
-
 
 
 

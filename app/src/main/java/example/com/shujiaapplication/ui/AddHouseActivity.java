@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -154,6 +155,26 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
                     editText = findViewById(R.id.editpath);
                     String path = editText.getText().toString();
 
+                    CheckBox checkBox = findViewById(R.id.havewater);
+                    int water = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.havepower);
+                    int power = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.havenet);
+                    int net = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.havehot);
+                    int hot = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.haveaircon);
+                    int aircon = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.havebus);
+                    int bus = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.shortx);
+                    int shortx = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.longx);
+                    int longx = checkBox.isChecked() ? 1:0;
+
+                    editText = findViewById(R.id.editcapacity);
+                    int capacity = Integer.parseInt(editText.getText().toString());
+
                     int n = mRecyclerView.getChildCount();
                     String[] pictures = new String[n];
                     for (int i = 0; i < n; i++){
@@ -161,6 +182,8 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
                         Drawable d = imageView.getDrawable();
                         pictures[i] = Base64Util.DrawableToBase64(d);
                     }
+                    //OthersData others = new OthersData(water,power,net, hot,aircon, bus, shortx, longx,capacity,comments,living,tolive,lived);
+
                     Building building = new Building(
                             AuthInfo.userid,
                             AuthInfo.token,
@@ -176,8 +199,20 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
                             city,
                             zone,
                             path,
-                            pictures
-
+                            pictures,
+                            water,
+                            power,
+                            net,
+                            hot,
+                            aircon,
+                            bus,
+                            shortx,
+                            longx,
+                            capacity,
+                            new String[0],
+                            0,
+                            0,
+                            0
                     );
 
                     sendBuildingMessage(building);

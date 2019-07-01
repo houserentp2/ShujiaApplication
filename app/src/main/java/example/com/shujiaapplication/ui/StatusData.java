@@ -10,6 +10,12 @@ public class StatusData extends Data {
     @SerializedName("lived")
     private int lived;
 
+    StatusData(int living, int tolive, int lived){
+        setLived(lived);
+        setLiving(living);
+        setTolive(tolive);
+    }
+
     public void setLived(int lived) {
         this.lived = lived;
     }
