@@ -2,6 +2,9 @@ package example.com.shujiaapplication.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -65,18 +69,6 @@ public class VerifyActivity extends BaseActivity {
     private Handler hand = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-//            if(msg.what==0){
-//                SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
-//                responseData = preferences.getString("requestGetData","");
-//                Log.e("VerfityActivity","resonseData!!!"+responseData);
-//                if(responseData.contains("userid")){
-//                    Gson gson = new Gson();
-//                    house = gson.fromJson(responseData,Building.class);
-//                    init();
-//                }else{
-//                    Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
-//                }
-//            }
             if(msg.what == 1){
                 SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
                 responseStr = preferences.getString("requestGetData","");
@@ -117,20 +109,12 @@ public class VerifyActivity extends BaseActivity {
     }
 
     private void getBuilding(){                    //得到数据库信息
-//        DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                RequsetData.requestData(discount,"gettocheckhouse");
-//                Message message = new Message();
-//                message.what = 0;
-//                handler.sendMessage(message);
-//            }
-//        }).start();
         Intent intent = getIntent();
         responseData = intent.getStringExtra("checkerHouse");
         Gson gson = new Gson();
         house = gson.fromJson(responseData,Building.class);
+
+
         init();
 
     }
@@ -144,7 +128,6 @@ public class VerifyActivity extends BaseActivity {
 
         locationText = (TextView) findViewById(R.id.location_text);
         locationText.setText(house.getTitle()+house.getLocation().getProvince()+house.getLocation().getCity()+house.getLocation().getZone()+house.getLocation().getPath());
-
 
         cancelButton = (Button) findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {

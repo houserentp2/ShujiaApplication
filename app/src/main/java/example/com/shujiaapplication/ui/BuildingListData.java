@@ -6,7 +6,7 @@ import android.util.Base64;
 
 import com.google.gson.annotations.SerializedName;
 
-public class BuildingListData extends Data {
+public class BuildingListData extends Data implements Comparable<BuildingListData> {
     @SerializedName("userid")
     private String userid;
     @SerializedName("icon")
@@ -139,13 +139,22 @@ public class BuildingListData extends Data {
     public Bitmap getIconByBitmap(){
         Bitmap bit = null;
         try {
-            // out = new FileOutputStream("/sdcard/aa.jpg");
             byte[] bytes = Base64.decode(icon, Base64.DEFAULT);
             bit = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            // bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             return bit;
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    @Override
+    public int compareTo(BuildingListData build) {
+        if(Integer.parseInt(this.getPrice())>Integer.parseInt(build.getPrice())){
+            return 1;
+        }else if(this.getPrice().equals(build.getPrice())){
+            return 0;
+        }else{
+            return -1;
         }
     }
 }

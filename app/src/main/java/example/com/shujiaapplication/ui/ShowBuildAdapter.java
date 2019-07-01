@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +32,15 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
             if(msg.what==0){
                 SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData",Context.MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
-                if(!responseData.equals("")){
+                if(responseData.contains("userid")){
                     Toast.makeText(MyApplication.getContext(),"成功!",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MyApplication.getContext(), ShowBuildListActivity.class);
+                    Intent intent = new Intent(MyApplication.getContext(), HouseInfomationActivity.class);
                     intent.putExtra("houseInformation",responseData);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MyApplication.getContext().startActivity(intent);
                 }else{
                     Toast.makeText(MyApplication.getContext(),"获取详情失败",Toast.LENGTH_SHORT).show();
+                    Log.e("ShowBuildAda","!!!!!!!!!!!!!!!!!!!!!"+responseData);
                 }
             }
         }
@@ -47,7 +50,6 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
         View buildView;
         ImageView building_image;
         ImageView collect_image;
-        CircleImageView building_head;
         TextView building_title;
         TextView building_price;
         TextView building_details;
@@ -57,7 +59,6 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
             super(view);
             buildView = view;
             collect_image = (ImageView)view.findViewById(R.id.collect_image);
-            building_head = (CircleImageView)view.findViewById(R.id.building_head);
             building_item = (RelativeLayout)view.findViewById(R.id.building_item);
             building_image = (ImageView)view.findViewById(R.id.building_image);
             building_title = (TextView)view.findViewById(R.id.building_title);
@@ -105,7 +106,6 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
         BuildingListData building = mBuildList.get(i);
         viewHolder.building_image.setImageBitmap(building.getPictureByBitmap());
         viewHolder.building_title.setText(building.getTitle());
-        viewHolder.building_head.setImageBitmap(building.getIconByBitmap());
         viewHolder.building_price.setText("¥"+building.getPrice());
         viewHolder.building_details.setText(building.getShiting().getShi()+"室"+building.getShiting().getTing()+"厅 |宜居"+building.getSquare()+"m²");
     }

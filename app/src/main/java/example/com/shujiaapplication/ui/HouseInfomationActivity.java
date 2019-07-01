@@ -1,10 +1,12 @@
 package example.com.shujiaapplication.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +48,7 @@ public class HouseInfomationActivity extends BaseActivity {
 
     private Building house;
 
-    private List<Integer> picture_id;
+    private List<Bitmap> picture_id;
 
 
     // 定义是否开启自动滚动，默认开启
@@ -84,8 +86,10 @@ public class HouseInfomationActivity extends BaseActivity {
     private void getBuilding(){                    //得到数据库信息
         Intent intent = getIntent();
         String responesStr = intent.getStringExtra("houseInformation");
+        Log.e("HouseInformation","奥本宫爱不够i阿比收购哦啊该报告嫂嫂"+responesStr);
         Gson gson = new Gson();
         house = gson.fromJson(responesStr,Building.class);
+        picture_id = house.getPicturesByBit();
     }
 
     //绑定控件
@@ -110,8 +114,8 @@ public class HouseInfomationActivity extends BaseActivity {
         reserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent dateIntent = new Intent(HouseInfomationActivity.this,DateChooseActivity.class);
-                dateIntent.putExtra("ChooseType",LONG_CHOOSE);
+                Intent dateIntent = new Intent(HouseInfomationActivity.this,OrderSecurity.class);
+                //dateIntent.putExtra("ChooseType",LONG_CHOOSE);
                 startActivity(dateIntent);
             }
         });
@@ -119,8 +123,8 @@ public class HouseInfomationActivity extends BaseActivity {
         lookCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(HouseInfomationActivity.this,);
-//                intent.
+//                Intent intent = new Intent(HouseInfomationActivity.this,ShowBuildingView.class);
+//                CommentsData comments = new
             }
         });
     }
@@ -137,7 +141,7 @@ public class HouseInfomationActivity extends BaseActivity {
          * 对于这几个想要动态载入的page页面，使用LayoutInflater.inflate()来找到其布局文件，并实例化为View对象
          */
         LayoutInflater inflater = LayoutInflater.from(this);
-        for(int picture : picture_id){
+        for(Bitmap picture : picture_id){
             viewPages.add(buildLayout(picture));
         }
 
@@ -169,7 +173,7 @@ public class HouseInfomationActivity extends BaseActivity {
         };
     }
 
-    private LinearLayout buildLayout(int picture){
+    private LinearLayout buildLayout(Bitmap picture){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
         LinearLayout layout = new LinearLayout(HouseInfomationActivity.this);
         layout.setLayoutParams(params);
@@ -177,10 +181,10 @@ public class HouseInfomationActivity extends BaseActivity {
         return layout;
     }
 
-    private void addView(final LinearLayout lineLayout ,int picture){
+    private void addView(final LinearLayout lineLayout ,Bitmap picture){
         ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         final ImageView iv = new ImageView(this);
-        iv.setImageResource(picture);
+        iv.setImageBitmap(picture);
 //        iv.setImageDrawable(getResources().getDrawable(R.drawable.background));
         iv.setLayoutParams(vlp);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);

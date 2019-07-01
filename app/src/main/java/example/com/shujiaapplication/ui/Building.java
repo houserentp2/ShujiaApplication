@@ -1,8 +1,15 @@
 package example.com.shujiaapplication.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Building extends Data implements Serializable {
     @SerializedName("userid")
@@ -118,6 +125,20 @@ public class Building extends Data implements Serializable {
 
     public String[] getPictures() {
         return pictures;
+    }
+
+    public List<Bitmap> getPicturesByBit(){
+        ArrayList<Bitmap> ans = new ArrayList<Bitmap>();
+        for(String picture:pictures){
+            Bitmap bit = null;
+            try {
+                byte[] bytes = Base64.decode(picture, Base64.DEFAULT);
+                bit = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                ans.add(bit);
+            } catch (Exception e) {
+            }
+        }
+        return ans;
     }
 
     public String getApply() {
@@ -245,15 +266,7 @@ public class Building extends Data implements Serializable {
         this.userid = userid;
     }
 
-    public int compareTo(Building o) {
-        if(Integer.parseInt(this.getPrice())>Integer.parseInt(o.getPrice())){
-            return 1;
-        }else if(this.getPrice().equals(o.getPrice())){
-            return 0;
-        }else{
-            return -1;
-        }
-    }
+
     public int getPriceByInt(){
         return Integer.parseInt(price);
     }

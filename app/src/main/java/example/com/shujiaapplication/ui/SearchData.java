@@ -7,25 +7,14 @@ public class SearchData extends Data {
     private String userid;
     @SerializedName("token")
     private String token;
-    @SerializedName("inDate")
-    private String inDate;
-    @SerializedName("outDate")
-    private String outDate;
-    @SerializedName("city")
-    private String city;
-    @SerializedName("houseType")
-    private int houseType;
-    @SerializedName("chooseType")
-    private int chooseType;
+    @SerializedName("queryparam")
+    private String queryparam;
 
-    public SearchData(String id,String t,String in,String out,String c,int ht,int ct){
+
+    public SearchData(String id,String t,String query){
         userid = id;
         token = t;
-        inDate = in;
-        outDate = out;
-        city = c;
-        houseType = ht;
-        chooseType = ct;
+        queryparam = query;
     }
 
     public String getToken() {
@@ -36,24 +25,12 @@ public class SearchData extends Data {
         return userid;
     }
 
-    public int getChooseType() {
-        return chooseType;
+    public String getQueryparam() {
+        return queryparam;
     }
 
-    public int getHouseType() {
-        return houseType;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getInDate() {
-        return inDate;
-    }
-
-    public String getOutDate() {
-        return outDate;
+    public void setQueryparam(String queryparam) {
+        this.queryparam = queryparam;
     }
 
     public void setToken(String token) {
@@ -64,23 +41,5 @@ public class SearchData extends Data {
         this.userid = userid;
     }
 
-    public void setChooseType(int chooseType) {
-        this.chooseType = chooseType;
-    }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setHouseType(int houseType) {
-        this.houseType = houseType;
-    }
-
-    public void setInDate(String inDate) {
-        this.inDate = inDate;
-    }
-
-    public void setOutDate(String outDate) {
-        this.outDate = outDate;
-    }
 }
