@@ -123,8 +123,10 @@ public class HouseInfomationActivity extends BaseActivity {
         lookCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(HouseInfomationActivity.this,ShowBuildingView.class);
-//                CommentsData comments = new
+                Intent intent = new Intent(HouseInfomationActivity.this,ShowBuildingView.class);
+                CommentsData[] comments = house.getOthers().getComments();
+                intent.putExtra("getComments",comments);
+                startActivity(intent);
             }
         });
     }

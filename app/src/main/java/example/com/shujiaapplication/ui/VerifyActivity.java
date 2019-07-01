@@ -51,7 +51,7 @@ public class VerifyActivity extends BaseActivity {
 
     private Building house;
 
-    private List<Integer> picture_id;
+    private List<Bitmap> picture_id;
 
 
     private int result;
@@ -72,13 +72,17 @@ public class VerifyActivity extends BaseActivity {
             if(msg.what == 1){
                 SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
                 responseStr = preferences.getString("requestGetData","");
-                if(!responseStr.contains("Su")){
+                if(responseStr.contains("Success")){
+                    Log.e("VerifyActivity","success!!!!!!!!"+responseStr);
                     Intent intent = new Intent(VerifyActivity.this,VerifyResultActivity.class);
                     intent.putExtra("result",""+result);
                     startActivity(intent);
                 }
-                else
+                else{
+                    Log.e("VerifyActivity","success!!!!!!!!"+responseStr);
                     Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
+                }
+
             }
         }
     };
@@ -114,11 +118,10 @@ public class VerifyActivity extends BaseActivity {
         Gson gson = new Gson();
         house = gson.fromJson(responseData,Building.class);
 
+        picture_id = house.getPicturesByBit();
 
         init();
-
     }
-
     //绑定控件
     private void initView() {
         viewPager = (ViewPager) findViewById(R.id.page_view);
@@ -175,7 +178,7 @@ public class VerifyActivity extends BaseActivity {
          * 对于这几个想要动态载入的page页面，使用LayoutInflater.inflate()来找到其布局文件，并实例化为View对象
          */
         LayoutInflater inflater = LayoutInflater.from(this);
-        for(int picture : picture_id){
+        for(Bitmap picture : picture_id){
             viewPages.add(buildLayout(picture));
         }
 
@@ -207,7 +210,7 @@ public class VerifyActivity extends BaseActivity {
         };
     }
 
-    private LinearLayout buildLayout(int picture){
+    private LinearLayout buildLayout(Bitmap picture){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
         LinearLayout layout = new LinearLayout(VerifyActivity.this);
         layout.setLayoutParams(params);
@@ -215,10 +218,10 @@ public class VerifyActivity extends BaseActivity {
         return layout;
     }
 
-    private void addView(final LinearLayout lineLayout ,int picture){
+    private void addView(final LinearLayout lineLayout ,Bitmap picture){
         ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         final ImageView iv = new ImageView(this);
-        iv.setImageResource(picture);
+        iv.setImageBitmap(picture);
 //        iv.setImageDrawable(getResources().getDrawable(R.drawable.background));
         iv.setLayoutParams(vlp);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
