@@ -2,7 +2,6 @@ package example.com.shujiaapplication.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 
@@ -74,7 +73,7 @@ public class Building extends Data implements Serializable {
         this.location = new Resident(province, city, zone, path);
         setPictures(pictures);
 
-        //this.others = new OthersData(water,power,net, hot,aircon, bus, shortx, longx,capacity,comments,living,tolive,lived);
+        this.others = new OthersData(water,power,net, hot,aircon, bus, shortx, longx,capacity,comments,living,tolive,lived);
     }
     public Building(String userid, String token, String houseid,String time, String price, String square, int shi, int ting,
                     String title,String description, String province, String city, String zone, String path,
