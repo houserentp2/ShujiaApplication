@@ -98,7 +98,7 @@ public class LandlordActivity extends BaseActivity {
             public void onClick(View view) {
                 //添加房屋
                 Intent intent = new Intent(LandlordActivity.this, AddHouseActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                 startActivityForResult(intent,1);
             }
         });
@@ -107,7 +107,7 @@ public class LandlordActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1 && data != null){
             String result = data.getExtras().getString("refresh");//得到新Activity 关闭后返回的数据
-            if (result == "true"){
+            if (result.equals("true") ){
                 isRefreshData = true;
                 onResume();
 //                listAdapter.notifyDataSetChanged();
@@ -242,19 +242,8 @@ public class LandlordActivity extends BaseActivity {
                     BuildingListData buildingListData = buildingListDatas.get(position);
 
                     Intent intent = new Intent(MyApplication.getContext(), EditHouseActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
                     intent.putExtra("houseid",buildingListData.getHouseid());
-//                    intent.putExtra("price",buildingListData.getPrice());
-//                    intent.putExtra("square",buildingListData.getSquare());
-//                    intent.putExtra("shi",buildingListData.getShiting().getShi());
-//                    intent.putExtra("ting",buildingListData.getShiting().getTing());
-//                    intent.putExtra("title",buildingListData.getTitle());
-//                    intent.putExtra("discription",buildingListData.getDescription());
-//                    intent.putExtra("province",buildingListData.getLocation().getProvince());
-//                    intent.putExtra("city",buildingListData.getLocation().getCity());
-//                    intent.putExtra("zone",buildingListData.getLocation().getZone());
-//                    intent.putExtra("path",buildingListData.getLocation().getPath());
-//                    intent.putExtra("pictures",buildingListData.getPictures());
 
                     startActivity(intent);
                     isRefreshData = true;

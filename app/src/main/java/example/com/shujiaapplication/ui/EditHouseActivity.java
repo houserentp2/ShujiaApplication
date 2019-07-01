@@ -61,7 +61,8 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
     private MediaResultAdapter mAdapter;
     public LinkedList<String> ImagesBag=new LinkedList<String>();
     private Building building;
-    private int houseid;
+    private String houseid;
+    private CheckHouseData checkHouseData;
     private static String responseData = "";
 
     private Handler gethousehandler = new Handler(){
@@ -138,7 +139,8 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
         //获得传入的Building
         Intent intent = getIntent();
         //Building building = intent.
-        houseid = intent.getIntExtra("houseid",0);
+        houseid = intent.getStringExtra("houseid");
+        checkHouseData = new CheckHouseData(AuthInfo.userid,AuthInfo.token,String.valueOf(houseid));
         gethouseMessage();
 
         //initView();
@@ -148,14 +150,14 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
         new Thread(new Runnable() {
             @Override
             public void run() {
-                RequsetData.requestData(building,"gethouse");
+                RequsetData.requestData(checkHouseData,"gethouse");
                 Message message = new Message();
                 message.what = 0;
                 gethousehandler.sendMessage(message);
             }
         }).start();
-
     }
+
     private  void initView(){
         //Button b = findViewById()
         EditText editText = findViewById(R.id.editprice);
@@ -280,13 +282,26 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
                             pictures
 
                     );
-                    //HTTPAccess.puthouse(building);
+                    sendupdateBuildingMessage(building);
+
                     finish();
 
                 }
             default:
         }
     }
+    private void sendupdateBuildingMessage(Building building) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RequsetData.requestData(building,"updatehouse");
+                Message message = new Message();
+                message.what = 0;
+                updatehandler.sendMessage(message);
+            }
+        }).start();
+    }
+
     private boolean checkReg(){
         boolean flag = true;
 
@@ -302,6 +317,16 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
         {
             flag = false;
             editText.setError("格式错误");
+        }
+        editText = findViewById(R.id.editcapacity);
+        if(!Pattern.matches(regx,editText.getText()))
+        {
+            flag = false;
+            editText.setError("格式错误");
+        }
+        if(mRecyclerView.getChildCount() < 4){
+            flag = false;
+            Toast.makeText(EditHouseActivity.this,"至少需要四张图片",Toast.LENGTH_SHORT).show();
         }
         //editText = findViewById(R.id.)
         //regx = "^[\\u4e00-\\u9fa5]*$ ";

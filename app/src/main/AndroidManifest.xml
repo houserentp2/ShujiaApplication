@@ -26,6 +26,7 @@
         <activity android:name=".ui.LandlordActivity" />
         <activity android:name=".ui.AddHouseActivity" />
         <activity android:name=".ui.DateChooseActivity" />
+        <activity android:name=".ui.EditHouseActivity"/>
         <activity android:name=".ui.CityChooseActivity" />
         <activity android:name=".ui.SuccessAccountActivity" />
         <activity android:name=".ui.NewAccountActivity" />

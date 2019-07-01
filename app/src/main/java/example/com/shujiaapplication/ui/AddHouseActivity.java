@@ -216,14 +216,13 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
                             shortx,
                             longx,
                             capacity,
-                            new String[0],
+                            new CommentsData[0],
                             0,
                             0,
                             0
                     );
 
                     sendBuildingMessage(building);
-                    //HTTPAccess.puthouse(building);
                     //数据是使用Intent返回
                     Intent intent = new Intent();
                     //把返回数据存入Intent
@@ -236,8 +235,6 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
                 }
             default:
         }
-
-        //TODO 多选
     }
 
     private void sendBuildingMessage(Building building) {
@@ -266,6 +263,12 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
             editText.setError("格式错误");
         }
         editText = findViewById(R.id.editprice);
+        if(!Pattern.matches(regx,editText.getText()))
+        {
+            flag = false;
+            editText.setError("格式错误");
+        }
+        editText = findViewById(R.id.editcapacity);
         if(!Pattern.matches(regx,editText.getText()))
         {
             flag = false;

@@ -7,7 +7,6 @@ import android.util.Base64;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class Building extends Data implements Serializable {
     public Building(String userid, String token, String houseid,String time, String price, String square, int shi, int ting,
                     String title,String description, String province, String city, String zone, String path, String[] pictures,
                     int water, int power, int net, int hot, int aircon, int bus, int shortx,int longx,
-                    int capacity,String []comments,int living, int tolive, int lived ){
+                    int capacity,CommentsData []comments,int living, int tolive, int lived ){
         setUserid(userid);
         setToken(token);
         setHouseid(houseid);
