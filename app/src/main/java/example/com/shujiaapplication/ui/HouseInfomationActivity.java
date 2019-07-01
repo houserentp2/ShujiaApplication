@@ -2,11 +2,14 @@ package example.com.shujiaapplication.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,7 +36,9 @@ import javax.xml.transform.Source;
 import example.com.shujiaapplication.R;
 
 import static example.com.shujiaapplication.ui.DateChooseActivity.LONG_CHOOSE;
+import static example.com.shujiaapplication.ui.DateChooseActivity.LONG_Pay;
 import static example.com.shujiaapplication.ui.DateChooseActivity.SHORT_CHOOSE;
+import static example.com.shujiaapplication.ui.DateChooseActivity.SHORT_Pay;
 
 public class HouseInfomationActivity extends BaseActivity {
 
@@ -75,9 +80,10 @@ public class HouseInfomationActivity extends BaseActivity {
 
         List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
         String[] name = new String[]{"整套出租",house.getShiting().getShi()+"室"+house.getShiting().getTing()+"厅","宜居"+house.getOthers().getStatus().getLiving()+"人",house.getSquare()+"平方米"};
+        int[] pictures = new int[]{R.drawable.house_rent,R.drawable.shi_ting,R.drawable.living_people,R.drawable.square};
         for(int i=0;i<4;i++){
             Map<String, Object> item = new HashMap<String, Object>();
-            item.put("imageItem", R.drawable.background);//添加图像资源的ID
+            item.put("imageItem", pictures[i]);//添加图像资源的ID
             item.put("textItem", name[i]);//按序号添加ItemText
             items.add(item);
         }
@@ -89,10 +95,12 @@ public class HouseInfomationActivity extends BaseActivity {
     private void getBuilding(){                    //得到数据库信息
         Intent intent = getIntent();
         String responesStr = intent.getStringExtra("houseInformation");
-        Log.e("HouseInformation","奥本宫爱不够i阿比收购哦啊该报告嫂嫂"+responesStr);
+        Log.e("HouseInformation","在这里详情页面的字符串是"+responesStr);
         Gson gson = new Gson();
         house = gson.fromJson(responesStr,Building.class);
-        picture_id = house.getPicturesByBit();
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        picture_id = house.getPicturesByBit(dm.widthPixels,dm.heightPixels);
     }
 
     //绑定控件
@@ -106,6 +114,14 @@ public class HouseInfomationActivity extends BaseActivity {
         locationText.setText(house.getTitle()+house.getLocation().getProvince()+house.getLocation().getCity()+house.getLocation().getZone()+house.getLocation().getPath());
 
         callView = (MyImageView) findViewById(R.id.call_view);
+        callView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:15180435670"));
+                startActivity(intent);
+            }
+        });
         collectView = (MyImageView) findViewById(R.id.collect_view);
         collectView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,12 +134,20 @@ public class HouseInfomationActivity extends BaseActivity {
             @Override
             public void onClick(View view) {                                  //日期预定
                 Intent dateIntent = new Intent(HouseInfomationActivity.this,DateChooseActivity.class);
-                //dateIntent.putExtra("ChooseType",LONG_CHOOSE);
+                if(house.getOthers().getShortx() == 1){
+                    dateIntent.putExtra("ChooseType",SHORT_Pay);
+                }
+                else{
+                    dateIntent.putExtra("ChooseType",LONG_Pay);
+                }
+
                 String[] bundleStrs = new String[7];
                 bundleStrs[0] = house.getUserid();
                 bundleStrs[1] = house.getToken();
+                Log.e("House","_________"+bundleStrs[0]+"---"+AuthInfo.userid+"---"+AuthInfo.token+"-----"+bundleStrs[1]);
                 bundleStrs[2] = house.getHouseid();
                 bundleStrs[3] = house.getHostid();
+                Log.e("House","_________"+house.getHostid());
                 bundleStrs[4] = house.getTime();
 //                bundleStrs[5] = "2019-06-13";
 //                bundleStrs[6] = "2019-07-24";
@@ -157,8 +181,20 @@ public class HouseInfomationActivity extends BaseActivity {
          * 对于这几个想要动态载入的page页面，使用LayoutInflater.inflate()来找到其布局文件，并实例化为View对象
          */
         LayoutInflater inflater = LayoutInflater.from(this);
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int newWidth = dm.widthPixels;
+        int newHeight = 1000;
         for(Bitmap picture : picture_id){
-            viewPages.add(buildLayout(picture));
+            int bitwidth = picture.getWidth();
+            int bitheight = picture.getHeight();
+            float scaleWidth = ((float) newWidth) / bitwidth;
+            float scaleHeight = ((float) newHeight) / bitheight;
+            Matrix matrix = new Matrix();
+            matrix.postScale(scaleWidth, scaleHeight);
+            picture = Bitmap.createBitmap(picture, 0, 0, bitwidth, bitheight, matrix, true);
+            Bitmap bitmap = Bitmap.createBitmap(picture, 0,0, dm.widthPixels, newHeight);
+            viewPages.add(buildLayout(bitmap));
         }
 
         adapter = new PagerAdapter() {
@@ -188,6 +224,8 @@ public class HouseInfomationActivity extends BaseActivity {
             }
         };
     }
+
+
 
     private LinearLayout buildLayout(Bitmap picture){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);

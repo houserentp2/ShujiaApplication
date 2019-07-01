@@ -169,6 +169,7 @@ public class ShortFragment extends MainFatherFragment{
             @Override
             public void onClick(View view) {
                 searchButton.setEnabled(false);
+                //SearchData search = new SearchData(AuthInfo.userid,AuthInfo.token,city);
                 SearchData search = new SearchData(AuthInfo.userid,AuthInfo.token,"eee");
                 new Thread(new Runnable() {
                     @Override

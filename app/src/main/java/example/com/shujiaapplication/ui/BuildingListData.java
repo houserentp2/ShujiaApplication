@@ -141,6 +141,7 @@ public class BuildingListData extends Data implements Comparable<BuildingListDat
         try {
             byte[] bytes = Base64.decode(icon, Base64.DEFAULT);
             bit = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
             return bit;
         } catch (Exception e) {
             return null;

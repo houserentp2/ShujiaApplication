@@ -244,6 +244,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
         switch (position){
             case 0:{
                 Intent intent = new Intent(MyApplication.getContext(), DiscountActivity.class);
+                intent.putExtra("fromActivity","MyFragment");
                 startActivity(intent);
                 break;
             }
@@ -263,7 +264,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
             }
             case 4:{
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:10086"));
+                intent.setData(Uri.parse("tel:15180435670"));
                 startActivity(intent);
                 break;
             }

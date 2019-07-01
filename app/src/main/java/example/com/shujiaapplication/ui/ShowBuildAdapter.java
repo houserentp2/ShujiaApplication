@@ -3,14 +3,18 @@ package example.com.shujiaapplication.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +25,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import example.com.shujiaapplication.R;
 
+import static example.com.shujiaapplication.ui.MyApplication.getContext;
+
 public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.ViewHolder> {
     private List<BuildingListData> mBuildList;
     private Context mContext;
@@ -30,16 +36,16 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
         @Override
         public void handleMessage(Message msg) {
             if(msg.what==0){
-                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData",Context.MODE_PRIVATE);
+                SharedPreferences preferences = getContext().getSharedPreferences("requestData",Context.MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
                 if(responseData.contains("userid")){
-                    Toast.makeText(MyApplication.getContext(),"成功!",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MyApplication.getContext(), HouseInfomationActivity.class);
+                    Toast.makeText(getContext(),"成功!",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), HouseInfomationActivity.class);
                     intent.putExtra("houseInformation",responseData);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    MyApplication.getContext().startActivity(intent);
+                    getContext().startActivity(intent);
                 }else{
-                    Toast.makeText(MyApplication.getContext(),"获取详情失败",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"获取详情失败",Toast.LENGTH_SHORT).show();
                     Log.e("ShowBuildAda","!!!!!!!!!!!!!!!!!!!!!"+responseData);
                 }
             }
@@ -93,7 +99,6 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
                         handler.sendMessage(message);
                     }
                 }).start();
-
             }
         });
         return holder;
@@ -102,10 +107,27 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         BuildingListData building = mBuildList.get(i);
-        viewHolder.building_image.setImageBitmap(building.getPictureByBitmap());
+        viewHolder.building_image.setImageBitmap(resizeBitmap(building.getPictureByBitmap()));
         viewHolder.building_title.setText(building.getTitle());
         viewHolder.building_price.setText("¥"+building.getPrice());
         viewHolder.building_details.setText(building.getShiting().getShi()+"室"+building.getShiting().getTing()+"厅 |宜居"+building.getSquare()+"m²");
+    }
+
+    private Bitmap resizeBitmap(Bitmap picture){
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager WM = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        WM.getDefaultDisplay().getMetrics(dm);
+        int newWidth = dm.widthPixels;
+        int newHeight = 700;
+        int bitwidth = picture.getWidth();
+        int bitheight = picture.getHeight();
+        float scaleWidth = ((float) newWidth) / bitwidth;
+        float scaleHeight = ((float) newHeight) / bitheight;
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        picture = Bitmap.createBitmap(picture, 0, 0, bitwidth, bitheight, matrix, true);
+        Bitmap bitmap = Bitmap.createBitmap(picture, 0,0, dm.widthPixels, newHeight);
+        return bitmap;
     }
 
     @Override

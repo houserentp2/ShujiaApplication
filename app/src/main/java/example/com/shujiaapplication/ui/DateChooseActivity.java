@@ -57,7 +57,6 @@ public class DateChooseActivity extends BaseActivity {
             for(int j = 0;j < strs.length;j++){
                 dateStrs[j] = strs[j];
             }
-
         }
         initView();
         initDateInPicker();

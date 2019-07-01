@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -124,8 +126,9 @@ public class VerifyActivity extends BaseActivity {
         Gson gson = new Gson();
         house = gson.fromJson(responseData,Building.class);
 
-        picture_id = house.getPicturesByBit();
-
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        picture_id = house.getPicturesByBit(dm.widthPixels,dm.heightPixels);
         init();
     }
     //绑定控件
@@ -185,8 +188,20 @@ public class VerifyActivity extends BaseActivity {
          * 对于这几个想要动态载入的page页面，使用LayoutInflater.inflate()来找到其布局文件，并实例化为View对象
          */
         LayoutInflater inflater = LayoutInflater.from(this);
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int newWidth = dm.widthPixels;
+        int newHeight = 1000;
         for(Bitmap picture : picture_id){
-            viewPages.add(buildLayout(picture));
+            int bitwidth = picture.getWidth();
+            int bitheight = picture.getHeight();
+            float scaleWidth = ((float) newWidth) / bitwidth;
+            float scaleHeight = ((float) newHeight) / bitheight;
+            Matrix matrix = new Matrix();
+            matrix.postScale(scaleWidth, scaleHeight);
+            picture = Bitmap.createBitmap(picture, 0, 0, bitwidth, bitheight, matrix, true);
+            Bitmap bitmap = Bitmap.createBitmap(picture, 0,0, dm.widthPixels, newHeight);
+            viewPages.add(buildLayout(bitmap));
         }
 
         adapter = new PagerAdapter() {
