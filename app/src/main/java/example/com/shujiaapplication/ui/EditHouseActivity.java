@@ -60,7 +60,7 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
     private RecyclerView mRecyclerView;
     private MediaResultAdapter mAdapter;
     public LinkedList<String> ImagesBag=new LinkedList<String>();
-    private Building building;
+    private static Building building;
     private String houseid;
     private CheckHouseData checkHouseData;
     private static String responseData = "";
@@ -73,7 +73,7 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
                 responseData = preferences.getString("requestGetData","");
                 if(!(responseData.equals("")||responseData.equals("Invalid Token") )){
                     Gson gson = new Gson();
-                    building = gson.fromJson(responseData,new TypeToken<List<Building>>(){}.getType());
+                    building = gson.fromJson(responseData,new TypeToken<Building>(){}.getType());
                     //havegotresponsedata = true;
                     Toast.makeText(MyApplication.getContext(),"获得房屋成功!",Toast.LENGTH_SHORT).show();
                     initView();
@@ -114,10 +114,11 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
         setContentView(R.layout.activity_edit_house);
         findViewById(R.id.btn_add_picture).setOnClickListener(this);
         mRecyclerView = (RecyclerView) findViewById(R.id.media_recycle_view);
-        mAdapter = new MediaResultAdapter();
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new SpacesItemDecoration(8));
+        mAdapter = new MediaResultAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+
         //mRecyclerView.setOnClickListener(this);
 
         String [] data = new String[]{"1","2","3","4","5"};
@@ -202,21 +203,19 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
         checkBox.setChecked(building.getOthers().getLongx()==1);
 
         editText = findViewById(R.id.editcapacity);
-        editText.setText(building.getOthers().getCapacity());
+        editText.setText(String.valueOf(building.getOthers().getCapacity()));
 
         //int n = mRecyclerView.getChildCount();
         //String[] pictures = new String[n];
-        String[] pictures = building.getPictures();
-        for (int i = 0; i < pictures.length; i++){
-            //ImageView imageView = (ImageView) mRecyclerView.getChildAt(i);
-            ImageView imageView = new ImageView(EditHouseActivity.this);
-            imageView.setImageDrawable(Base64Util.Base64ToDrawable(EditHouseActivity.this,pictures[i]));
-            mRecyclerView.addView(imageView);
-
-            //Drawable d = imageView.getDrawable();
-            //pictures[i] = Base64Util.DrawableToBase64(d);
-        }
-
+//        String[] pictures = building.getPictures();
+//        for (int i = 0; i < pictures.length; i++){
+//            //ImageView imageView = (ImageView) mRecyclerView.getChildAt(i);
+//            ImageView imageView = new ImageView(EditHouseActivity.this);
+//            imageView.setImageDrawable(Base64Util.Base64ToDrawable(EditHouseActivity.this,pictures[i]));
+//            mRecyclerView.addView(imageView);
+//            //Drawable d = imageView.getDrawable();
+//            //pictures[i] = Base64Util.DrawableToBase64(d);
+//        }
     }
 
     @Override
@@ -264,10 +263,10 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
                         ImageView imageView = (ImageView) mRecyclerView.getChildAt(i);
                         pictures[i] = Base64Util.DrawableToBase64(imageView.getDrawable());
                     }
-                    Building building = new Building(
+                    Building b = new Building(
                             AuthInfo.userid,
                             AuthInfo.token,
-                            "",
+                            building.getHouseid(),
                             timeStr,
                             price,
                             square,
@@ -437,6 +436,13 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
 
             }
         }
+//        @Override
+//        public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+//            View v = LayoutInflater.from(context).inflate(R.layout.app_item, parent, false);
+//            v.getLayoutParams().height = recyclerView.getHeight() / ROW_NUM;
+//            return new Holder(v);
+//        }
+
 
         @Override
         public int getItemCount() {
@@ -451,6 +457,8 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.media_item);
         }
+
+
     }
 
 }
