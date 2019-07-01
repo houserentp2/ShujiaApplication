@@ -71,7 +71,7 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
             if(msg.what==0){
                 SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData", Context.MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
-                if(!(responseData.equals("")||responseData.equals("Invalid Token") )){
+                if(!(responseData.equals("")||responseData.equals("Invalid Token")|| responseData.equals("该房屋已被租") )){
                     Gson gson = new Gson();
                     building = gson.fromJson(responseData,new TypeToken<Building>(){}.getType());
                     //havegotresponsedata = true;
@@ -257,6 +257,26 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
                     editText = findViewById(R.id.editpath);
                     String path = editText.getText().toString();
 
+                    CheckBox checkBox = findViewById(R.id.havewater);
+                    int water = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.havepower);
+                    int power = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.havenet);
+                    int net = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.havehot);
+                    int hot = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.haveaircon);
+                    int aircon = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.havebus);
+                    int bus = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.shortx);
+                    int shortx = checkBox.isChecked() ? 1:0;
+                    checkBox = findViewById(R.id.longx);
+                    int longx = checkBox.isChecked() ? 1:0;
+
+                    editText = findViewById(R.id.editcapacity);
+                    int capacity = Integer.parseInt(editText.getText().toString());
+
                     int n = mRecyclerView.getChildCount();
                     String[] pictures = new String[n];
                     for (int i = 0; i < n; i++){
@@ -278,10 +298,23 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
                             city,
                             zone,
                             path,
-                            pictures
+                            pictures,
+                            water,
+                            power,
+                            net,
+                            hot,
+                            aircon,
+                            bus,
+                            shortx,
+                            longx,
+                            capacity,
+                            building.getOthers().getComments(),
+                            building.getOthers().getStatus().getLiving(),
+                            building.getOthers().getStatus().getTolive(),
+                            building.getOthers().getStatus().getLived()
 
                     );
-                    sendupdateBuildingMessage(building);
+                    sendupdateBuildingMessage(b);
 
                     finish();
 
@@ -391,7 +424,7 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
             if (list == null) {
                 return;
             }
-            //mList.clear();
+            mList.clear();
             mList.addAll(list);
             notifyDataSetChanged();
         }
@@ -436,13 +469,6 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
 
             }
         }
-//        @Override
-//        public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            View v = LayoutInflater.from(context).inflate(R.layout.app_item, parent, false);
-//            v.getLayoutParams().height = recyclerView.getHeight() / ROW_NUM;
-//            return new Holder(v);
-//        }
-
 
         @Override
         public int getItemCount() {

@@ -246,7 +246,7 @@ public class LandlordActivity extends BaseActivity {
                     intent.putExtra("houseid",buildingListData.getHouseid());
 
                     startActivity(intent);
-                    isRefreshData = true;
+                    //isRefreshData = true;
                 }
             });
             return convertView;
