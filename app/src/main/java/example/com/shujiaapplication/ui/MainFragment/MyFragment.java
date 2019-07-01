@@ -77,7 +77,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
             if(msg.what==0){                   //第一次加入审核
                 SharedPreferences preferences = getActivity().getSharedPreferences("requestData", MODE_PRIVATE);
                 responseJoin = preferences.getString("requestGetData","");
-                if(responseJoin.contains("Existed")){
+                if(responseJoin.contains("Get")){
                     Log.e("HomePageActivity","newAccountJoin"+responseJoin);
                     Toast.makeText(MyApplication.getContext(),"恭喜你成为审核员", Toast.LENGTH_SHORT).show();
                     switchVerify();

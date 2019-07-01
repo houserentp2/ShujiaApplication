@@ -69,7 +69,9 @@ public class ShortFragment extends MainFatherFragment{
             if(msg.what==0){
                 SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
-                if(responseData.contains("userid")){
+                Log.e("ShortFragment","inMSG-----------------------------"+responseData);
+                if(!responseData.equals("")){
+                    Log.e("ShortFragment","inMSG-----------------------------"+responseData);
                     Intent intent = new Intent(getActivity(), ShowBuildListActivity.class);
                     intent.putExtra("getHouseList",responseData);
                     startActivity(intent);
@@ -165,7 +167,7 @@ public class ShortFragment extends MainFatherFragment{
         searhButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SearchData search = new SearchData(AuthInfo.userid,AuthInfo.token,"");
+                SearchData search = new SearchData(AuthInfo.userid,AuthInfo.token,"武汉市");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

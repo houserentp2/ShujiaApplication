@@ -69,14 +69,14 @@ public class VerifyActivity extends BaseActivity {
     private Handler hand = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what == 1){
+            Log.e("VerifyActivity","inMessage----------------");
+            if(msg.what == 0){
                 SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
                 responseStr = preferences.getString("requestGetData","");
+                Log.e("VerifyActivity","inMessage----------------"+responseStr);
                 if(responseStr.contains("Success")){
                     Log.e("VerifyActivity","success!!!!!!!!"+responseStr);
-                    Intent intent = new Intent(VerifyActivity.this,VerifyResultActivity.class);
-                    intent.putExtra("result",""+result);
-                    startActivity(intent);
+
                 }
                 else{
                     Log.e("VerifyActivity","success!!!!!!!!"+responseStr);
@@ -92,6 +92,12 @@ public class VerifyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify);
         getBuilding();
+    }
+
+    private void switchToResult(){
+        Intent intent = new Intent(VerifyActivity.this,VerifyResultActivity.class);
+        intent.putExtra("result",""+result);
+        startActivity(intent);
     }
 
     private void init(){
@@ -147,7 +153,6 @@ public class VerifyActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 result = 1;
-                Log.e("VerifyActivity","verifyButton"+result);
                 sendResult();
             }
         });
@@ -160,10 +165,12 @@ public class VerifyActivity extends BaseActivity {
             public void run() {
                 RequsetData.requestData(check,"putcheckresult");
                 Message message = new Message();
-                message.what = 1;
+                message.what = 0;
                 handler.sendMessage(message);
             }
         }).start();
+
+        switchToResult();
     }
 
     //为控件绑定事件,绑定适配器

@@ -27,7 +27,7 @@ public class VerifyResultActivity extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             if(msg.what==0){                        //如果审核页面有数据则进入审核页面。
-                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData", Context.MODE_PRIVATE);
+                SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
                 responseSwitch = preferences.getString("requestGetData","");
                 Log.e("VerfityActivity","resonseData!!!"+responseSwitch);
                 if(responseSwitch.contains("userid")){
@@ -49,6 +49,11 @@ public class VerifyResultActivity extends BaseActivity {
         setContentView(R.layout.activity_verify_result);
         getResult();
         initView();
+        if(result > 0){
+            text.setText("审核通过成功");
+        }
+        else
+            text.setText("禁止通过成功");
     }
 
     private void initView(){
@@ -74,10 +79,12 @@ public class VerifyResultActivity extends BaseActivity {
     private void getResult(){
         Intent intent = getIntent();
         result = Integer.parseInt(intent.getStringExtra("result"));
-        if(result > 0){
-            text.setText("审核通过成功");
-        }
-        else
-            text.setText("禁止通过成功");
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 }
