@@ -95,7 +95,7 @@ public class CityChooseActivity extends BaseActivity implements AdapterView.OnIt
             @Override
             public boolean onQueryTextChange(String s) {
                 if(s.equals("")==true)
-                    s="'fjjsdlfj";
+                    s="wuhan";
                 initAdapter(s);
                 return true;
             }

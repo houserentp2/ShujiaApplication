@@ -40,6 +40,8 @@ public class DateChooseActivity extends BaseActivity {
     private int chooseType;
     public static final int SHORT_CHOOSE = 0;
     public static final int LONG_CHOOSE = 1;
+    public static final int SHORT_Pay = 2;
+    public static final int LONG_Pay = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +90,6 @@ public class DateChooseActivity extends BaseActivity {
                 }
             }
         });
-
         initData();
         nightText = (TextView) findViewById(R.id.night_count);
         inDate = (TextView) findViewById(R.id.in_data_textview);
@@ -172,9 +173,13 @@ public class DateChooseActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    private void switchToPay(){                //
+
+    }
+
     private void nightLongListener() throws ParseException {
         if(check()){
-            if(chooseType == SHORT_CHOOSE){
+            if(chooseType == SHORT_CHOOSE || chooseType == SHORT_Pay){
                 nightLong = DateCalculate.calculateDays(inDateStr,outDateStr);
                 nightText.setText("共"+nightLong+"晚");
             }
