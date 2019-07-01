@@ -20,6 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -107,7 +110,16 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         BuildingListData building = mBuildList.get(i);
-        viewHolder.building_image.setImageBitmap(resizeBitmap(building.getPictureByBitmap()));
+        String s = building.getPicture();
+        Glide.with(viewHolder.building_image.getContext())
+                .load(s)
+                .centerCrop()
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(viewHolder.building_image);
+
+
+//        viewHolder.building_image.setImageBitmap(resizeBitmap(building.getPictureByBitmap()));
         viewHolder.building_title.setText(building.getTitle());
         viewHolder.building_price.setText("¥"+building.getPrice());
         viewHolder.building_details.setText(building.getShiting().getShi()+"室"+building.getShiting().getTing()+"厅 |宜居"+building.getSquare()+"m²");
@@ -118,7 +130,7 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
         WindowManager WM = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         WM.getDefaultDisplay().getMetrics(dm);
         int newWidth = dm.widthPixels;
-        int newHeight = 700;
+        int newHeight = 810;
         int bitwidth = picture.getWidth();
         int bitheight = picture.getHeight();
         float scaleWidth = ((float) newWidth) / bitwidth;

@@ -170,7 +170,7 @@ public class ShortFragment extends MainFatherFragment{
             public void onClick(View view) {
                 searchButton.setEnabled(false);
                 //SearchData search = new SearchData(AuthInfo.userid,AuthInfo.token,city);
-                SearchData search = new SearchData(AuthInfo.userid,AuthInfo.token,"eee");
+                SearchData search = new SearchData(AuthInfo.userid,AuthInfo.token,"");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

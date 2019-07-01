@@ -30,9 +30,12 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +56,7 @@ public class VerifyActivity extends BaseActivity {
 
     private Building house;
 
-    private List<Bitmap> picture_id;
+    private List<String> picture_id;
 
 
     private int result;
@@ -109,9 +112,10 @@ public class VerifyActivity extends BaseActivity {
         startAutoPlay();
         List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
         String[] name = new String[]{"整套出租",house.getShiting().getShi()+"室"+house.getShiting().getTing()+"厅","宜居"+house.getOthers().getStatus().getLiving()+"人",house.getSquare()+"平方米"};
+        int[] pictures = new int[]{R.drawable.house_rent,R.drawable.shi_ting,R.drawable.living_people,R.drawable.square};
         for(int i=0;i<4;i++){
             Map<String, Object> item = new HashMap<String, Object>();
-            item.put("imageItem", R.drawable.background);//添加图像资源的ID
+            item.put("imageItem", pictures[i]);//添加图像资源的ID
             item.put("textItem", name[i]);//按序号添加ItemText
             items.add(item);
         }
@@ -126,9 +130,7 @@ public class VerifyActivity extends BaseActivity {
         Gson gson = new Gson();
         house = gson.fromJson(responseData,Building.class);
 
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        picture_id = house.getPicturesByBit(dm.widthPixels,dm.heightPixels);
+        picture_id = Arrays.asList(house.getPictures());
         init();
     }
     //绑定控件
@@ -192,17 +194,18 @@ public class VerifyActivity extends BaseActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int newWidth = dm.widthPixels;
         int newHeight = 1000;
-        for(Bitmap picture : picture_id){
-            int bitwidth = picture.getWidth();
-            int bitheight = picture.getHeight();
-            float scaleWidth = ((float) newWidth) / bitwidth;
-            float scaleHeight = ((float) newHeight) / bitheight;
-            Matrix matrix = new Matrix();
-            matrix.postScale(scaleWidth, scaleHeight);
-            picture = Bitmap.createBitmap(picture, 0, 0, bitwidth, bitheight, matrix, true);
-            Bitmap bitmap = Bitmap.createBitmap(picture, 0,0, dm.widthPixels, newHeight);
-            viewPages.add(buildLayout(bitmap));
-        }
+//        for(Bitmap picture : picture_id){
+//            int bitwidth = picture.getWidth();
+//            int bitheight = picture.getHeight();
+//            float scaleWidth = ((float) newWidth) / bitwidth;
+//            float scaleHeight = ((float) newHeight) / bitheight;
+//            Matrix matrix = new Matrix();
+//            matrix.postScale(scaleWidth, scaleHeight);
+//            picture = Bitmap.createBitmap(picture, 0, 0, bitwidth, bitheight, matrix, true);
+//            Bitmap bitmap = Bitmap.createBitmap(picture, 0,0, dm.widthPixels, newHeight);
+//            viewPages.add(buildLayout(bitmap));
+//        }
+        viewPages.add(buildLayout());
 
         adapter = new PagerAdapter() {
             //获取当前界面个数
@@ -232,19 +235,26 @@ public class VerifyActivity extends BaseActivity {
         };
     }
 
-    private LinearLayout buildLayout(Bitmap picture){
+    private LinearLayout buildLayout(){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
         LinearLayout layout = new LinearLayout(VerifyActivity.this);
         layout.setLayoutParams(params);
-        addView(layout,picture);
+        for(String picture:picture_id){
+            addView(layout,picture);
+        }
         return layout;
     }
 
-    private void addView(final LinearLayout lineLayout ,Bitmap picture){
+    private void addView(final LinearLayout lineLayout ,String url){
         ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         final ImageView iv = new ImageView(this);
-        iv.setImageBitmap(picture);
-//        iv.setImageDrawable(getResources().getDrawable(R.drawable.background));
+        Glide.with(iv.getContext())
+                .load(url)
+                .centerCrop()
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(iv);
+
         iv.setLayoutParams(vlp);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         lineLayout.addView(iv);

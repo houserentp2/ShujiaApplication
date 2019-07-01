@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -129,19 +130,6 @@ public class Building extends Data implements Serializable {
         return pictures;
     }
 
-    public List<Bitmap> getPicturesByBit(int width,int height){
-        ArrayList<Bitmap> ans = new ArrayList<Bitmap>();
-        for(String picture:pictures){
-            Bitmap bit = null;
-            try {
-                byte[] bytes = Base64.decode(picture, Base64.DEFAULT);
-                bit = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                ans.add(bit);
-            } catch (Exception e) {
-            }
-        }
-        return ans;
-    }
 
     public String getApply() {
         return apply;

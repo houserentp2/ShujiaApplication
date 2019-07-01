@@ -51,7 +51,7 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_show_build_list);
         Intent intent = getIntent();
         String responses = intent.getStringExtra("getHouseList");
-        Log.e("ShowBuildingLIst","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!案说法伽"+responses);
+        Log.e("ShowBuildingLIst","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!BuildingList"+responses);
         responseStr = responses;
         initBuildList(1,0,Integer.MAX_VALUE);
         initControl();

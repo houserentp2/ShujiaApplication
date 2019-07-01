@@ -1,5 +1,6 @@
 package example.com.shujiaapplication.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -22,6 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Array;
@@ -56,7 +59,7 @@ public class HouseInfomationActivity extends BaseActivity {
 
     private Building house;
 
-    private List<Bitmap> picture_id;
+    private List<String> picture_id;
 
 
     // 定义是否开启自动滚动，默认开启
@@ -98,9 +101,9 @@ public class HouseInfomationActivity extends BaseActivity {
         Log.e("HouseInformation","在这里详情页面的字符串是"+responesStr);
         Gson gson = new Gson();
         house = gson.fromJson(responesStr,Building.class);
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        picture_id = house.getPicturesByBit(dm.widthPixels,dm.heightPixels);
+
+        picture_id = Arrays.asList(house.getPictures());
+
     }
 
     //绑定控件
@@ -185,17 +188,21 @@ public class HouseInfomationActivity extends BaseActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int newWidth = dm.widthPixels;
         int newHeight = 1000;
-        for(Bitmap picture : picture_id){
-            int bitwidth = picture.getWidth();
-            int bitheight = picture.getHeight();
-            float scaleWidth = ((float) newWidth) / bitwidth;
-            float scaleHeight = ((float) newHeight) / bitheight;
-            Matrix matrix = new Matrix();
-            matrix.postScale(scaleWidth, scaleHeight);
-            picture = Bitmap.createBitmap(picture, 0, 0, bitwidth, bitheight, matrix, true);
-            Bitmap bitmap = Bitmap.createBitmap(picture, 0,0, dm.widthPixels, newHeight);
-            viewPages.add(buildLayout(bitmap));
+//        for(Bitmap picture : picture_id){
+//            int bitwidth = picture.getWidth();
+//            int bitheight = picture.getHeight();
+//            float scaleWidth = ((float) newWidth) / bitwidth;
+//            float scaleHeight = ((float) newHeight) / bitheight;
+//            Matrix matrix = new Matrix();
+//            matrix.postScale(scaleWidth, scaleHeight);
+//            picture = Bitmap.createBitmap(picture, 0, 0, bitwidth, bitheight, matrix, true);
+//            Bitmap bitmap = Bitmap.createBitmap(picture, 0,0, dm.widthPixels, newHeight);
+//            viewPages.add(buildLayout(bitmap));
+//        }
+        for(String url : picture_id){
+            viewPages.add(buildLayout(url));
         }
+
 
         adapter = new PagerAdapter() {
             //获取当前界面个数
@@ -219,6 +226,7 @@ public class HouseInfomationActivity extends BaseActivity {
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
                 View view = viewPages.get(position % viewPages.size());
+                Log.e("HouseInforMation","------------------"+viewPages.size());
                 container.addView(view);
                 return view;
             }
@@ -227,19 +235,26 @@ public class HouseInfomationActivity extends BaseActivity {
 
 
 
-    private LinearLayout buildLayout(Bitmap picture){
+    private LinearLayout buildLayout(String url){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
         LinearLayout layout = new LinearLayout(HouseInfomationActivity.this);
         layout.setLayoutParams(params);
-        addView(layout,picture);
+
+        addView(layout,url);
         return layout;
     }
 
-    private void addView(final LinearLayout lineLayout ,Bitmap picture){
+    private void addView(final LinearLayout lineLayout ,String url){
         ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         final ImageView iv = new ImageView(this);
-        iv.setImageBitmap(picture);
-//        iv.setImageDrawable(getResources().getDrawable(R.drawable.background));
+
+        Glide.with(MyApplication.getContext())
+                .load(url)
+                .centerCrop()
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                .into(iv);
+
         iv.setLayoutParams(vlp);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         lineLayout.addView(iv);

@@ -33,11 +33,10 @@
             android:layout_marginTop="20dp"/>
 
         <LinearLayout
-            android:background="@drawable/shape"
+            android:background="#eeeeee"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="#1D000000">
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp">
 
             <GridView
                 android:id="@+id/house_information_grid"
