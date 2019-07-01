@@ -3,6 +3,7 @@ package example.com.shujiaapplication.ui;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -20,7 +21,9 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,7 +128,9 @@ public class HouseInfomationActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(HouseInfomationActivity.this,ShowBuildingView.class);
                 CommentsData[] comments = house.getOthers().getComments();
-                intent.putExtra("getComments",comments);
+                List<CommentsData> commentList = Arrays.asList(comments);
+
+                intent.putParcelableArrayListExtra("getComments",(ArrayList<? extends Parcelable>) commentList);
                 startActivity(intent);
             }
         });
