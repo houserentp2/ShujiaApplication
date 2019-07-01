@@ -35,6 +35,7 @@
                 android:background="@drawable/mybackground"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id = "@+id/user_icon"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
@@ -42,8 +43,7 @@
                 circleimageview:civ_border_color="#ffffff"
                 circleimageview:civ_border_overlay="false"
                 circleimageview:civ_border_width="4dp"
-                circleimageview:civ_fill_color="@android:color/holo_blue_light"
-                android:src="@drawable/user" />
+                circleimageview:civ_fill_color="@android:color/holo_blue_light" />
 
             <GridView
                 android:layout_marginTop="20dp"
