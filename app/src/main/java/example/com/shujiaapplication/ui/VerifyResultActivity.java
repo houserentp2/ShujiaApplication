@@ -47,6 +47,8 @@ public class VerifyResultActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verify_result);
+        getResult();
+        initView();
     }
 
     private void initView(){

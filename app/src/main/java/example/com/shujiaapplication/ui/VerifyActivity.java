@@ -2,6 +2,9 @@ package example.com.shujiaapplication.ui;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +14,7 @@ import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -47,7 +51,7 @@ public class VerifyActivity extends BaseActivity {
 
     private Building house;
 
-    private List<Integer> picture_id;
+    private List<Bitmap> picture_id;
 
 
     private int result;
@@ -65,28 +69,20 @@ public class VerifyActivity extends BaseActivity {
     private Handler hand = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-//            if(msg.what==0){
-//                SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
-//                responseData = preferences.getString("requestGetData","");
-//                Log.e("VerfityActivity","resonseData!!!"+responseData);
-//                if(responseData.contains("userid")){
-//                    Gson gson = new Gson();
-//                    house = gson.fromJson(responseData,Building.class);
-//                    init();
-//                }else{
-//                    Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
-//                }
-//            }
             if(msg.what == 1){
                 SharedPreferences preferences = getSharedPreferences("requestData", Context.MODE_PRIVATE);
                 responseStr = preferences.getString("requestGetData","");
-                if(!responseStr.contains("Su")){
+                if(responseStr.contains("Success")){
+                    Log.e("VerifyActivity","success!!!!!!!!"+responseStr);
                     Intent intent = new Intent(VerifyActivity.this,VerifyResultActivity.class);
                     intent.putExtra("result",""+result);
                     startActivity(intent);
                 }
-                else
+                else{
+                    Log.e("VerifyActivity","success!!!!!!!!"+responseStr);
                     Toast.makeText(VerifyActivity.this,responseData,Toast.LENGTH_SHORT).show();
+                }
+
             }
         }
     };
@@ -117,24 +113,15 @@ public class VerifyActivity extends BaseActivity {
     }
 
     private void getBuilding(){                    //得到数据库信息
-//        DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                RequsetData.requestData(discount,"gettocheckhouse");
-//                Message message = new Message();
-//                message.what = 0;
-//                handler.sendMessage(message);
-//            }
-//        }).start();
         Intent intent = getIntent();
         responseData = intent.getStringExtra("checkerHouse");
         Gson gson = new Gson();
         house = gson.fromJson(responseData,Building.class);
+
+        picture_id = house.getPicturesByBit();
+
         init();
-
     }
-
     //绑定控件
     private void initView() {
         viewPager = (ViewPager) findViewById(R.id.page_view);
@@ -144,7 +131,6 @@ public class VerifyActivity extends BaseActivity {
 
         locationText = (TextView) findViewById(R.id.location_text);
         locationText.setText(house.getTitle()+house.getLocation().getProvince()+house.getLocation().getCity()+house.getLocation().getZone()+house.getLocation().getPath());
-
 
         cancelButton = (Button) findViewById(R.id.cancel_button);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +178,7 @@ public class VerifyActivity extends BaseActivity {
          * 对于这几个想要动态载入的page页面，使用LayoutInflater.inflate()来找到其布局文件，并实例化为View对象
          */
         LayoutInflater inflater = LayoutInflater.from(this);
-        for(int picture : picture_id){
+        for(Bitmap picture : picture_id){
             viewPages.add(buildLayout(picture));
         }
 
@@ -224,7 +210,7 @@ public class VerifyActivity extends BaseActivity {
         };
     }
 
-    private LinearLayout buildLayout(int picture){
+    private LinearLayout buildLayout(Bitmap picture){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
         LinearLayout layout = new LinearLayout(VerifyActivity.this);
         layout.setLayoutParams(params);
@@ -232,10 +218,10 @@ public class VerifyActivity extends BaseActivity {
         return layout;
     }
 
-    private void addView(final LinearLayout lineLayout ,int picture){
+    private void addView(final LinearLayout lineLayout ,Bitmap picture){
         ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         final ImageView iv = new ImageView(this);
-        iv.setImageResource(picture);
+        iv.setImageBitmap(picture);
 //        iv.setImageDrawable(getResources().getDrawable(R.drawable.background));
         iv.setLayoutParams(vlp);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);

@@ -22,12 +22,12 @@ public class OthersData extends Data {
     @SerializedName("capacity")
     private int capacity;
     @SerializedName("comments")
-    private String[] comments;
+    private CommentsData[] comments;
     @SerializedName("status")
     private StatusData status;
 
     OthersData(int water, int power, int net, int hot, int aircon, int bus, int shortx,int longx,
-               int capacity,String []comments,int living, int tolive, int lived){
+               int capacity,CommentsData[] comments,int living, int tolive, int lived){
         setWater(water);
         setPower(power);
         setNet(net);
@@ -67,7 +67,7 @@ public class OthersData extends Data {
         return status;
     }
 
-    public String[] getComments() {
+    public CommentsData[] getComments() {
         return comments;
     }
 
@@ -75,7 +75,7 @@ public class OthersData extends Data {
         this.capacity = capacity;
     }
 
-    public void setComments(String[] comments) {
+    public void setComments(CommentsData[] comments) {
         this.comments = comments;
     }
 

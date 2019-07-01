@@ -70,12 +70,11 @@ public class ShortFragment extends MainFatherFragment{
                 SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
                 if(responseData.contains("userid")){
-                    Log.e("HomePageActivity","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+responseData);
                     Intent intent = new Intent(getActivity(), ShowBuildListActivity.class);
                     intent.putExtra("getHouseList",responseData);
                     startActivity(intent);
                 }else{
-                    Log.e("HomePageActivity","!!!!???????!!!!!!!!!!!!!"+responseData);
+                    Log.e("ShortFragment","!!!!!!!!!!!!!!!!!!!!奥斯本发哦是个鲍勃啊博嘎布"+responseData);
                     Toast.makeText(getActivity(),"没有符合搜索条件的房屋",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -166,11 +165,11 @@ public class ShortFragment extends MainFatherFragment{
         searhButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DiscountData discount = new DiscountData(AuthInfo.userid,AuthInfo.token);
+                SearchData search = new SearchData(AuthInfo.userid,AuthInfo.token,"");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        RequsetData.requestData(discount,"gethouselist");
+                        RequsetData.requestData(search,"gethouselist");
                         Message message = new Message();
                         message.what = 0;
                         handler.sendMessage(message);

@@ -42,12 +42,17 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
     private int order_mode = 0;
     private static int min = 0;
     private static int max = Integer.MAX_VALUE;
+    private String responseStr = "";
     public static final MediaType JSON=MediaType.get("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_build_list);
+        Intent intent = getIntent();
+        String responses = intent.getStringExtra("getHouseList");
+        Log.e("ShowBuildingLIst","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!案说法伽"+responses);
+        responseStr = responses;
         initBuildList(1,0,Integer.MAX_VALUE);
         initControl();
         getMaxandMin();
@@ -143,8 +148,7 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
         pictures.add(R.drawable.unseen);
         List<BuildingListData> buildings = new ArrayList<>();
 
-        Intent intent = getIntent();
-        String responseStr = intent.getStringExtra("getHouseList");
+
         Gson gson = new Gson();
         buildings = gson.fromJson(responseStr,new TypeToken<List<BuildingListData>>(){}.getType());
 
@@ -176,7 +180,6 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
 
 
     public void screenPrice(List<BuildingListData> buildings,int low,int max){
-
         for(int i=buildings.size()-1;i>=0;i--){
             if(!((buildings.get(i).getPriceByInt()>=low)&&(buildings.get(i).getPriceByInt())<=max)){
                 buildings.remove(i);
