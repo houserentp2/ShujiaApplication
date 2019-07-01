@@ -12,7 +12,7 @@ import java.util.List;
 
 import example.com.shujiaapplication.R;
 
-public class ShowBuildingView extends AppCompatActivity {
+public class ShowBuildingView extends BaseActivity {
     private List<CommentsData> commentslist=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {

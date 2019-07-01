@@ -87,11 +87,6 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
         BoxingMediaLoader.getInstance().init(loader);
         BoxingCrop.getInstance().init(new BoxingUcrop());
         super.onCreate(savedInstanceState);
-        if(Build.VERSION.SDK_INT>=21){
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
         setContentView(R.layout.activity_add_house);
         findViewById(R.id.btn_add_picture).setOnClickListener(this);
 

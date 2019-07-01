@@ -49,11 +49,6 @@ public class DiscountActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(Build.VERSION.SDK_INT>=21){
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
         setContentView(R.layout.activity_discount);
         initDiscount();
     }
@@ -86,6 +81,8 @@ public class DiscountActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onItemClick(View view, int position) {
+        Intent intent1 = getIntent();
+        String activty = intent1.getStringExtra("fromActivity");
         Toast.makeText(DiscountActivity.this,"你选择了第"+(position+1)+"优惠券",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(DiscountActivity.this,OrderSecurity.class);
         intent.putExtra("discountID",discountLists.get(position).getDiscountid());

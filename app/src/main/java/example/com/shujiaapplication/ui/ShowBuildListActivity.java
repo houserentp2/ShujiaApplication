@@ -150,9 +150,9 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
 
 
         Gson gson = new Gson();
-        buildings = gson.fromJson(responseStr,buildings.getClass());
+        buildings = gson.fromJson(responseStr,new TypeToken<List<BuildingListData>>() {}.getType());
 
-
+        Collections.sort(buildings);
         if(m==1){
             if(buildingList.size()!=0){
                 for(int i=buildingList.size()-1;i>=0;i--){
@@ -176,7 +176,6 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
             }
         }
     }
-
 
 
     public void screenPrice(List<BuildingListData> buildings,int low,int max){

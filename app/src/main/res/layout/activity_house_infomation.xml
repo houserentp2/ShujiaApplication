@@ -33,7 +33,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:layout_marginTop="20dp"
             android:background="#eeeeee">
 
@@ -96,8 +96,8 @@
                 android:id="@+id/call_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:Text="聊天"
-                app:Src="@drawable/littleback"
+                app:Text="联系房东"
+                app:Src="@drawable/phone"
                 app:Oriental="Vertical">
             </example.com.shujiaapplication.ui.MyImageView>
 
