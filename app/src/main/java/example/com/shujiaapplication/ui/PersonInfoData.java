@@ -7,6 +7,8 @@ public class PersonInfoData  extends Data{
     private String userid;
     @SerializedName("token")
     private String token;
+    @SerializedName("icon")
+    private String user_head;
     @SerializedName("nickname")
     private String nickname;
     @SerializedName("id")
@@ -14,12 +16,22 @@ public class PersonInfoData  extends Data{
     @SerializedName("resident")
     private Resident resident;
 
-    public PersonInfoData(String u,String t,String n,String i,Resident resident){
+    public PersonInfoData(String u,String t,String user_head,String n,String i,Resident resident){
         this.userid = u;
         this.token = t;
+        this.user_head = user_head;
         this.nickname = n;
         this.id = i;
         this.resident = resident;
+    }
+
+
+    public String getUser_head() {
+        return user_head;
+    }
+
+    public void setUser_head(String user_head) {
+        this.user_head = user_head;
     }
 
     public void setToken(String token) {

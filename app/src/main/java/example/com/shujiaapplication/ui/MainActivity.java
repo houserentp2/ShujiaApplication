@@ -66,15 +66,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         String phone = preferences.getString("autoLoginPhone","");
         String password = preferences.getString("autoLoginPassword","");
         login(phone,password);
-
-//        if((!phone.equals(""))&&(!password.equals(""))){                                    //自动登录
-//            loginData=new LoginData(phone,"","",password);
-//            Log.e("MainActivity","in if");
-//            RequsetData.requestData(loginData,"login");
-//            Message message = new Message();
-//            message.what = LOGIN;
-//            handler.sendMessage(message);
-//        }
     }
 
     @Override
@@ -85,6 +76,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 String passward = editPassword.getText().toString();
                 login(phone,passward);
                 break;
+
+//                Intent intent = new Intent(MainActivity.this,HomePageActivity.class);
+//                startActivity(intent);
+//                break;
             }
             case R.id.forgetPassword:{
                 Intent intent1 = new Intent(MainActivity.this,ForgetPasswordActivity.class);
@@ -110,9 +105,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-
     public void login(String phone,String password){
-
         if(phone.length()!=11){
             Toast.makeText(MainActivity.this,"请输入11位手机号",Toast.LENGTH_SHORT).show();
         }else if(password.length()<6||password.length()>20){
@@ -131,6 +124,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }).start();
         }
     }
+
     public void initControl(){
         Button login = (Button)findViewById(R.id.login);
         setSeen = (Button)findViewById(R.id.setseen);

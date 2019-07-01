@@ -3,6 +3,8 @@ package example.com.shujiaapplication.ui.MainFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +33,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import example.com.shujiaapplication.R;
 import example.com.shujiaapplication.ui.ActivityCollector;
 import example.com.shujiaapplication.ui.AuthInfo;
@@ -42,11 +47,14 @@ import example.com.shujiaapplication.ui.LandlordActivity;
 import example.com.shujiaapplication.ui.MainActivity;
 import example.com.shujiaapplication.ui.ManageTravelerActivity;
 import example.com.shujiaapplication.ui.MyApplication;
+import example.com.shujiaapplication.ui.PersonInfoData;
 import example.com.shujiaapplication.ui.PersonalInfoActivity;
 import example.com.shujiaapplication.ui.RequsetData;
 import example.com.shujiaapplication.ui.ScoreActivity;
 import example.com.shujiaapplication.ui.ShowBuildListActivity;
 import example.com.shujiaapplication.ui.VerifyActivity;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class MyFragment extends Fragment implements AdapterView.OnItemClickListener {
     private static final String ARG_PARAM1 = "param1";
@@ -54,9 +62,11 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
     private String mParam1;
     private String mParam2;
     private GridView gridView;
+    private CircleImageView userIcon;
     private Button exitAccount;
     private static String responseJoin = "";
     private static String responseCheck = "";
+    private static String responseData = "";
     private static String responseSwitch = "";
 
     private OnFragmentInteractionListener mListener;
@@ -65,7 +75,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
         @Override
         public void handleMessage(Message msg) {
             if(msg.what==0){                   //第一次加入审核
-                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData", MODE_PRIVATE);
                 responseJoin = preferences.getString("requestGetData","");
                 if(responseJoin.contains("Existed")){
                     Log.e("HomePageActivity","newAccountJoin"+responseJoin);
@@ -76,7 +86,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
                 }
             }
             else if(msg.what == 1){
-                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData", MODE_PRIVATE);
                 responseCheck = preferences.getString("requestGetData","");
                 if(responseCheck.contains("Existed")){
                     Log.e("HomePageActivity","checker!!!!"+responseCheck);
@@ -87,7 +97,7 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
                 }
             }
             else if(msg.what==2){                        //如果审核页面有数据则进入审核页面。
-                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData", Context.MODE_PRIVATE);
+                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData", MODE_PRIVATE);
                 responseSwitch = preferences.getString("requestGetData","");
                 Log.e("VerfityActivity","resonseData!!!"+responseSwitch);
                 if(responseSwitch.contains("userid")){
@@ -97,14 +107,33 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
                 }else{
                     Toast.makeText(getActivity(),"暂时没有需要审核的房屋",Toast.LENGTH_SHORT).show();
                 }
+            }else if(msg.what==3){
+                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData",MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                Gson gson = new Gson();
+                PersonInfoData p = gson.fromJson(responseData,PersonInfoData.class);
+                if(p!=null&&p.getResident()!=null){
+                    userIcon.setImageBitmap(getPictureByBitmap(p.getUser_head()));
+                }else{
+                    userIcon.setImageResource(R.drawable.user);
+                }
             }
         }
     };
 
     public MyFragment() {
-
     }
 
+    public Bitmap getPictureByBitmap(String picture){
+        Bitmap bit = null;
+        try {
+            byte[] bytes = Base64.decode(picture, Base64.DEFAULT);
+            bit = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            return bit;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 
     @Override
@@ -113,9 +142,22 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
         AppCompatActivity appCompatActivity= (AppCompatActivity) getActivity();
         Toolbar toolbar= (Toolbar) appCompatActivity.findViewById(R.id.myToolbar);
         appCompatActivity.setSupportActionBar(toolbar);
-        super.onActivityCreated(savedInstanceState);
+        setOldInfo();
 
-        Log.e("MyFragment","activity!!!!!"+AuthInfo.token);
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    public void setOldInfo(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DiscountData discountData=new DiscountData(AuthInfo.userid,AuthInfo.token);
+                RequsetData.requestData(discountData,"getuserinfo");
+                Message message = new Message();
+                message.what = 3;
+                handler.sendMessage(message);
+            }
+        }).start();
     }
 
     @Override
@@ -135,7 +177,6 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
         return true;
     }
 
-    // TODO: Rename and change types and number of parameters
     public static MyFragment newInstance(String param1, String param2) {
         MyFragment fragment = new MyFragment();
         Bundle args = new Bundle();
@@ -175,11 +216,12 @@ public class MyFragment extends Fragment implements AdapterView.OnItemClickListe
             items.add(item);
         }
 
+        userIcon = (CircleImageView)view.findViewById(R.id.user_icon);
         exitAccount = (Button)view.findViewById(R.id.exitAccount);
         exitAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor editor = MyApplication.getContext().getSharedPreferences("autoLogin", Context.MODE_PRIVATE).edit();
+                SharedPreferences.Editor editor = MyApplication.getContext().getSharedPreferences("autoLogin", MODE_PRIVATE).edit();
                 editor.putString("autoLoginPhone","");
                 editor.putString("autoLoginPassword","");
                 editor.apply();
