@@ -37,12 +37,6 @@ public class DataGenerator {
         return fragments;
     }
 
-    /**
-     * 获取Tab 显示的内容
-     * @param context
-     * @param position
-     * @return
-     */
     public static View getTabView(Context context, int position){
         View view = LayoutInflater.from(context).inflate(R.layout.home_tab_content,null);
         ImageView tabIcon = (ImageView) view.findViewById(R.id.tab_content_image);

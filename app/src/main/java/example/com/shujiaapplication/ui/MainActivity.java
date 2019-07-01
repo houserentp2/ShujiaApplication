@@ -29,11 +29,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static String responseData = "";
     private static LoginData loginData;
     private static  final int LOGIN = 0;
+    private Button login;
     public static final MediaType JSON=MediaType.get("application/json; charset=utf-8");
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             if(msg.what==LOGIN){
+                login.setEnabled(true);
                 SharedPreferences preferences = getSharedPreferences("requestData",MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
                 if(responseData.contains("userid")){
@@ -72,6 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login:{                                                                       //if登录条件
+
                 String phone = editAccount.getText().toString();
                 String passward = editPassword.getText().toString();
                 login(phone,passward);
@@ -112,6 +115,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             Toast.makeText(MainActivity.this,"请输入6-20位的密码",Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(MainActivity.this,"登录中...",Toast.LENGTH_SHORT).show();
+            login.setEnabled(false);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -126,7 +130,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     public void initControl(){
-        Button login = (Button)findViewById(R.id.login);
+        login = (Button)findViewById(R.id.login);
         setSeen = (Button)findViewById(R.id.setseen);
         editAccount = (EditText)findViewById(R.id.editaccount);
         editPassword = (EditText)findViewById(R.id.editpassword);

@@ -209,16 +209,11 @@ public class DateChooseActivity extends BaseActivity {
     }
 
     private void selectPicker(CustomDatePicker mDatePicker){
-        // 不允许点击屏幕或物理返回键关闭
         mDatePicker.setCancelable(false);
-        // 不显示时和分
         mDatePicker.setCanShowPreciseTime(false);
-        // 不允许循环滚动
         mDatePicker.setScrollLoop(false);
-        // 不允许滚动动画
         mDatePicker.setCanShowAnim(false);
     }
-
 
     @Override
     protected void onDestroy() {

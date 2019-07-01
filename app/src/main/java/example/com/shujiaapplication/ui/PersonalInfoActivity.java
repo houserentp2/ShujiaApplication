@@ -23,11 +23,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.text.InputType;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -48,8 +51,11 @@ public class PersonalInfoActivity extends BaseActivity {
     private Button return_myfragment;
     private Button PIsave;
     private EditText PIHome;
+    private CardView PIcardview;
     private EditText PICity;
+    private ImageView myBackGround;
     private EditText PIeditName;
+    private LinearLayout processBar;
     private EditText PIIDNum;
     private CircleImageView userHead;
     private CityPicker cityPicker;
@@ -64,6 +70,13 @@ public class PersonalInfoActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case SETINFO:{
+                    processBar.setVisibility(View.GONE);
+                    return_myfragment.setVisibility(View.VISIBLE);
+                    myBackGround.setVisibility(View.VISIBLE);
+                    userHead.setVisibility(View.VISIBLE);
+                    PIcardview.setVisibility(View.VISIBLE);
+                    Toast.makeText(PersonalInfoActivity.this,"加载成功",Toast.LENGTH_SHORT).show();
+
                     SharedPreferences preferences = getSharedPreferences("requestData",MODE_PRIVATE);
                     responseData = preferences.getString("requestGetData","");
                     Gson gson = new Gson();
@@ -283,6 +296,9 @@ public class PersonalInfoActivity extends BaseActivity {
         PICity = (EditText)findViewById(R.id.PICity);
         PIeditName = (EditText)findViewById(R.id.PIeditName);
         PIIDNum = (EditText)findViewById(R.id.PIIDNum);
+        processBar = (LinearLayout)findViewById(R.id.progress_bar);
+        myBackGround = (ImageView)findViewById(R.id.mybackground);
+        PIcardview = (CardView)findViewById(R.id.PIcardview);
     }
 
     public void notKorad(EditText editText){

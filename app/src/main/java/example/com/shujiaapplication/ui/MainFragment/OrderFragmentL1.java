@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -42,27 +41,42 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
     private String mParam1;
     private String mParam2;
     private View mview;
-    private List<NewBuilding> buildingList=new ArrayList<>();
-    private List<BuildingListData>buildingList2=new ArrayList<>();
-    private List<NewBuilding> buildingList3=new ArrayList<>();
+    private List<NewBuilding> buildingList=new ArrayList<NewBuilding>();
+    private List<NewBuilding> buildingList2=new ArrayList<NewBuilding>();
     private String houseid;
     private BuildingListData buildinglistdata;
-
+    private static  final int GETRENTHOUSELIST = 1;
+    private static  final int GETHOUSELIST = 0;
+    private static String responseData = "";
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==GETHOUSELIST){
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",getActivity().MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
+                Gson gson = new Gson();
+                buildings = gson.fromJson(responseData,new TypeToken<List<BuildingListData>>(){}.getType());
+                BuildingListData building=new BuildingListData();
+                for(BuildingListData build:buildings){
+                    if(build.getHouseid().equals(houseid)){
+                        building=build;
+                        buildinglistdata=building;
+                    }
+                }
+            }else if(msg.what==GETRENTHOUSELIST){
+                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",getActivity().MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                Gson gson = new Gson();
+                buildingList = gson.fromJson(responseData,new TypeToken<List<NewBuilding>>(){}.getType());
+            }
+        }
+    };
     public OrderFragmentL1() {
-        // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment OrderFragmentL3.
-     */
     // TODO: Rename and change types and number of parameters
-    public static OrderFragmentL2 newInstance(String param1, String param2) {
-        OrderFragmentL2 fragment = new OrderFragmentL2();
+    public static OrderFragmentL1 newInstance(String param1, String param2) {
+        OrderFragmentL1 fragment = new OrderFragmentL1();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -88,7 +102,7 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
         RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_apply);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        BuildingAdapter adapter=new BuildingAdapter(buildingList3);
+        BuildingAdapter adapter=new BuildingAdapter(buildingList2);
         recyclerView.setAdapter(adapter);
         return mview;
     }
@@ -104,48 +118,63 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
     public void onClick(View view){
         switch(view.getId()){
             case R.id.button_leftno:
-                OrderFragmentS1 a=new OrderFragmentS1();
-                a.setBuildingList(buildingList);
-                a.setBuildingList2(buildingList2);
-                replaceFragment(a);
+                //TODO 申请
                 break;
             case R.id.button_sign:
-                OrderFragmentL2 b=new OrderFragmentL2();
-                b.setBuildingList(buildingList);
-                b.setBuildingList2(buildingList2);
-                replaceFragment(b);
+                //TODO 签约
                 break;
             case R.id.button_finish:
-                OrderFragmentL3 c=new OrderFragmentL3();
-                c.setBuildingList(buildingList);
-                c.setBuildingList2(buildingList2);
-                replaceFragment(c);
+                //TODO 完成的菜单
                 break;
             default:
                 break;
         }
     }
     public void initBuildings(){
-        for(NewBuilding building:buildingList) {
-            houseid = building.getHouseid();
-            for (BuildingListData buildingListData : buildingList2) {
-                if (houseid.equals(buildingListData.getHouseid())) {
-                    BuildingListData b = buildingListData;
-                    String start = building.getStart();
-                    String stop = building.getStop();
-                    int getpaied = Integer.valueOf(building.getResult());
-                    if (b.getOthers().getLongx() == 1) {
-                        if (isLaterToLocalTime(start) == 1) {
-                            buildingList3.add(building);
-                        } else {
-                            if (isLaterToLocalTime(stop) == 1) {
-                            } else {
-                            }
+        getRentBuildingInformation();
+        for(NewBuilding building:buildingList){
+            houseid=building.getHouseid();
+            getBuildingInformation(building.getUserid(),building.getToken(),building.getHouseid());
+            BuildingListData b=buildinglistdata;
+            String start=building.getStart();
+            String stop=building.getStop();
+            int getpaied=Integer.valueOf(building.getResult());
+            if(b.getOthers().getLongx()==1){
+                    if(isLaterToLocalTime(start)==1){
+                        buildingList2.add(building);
+                    }else{
+                        if(isLaterToLocalTime(stop)==1){
+
+                        }else{
+                            buildingList2.add(building);
                         }
                     }
-                }
             }
         }
+    }
+    public void getRentBuildingInformation(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GetHouseInfo a=new GetHouseInfo(AuthInfo.userid,AuthInfo.token);
+                RequsetData.requestData(a,"getmyrented");
+                Message message = new Message();
+                message.what = GETRENTHOUSELIST;
+                handler.sendMessage(message);
+            }
+        }).start();
+    }
+    public void getBuildingInformation(String Userid, String Token,String Houseid){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GetHouseInfo a=new GetHouseInfo(Userid,Token);
+                RequsetData.requestData(a,"gethouselist");
+                Message message = new Message();
+                message.what = GETHOUSELIST;
+                handler.sendMessage(message);
+            }
+        }).start();
     }
     //传入时间比当前时间小时，返回0
     public int isLaterToLocalTime(String a){
@@ -185,17 +214,5 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
         FragmentTransaction transaction=fragmentManager.beginTransaction();
         transaction.replace(R.id.order,fragment);
         transaction.commit();
-    }
-    public void setBuildingList(List<NewBuilding> a){
-        this.buildingList=a;
-    }
-    public void setBuildingList2(List<BuildingListData> a){
-        this.buildingList2=a;
-    }
-    public List<NewBuilding> getBuildingList(){
-        return buildingList;
-    }
-    public List<BuildingListData> getBuildingList2(){
-        return buildingList2;
     }
 }

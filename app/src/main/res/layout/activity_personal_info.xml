@@ -5,7 +5,30 @@
     android:layout_height="wrap_content"
     xmlns:circleimageview="http://schemas.android.com/tools">
 
+
+    <LinearLayout
+        android:id = "@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="加载中"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
     <Button
+        android:visibility="invisible"
         android:id = "@+id/return_myfragment"
         android:layout_margin="10dp"
         android:layout_width="35dp"
@@ -13,12 +36,14 @@
         android:background="@drawable/back_button"/>
 
     <ImageView
+        android:visibility="invisible"
         android:id = "@+id/mybackground"
         android:layout_width="match_parent"
         android:layout_height="230dp"
         android:background="@drawable/mybackground"/>
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:visibility="invisible"
         android:id = "@+id/user_head"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -29,6 +54,8 @@
 
 
     <android.support.v7.widget.CardView
+        android:id = "@+id/PIcardview"
+        android:visibility="invisible"
         android:layout_below="@+id/mybackground"
         android:layout_margin="20dp"
         android:layout_width="match_parent"
