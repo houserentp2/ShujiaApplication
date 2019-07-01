@@ -119,6 +119,15 @@ public class HouseInfomationActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent dateIntent = new Intent(HouseInfomationActivity.this,OrderSecurity.class);
                 //dateIntent.putExtra("ChooseType",LONG_CHOOSE);
+                String[] bundleStrs = new String[7];
+                bundleStrs[0] = house.getUserid();
+                bundleStrs[1] = house.getToken();
+                bundleStrs[2] = house.getHouseid();
+                bundleStrs[3] = house.getHostid();
+                bundleStrs[4] = house.getTime();
+                bundleStrs[5] = "2019-06-13";
+                bundleStrs[6] = "2019-07-24";
+                dateIntent.putExtra("getHouseData",bundleStrs);
                 startActivity(dateIntent);
             }
         });

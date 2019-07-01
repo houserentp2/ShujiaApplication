@@ -26,11 +26,9 @@ public class RequsetData {
                             .url("http://192.168.43.57:1323/"+url)   //192.168.31.71:1323
                             .post(requestBody)
                             .build();
-                    Response response=client.newCall(request).execute();                            //?????????????????????
+                    Response response=client.newCall(request).execute();
                     responseData=response.body().string();
                     Log.e("RequsetData", "handleMessage: "+responseData );
-
-                     Thread.sleep(300);
                     SharedPreferences.Editor editor = MyApplication.getContext().getSharedPreferences("requestData", Context.MODE_PRIVATE).edit();
                     editor.putString("requestGetData",responseData);
                      editor.apply();

@@ -26,6 +26,21 @@ public class NewBuilding extends Data implements Serializable {
     private String result;
     @SerializedName("pay")
     private Pay pay;
+
+    public NewBuilding(String id,String t,String hid,String hoid,String oid,String did,String tme,String s,String op,String res,Pay p){
+        setDiscountid(did);
+        setHostid(hoid);
+        setHouseidid(hid);
+        setOrderid(oid);
+        setPay(p);
+        setResult(res);
+        setStart(s);
+        setStop(op);
+        setTime(tme);
+        setToken(t);
+        setUserid(id);
+    }
+
     public void setUserid(String a){this.userid=a;}
     public void setToken(String a){this.token=a;}
     public void setHouseidid(String a){this.houseid=a;}
