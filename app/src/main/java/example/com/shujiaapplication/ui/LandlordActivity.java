@@ -51,7 +51,7 @@ public class LandlordActivity extends BaseActivity {
             if(msg.what==0){
                 SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData", Context.MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
-                if(!(responseData.equals("")||responseData.equals("Invalid Token") )){
+                if(!(responseData.equals("")||responseData.equals("Invalid Token") ||responseData == "null\n")){
                     Gson gson = new Gson();
                     buildingListDatas = gson.fromJson(responseData,new TypeToken<List<BuildingListData>>(){}.getType());
                     //havegotresponsedata = true;
@@ -87,7 +87,8 @@ public class LandlordActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 BuildingListData buildingListData = buildingListDatas.get(i);
-                /////
+                buildingListData.getHouseid();
+                //房屋详情
                 /////////
             }
         });
@@ -107,7 +108,9 @@ public class LandlordActivity extends BaseActivity {
         if (requestCode == 1 && data != null){
             String result = data.getExtras().getString("refresh");//得到新Activity 关闭后返回的数据
             if (result == "true"){
-                listAdapter.notifyDataSetChanged();
+                isRefreshData = true;
+                onResume();
+//                listAdapter.notifyDataSetChanged();
             }
         }
 
@@ -129,12 +132,17 @@ public class LandlordActivity extends BaseActivity {
 
     @Override
     public void onResume() {
+        if(buildingListDatas == null)
+        {
+            buildingListDatas = new ArrayList<>();
+        }
         if(isRefreshData)
         {
             Log.d("PageFragment","RefreshData");
 
             getBuildingListDatas();       //从服务器中获取数据
             isRefreshData = false;
+            listAdapter.notifyDataSetChanged();
         }
         //adapter.notifyDataSetChanged();
         super.onResume();
@@ -146,6 +154,13 @@ public class LandlordActivity extends BaseActivity {
             return buildingListDatas.size();
         }
 
+        @Override
+        public void notifyDataSetChanged()
+        {
+            if(buildingListDatas != null){
+                super.notifyDataSetChanged();
+            }
+        }
         @Override
         public Object getItem(int i) {
             return buildingListDatas.get(i);
@@ -209,37 +224,40 @@ public class LandlordActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     //TODO 修改房屋界面...
-                    Building building = new Building("",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            1,
-                            2,
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            new String[]{""});
+//                    Building building = new Building("",
+//                            "",
+//                            "",
+//                            "",
+//                            "",
+//                            "",
+//                            1,
+//                            2,
+//                            "",
+//                            "",
+//                            "",
+//                            "",
+//                            "",
+//                            "",
+//                            new String[]{""});
+                    BuildingListData buildingListData = buildingListDatas.get(position);
+
                     Intent intent = new Intent(MyApplication.getContext(), EditHouseActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
-                    intent.putExtra("houseid",building.getHouseid());
-                    intent.putExtra("price",building.getPrice());
-                    intent.putExtra("square",building.getSquare());
-                    intent.putExtra("shi",building.getShiting().getShi());
-                    intent.putExtra("ting",building.getShiting().getTing());
-                    intent.putExtra("title",building.getTitle());
-                    intent.putExtra("discription",building.getDescription());
-                    intent.putExtra("province",building.getLocation().getProvince());
-                    intent.putExtra("city",building.getLocation().getCity());
-                    intent.putExtra("zone",building.getLocation().getZone());
-                    intent.putExtra("path",building.getLocation().getPath());
-                    intent.putExtra("pictures",building.getPictures());
+                    intent.putExtra("houseid",buildingListData.getHouseid());
+//                    intent.putExtra("price",buildingListData.getPrice());
+//                    intent.putExtra("square",buildingListData.getSquare());
+//                    intent.putExtra("shi",buildingListData.getShiting().getShi());
+//                    intent.putExtra("ting",buildingListData.getShiting().getTing());
+//                    intent.putExtra("title",buildingListData.getTitle());
+//                    intent.putExtra("discription",buildingListData.getDescription());
+//                    intent.putExtra("province",buildingListData.getLocation().getProvince());
+//                    intent.putExtra("city",buildingListData.getLocation().getCity());
+//                    intent.putExtra("zone",buildingListData.getLocation().getZone());
+//                    intent.putExtra("path",buildingListData.getLocation().getPath());
+//                    intent.putExtra("pictures",buildingListData.getPictures());
 
                     startActivity(intent);
+                    isRefreshData = true;
                 }
             });
             return convertView;

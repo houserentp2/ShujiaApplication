@@ -1,8 +1,12 @@
 package example.com.shujiaapplication.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -30,6 +35,8 @@ import com.bilibili.boxing.model.entity.impl.ImageMedia;
 import com.bilibili.boxing.utils.ImageCompressor;
 import com.bilibili.boxing_impl.ui.BoxingActivity;
 import com.bilibili.boxing_impl.view.SpacesItemDecoration;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -53,8 +60,49 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
     private RecyclerView mRecyclerView;
     private MediaResultAdapter mAdapter;
     public LinkedList<String> ImagesBag=new LinkedList<String>();
-    Building building;
+    private Building building;
+    private int houseid;
+    private static String responseData = "";
 
+    private Handler gethousehandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==0){
+                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData", Context.MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                if(!(responseData.equals("")||responseData.equals("Invalid Token") )){
+                    Gson gson = new Gson();
+                    building = gson.fromJson(responseData,new TypeToken<List<Building>>(){}.getType());
+                    //havegotresponsedata = true;
+                    Toast.makeText(MyApplication.getContext(),"获得房屋成功!",Toast.LENGTH_SHORT).show();
+                    initView();
+//                    Intent intent = new Intent(MyApplication.getContext(), ShowBuildListActivity.class);
+//                    intent.putExtra("houseInformation",responseData);
+//                    MyApplication.getContext().startActivity(intent);
+
+                }else{
+                    Toast.makeText(MyApplication.getContext(),responseData,Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
+    private static Handler updatehandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what==0){
+                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData", Context.MODE_PRIVATE);
+                responseData = preferences.getString("requestGetData","");
+                if(!responseData.equals("")){
+                    Toast.makeText(MyApplication.getContext(),"成功!",Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(MyApplication.getContext(), ShowBuildListActivity.class);
+//                    intent.putExtra("houseInformation",responseData);
+//                    MyApplication.getContext().startActivity(intent);
+                }else{
+                    Toast.makeText(MyApplication.getContext(),responseData,Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getPermission();
@@ -90,14 +138,91 @@ public class EditHouseActivity extends BaseActivity implements View.OnClickListe
         //获得传入的Building
         Intent intent = getIntent();
         //Building building = intent.
+        houseid = intent.getIntExtra("houseid",0);
+        gethouseMessage();
+
+        //initView();
+    }
+
+    void gethouseMessage(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                RequsetData.requestData(building,"gethouse");
+                Message message = new Message();
+                message.what = 0;
+                gethousehandler.sendMessage(message);
+            }
+        }).start();
+
+    }
+    private  void initView(){
+        //Button b = findViewById()
+        EditText editText = findViewById(R.id.editprice);
+        editText.setText(building.getPrice());
+        editText = findViewById(R.id.editsquare);
+        editText.setText(building.getSquare());
+
+        Spinner spinner = (Spinner)findViewById(R.id.editShi);
+        spinner.setSelection(building.getShiting().getShi() - 1);
+        spinner = (Spinner)findViewById(R.id.editTing);
+        spinner.setSelection(building.getShiting().getTing() - 1);
+
+
+        editText = findViewById(R.id.edittitle);
+        editText.setText(building.getTitle());
+        editText = findViewById(R.id.editdiscription);
+        editText.setText(building.getDescription());
+        editText = findViewById(R.id.editprovince);
+        editText.setText(building.getLocation().getProvince());
+        editText = findViewById(R.id.editcity);
+        editText.setText(building.getLocation().getCity());
+        editText = findViewById(R.id.editzone);
+        editText.setText(building.getLocation().getZone());
+        editText = findViewById(R.id.editpath);
+        editText.setText(building.getLocation().getPath());
+
+        CheckBox checkBox = findViewById(R.id.havewater);
+        checkBox.setChecked(building.getOthers().getWater()==1);
+        checkBox = findViewById(R.id.havepower);
+        checkBox.setChecked(building.getOthers().getPower()==1);
+        checkBox = findViewById(R.id.havenet);
+        checkBox.setChecked(building.getOthers().getNet()==1);
+        checkBox = findViewById(R.id.havehot);
+        checkBox.setChecked(building.getOthers().getHot()==1);
+        checkBox = findViewById(R.id.haveaircon);
+        checkBox.setChecked(building.getOthers().getAircon()==1);
+        checkBox = findViewById(R.id.havebus);
+        checkBox.setChecked(building.getOthers().getBus()==1);
+        checkBox = findViewById(R.id.shortx);
+        checkBox.setChecked(building.getOthers().getShortx()==1);
+        checkBox = findViewById(R.id.longx);
+        checkBox.setChecked(building.getOthers().getLongx()==1);
+
+        editText = findViewById(R.id.editcapacity);
+        editText.setText(building.getOthers().getCapacity());
+
+        //int n = mRecyclerView.getChildCount();
+        //String[] pictures = new String[n];
+        String[] pictures = building.getPictures();
+        for (int i = 0; i < pictures.length; i++){
+            //ImageView imageView = (ImageView) mRecyclerView.getChildAt(i);
+            ImageView imageView = new ImageView(EditHouseActivity.this);
+            imageView.setImageDrawable(Base64Util.Base64ToDrawable(EditHouseActivity.this,pictures[i]));
+            mRecyclerView.addView(imageView);
+
+            //Drawable d = imageView.getDrawable();
+            //pictures[i] = Base64Util.DrawableToBase64(d);
+        }
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_add_picture:
-                BoxingConfig singleImgConfig = new BoxingConfig(BoxingConfig.Mode.SINGLE_IMG).withMediaPlaceHolderRes(R.drawable.ic_boxing_default_image);
-                Boxing.of(singleImgConfig).withIntent(this, BoxingActivity.class).start(this, COMPRESS_REQUEST_CODE);
+                BoxingConfig config = new BoxingConfig(BoxingConfig.Mode.MULTI_IMG).needGif();
+                Boxing.of(config).withIntent(this, BoxingActivity.class).start(this, REQUEST_CODE);
                 break;
             case R.id.btn_subscribe:
                 if(checkReg()){
