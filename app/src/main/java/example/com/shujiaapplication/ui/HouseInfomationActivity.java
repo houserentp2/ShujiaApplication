@@ -116,8 +116,8 @@ public class HouseInfomationActivity extends BaseActivity {
         reserveButton = (Button) findViewById(R.id.reserve_button);
         reserveButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent dateIntent = new Intent(HouseInfomationActivity.this,OrderSecurity.class);
+            public void onClick(View view) {                                  //日期预定
+                Intent dateIntent = new Intent(HouseInfomationActivity.this,DateChooseActivity.class);
                 //dateIntent.putExtra("ChooseType",LONG_CHOOSE);
                 String[] bundleStrs = new String[7];
                 bundleStrs[0] = house.getUserid();
@@ -125,9 +125,9 @@ public class HouseInfomationActivity extends BaseActivity {
                 bundleStrs[2] = house.getHouseid();
                 bundleStrs[3] = house.getHostid();
                 bundleStrs[4] = house.getTime();
-                bundleStrs[5] = "2019-06-13";
-                bundleStrs[6] = "2019-07-24";
-                dateIntent.putExtra("getHouseData",bundleStrs);
+//                bundleStrs[5] = "2019-06-13";
+//                bundleStrs[6] = "2019-07-24";
+                dateIntent.putExtra("getDateData",bundleStrs);
                 startActivity(dateIntent);
             }
         });

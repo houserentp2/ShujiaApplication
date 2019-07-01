@@ -49,7 +49,6 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
     static class ViewHolder extends RecyclerView.ViewHolder{
         View buildView;
         ImageView building_image;
-        ImageView collect_image;
         TextView building_title;
         TextView building_price;
         TextView building_details;
@@ -58,7 +57,6 @@ public class ShowBuildAdapter extends RecyclerView.Adapter<ShowBuildAdapter.View
         public ViewHolder(View view){
             super(view);
             buildView = view;
-            collect_image = (ImageView)view.findViewById(R.id.collect_image);
             building_item = (RelativeLayout)view.findViewById(R.id.building_item);
             building_image = (ImageView)view.findViewById(R.id.building_image);
             building_title = (TextView)view.findViewById(R.id.building_title);

@@ -36,6 +36,7 @@ public class DateChooseActivity extends BaseActivity {
     private String outDateStr;
     private int nightLong;
     private String maxDateStr = "2025-05-01";
+    private String[] dateStrs;
 
     private int chooseType;
     public static final int SHORT_CHOOSE = 0;
@@ -49,7 +50,15 @@ public class DateChooseActivity extends BaseActivity {
         setContentView(R.layout.activity_date_choose);
 
         chooseType = getChooseType();
+        if(chooseType == SHORT_Pay || chooseType == LONG_Pay){             //获得数据
+            Intent i = getIntent();
+            String[] strs = i.getStringArrayExtra("getDateData");
+            dateStrs = new String[7];
+            for(int j = 0;j < strs.length;j++){
+                dateStrs[j] = strs[j];
+            }
 
+        }
         initView();
         initDateInPicker();
         initDateOutPicker();
@@ -83,7 +92,12 @@ public class DateChooseActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if(check()){
-                    backActivity();
+                    if(chooseType == SHORT_Pay || chooseType == LONG_Pay){
+                        switchToPay();
+                    }
+                    else{
+                        backActivity();
+                    }
                 }
                 else{
                     Toast.makeText(DateChooseActivity.this,"请选择入住日期和离开日期",Toast.LENGTH_SHORT).show();
@@ -173,8 +187,12 @@ public class DateChooseActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    private void switchToPay(){                //
-
+    private void switchToPay(){                //跳转到支付页面  需要传递时间
+        dateStrs[5] = inDateStr;
+        dateStrs[6] = outDateStr;
+        Intent intent = new Intent(DateChooseActivity.this,OrderSecurity.class);
+        intent.putExtra("getHouseData",dateStrs);
+        startActivity(intent);
     }
 
     private void nightLongListener() throws ParseException {
