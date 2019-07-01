@@ -1,6 +1,8 @@
 package example.com.shujiaapplication.ui.MainFragment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,12 +29,14 @@ import example.com.shujiaapplication.ui.AuthInfo;
 import example.com.shujiaapplication.ui.Building;
 import example.com.shujiaapplication.ui.BuildingAdapter;
 import example.com.shujiaapplication.ui.BuildingListData;
+import example.com.shujiaapplication.ui.BuildingLiving;
 import example.com.shujiaapplication.ui.GetHouseInfo;
 import example.com.shujiaapplication.ui.NewBuilding;
+import example.com.shujiaapplication.ui.OnRecyclerItemClickListener;
 import example.com.shujiaapplication.ui.RequsetData;
 
 
-public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
+public class OrderFragmentS3 extends Fragment implements View.OnClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,8 +51,7 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
     private List<NewBuilding> buildingList3=new ArrayList<>();
     private String houseid;
     private BuildingListData buildinglistdata;
-
-    public OrderFragmentL1() {
+    public OrderFragmentS3() {
         // Required empty public constructor
     }
 
@@ -58,11 +61,11 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment OrderFragmentL3.
+     * @return A new instance of fragment OrderFragmentS3.
      */
     // TODO: Rename and change types and number of parameters
-    public static OrderFragmentL2 newInstance(String param1, String param2) {
-        OrderFragmentL2 fragment = new OrderFragmentL2();
+    public static OrderFragmentS3 newInstance(String param1, String param2) {
+        OrderFragmentS3 fragment = new OrderFragmentS3();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,53 +82,69 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
         }
         initBuildings();
     }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mview=inflater.inflate(R.layout.fragment_order_fragment_l1, container, false);
-        RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_apply);
+        mview=inflater.inflate(R.layout.fragment_order_fragment_s3, container, false);
+        RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_live);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
         BuildingAdapter adapter=new BuildingAdapter(buildingList3);
+        adapter.setRecyclerItemClickListener(new OnRecyclerItemClickListener() {
+            @Override
+            public void onItemClick(int Position, List<NewBuilding> buildingList) {
+                Intent intent=new Intent(getActivity(), BuildingLiving.class);
+                intent.putExtra("nbuild",buildingList.get(Position));
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
         return mview;
     }
+    @Override
     public void onActivityCreated(Bundle saveInstanceState){
         super.onActivityCreated(saveInstanceState);
-        Button a=mview.findViewById(R.id.button_leftno);
-        Button b=mview.findViewById(R.id.button_sign);
-        Button c=mview.findViewById(R.id.button_finish);
+        Button a=mview.findViewById(R.id.button_all);
+        Button b=mview.findViewById(R.id.button_pay);
+        Button c=mview.findViewById(R.id.button_view);
+        Button d=mview.findViewById(R.id.button_rightno);
         a.setOnClickListener(this);
         b.setOnClickListener(this);
         c.setOnClickListener(this);
+        d.setOnClickListener(this);
     }
     public void onClick(View view){
         switch(view.getId()){
-            case R.id.button_leftno:
+            case R.id.button_all:
                 OrderFragmentS1 a=new OrderFragmentS1();
                 a.setBuildingList(buildingList);
                 a.setBuildingList2(buildingList2);
                 replaceFragment(a);
                 break;
-            case R.id.button_sign:
-                OrderFragmentL2 b=new OrderFragmentL2();
+            case R.id.button_pay:
+                OrderFragmentS2 b=new OrderFragmentS2();
                 b.setBuildingList(buildingList);
                 b.setBuildingList2(buildingList2);
                 replaceFragment(b);
                 break;
-            case R.id.button_finish:
-                OrderFragmentL3 c=new OrderFragmentL3();
+            case R.id.button_view:
+                OrderFragmentS4 c=new OrderFragmentS4();
                 c.setBuildingList(buildingList);
                 c.setBuildingList2(buildingList2);
                 replaceFragment(c);
+                break;
+            case R.id.button_rightno:
+                OrderFragmentL1 d=new OrderFragmentL1();
+                d.setBuildingList(buildingList);
+                d.setBuildingList2(buildingList2);
+                replaceFragment(d);
                 break;
             default:
                 break;
         }
     }
-    public void initBuildings(){
+    public void initBuildings() {
+
         for(NewBuilding building:buildingList) {
             houseid = building.getHouseid();
             for (BuildingListData buildingListData : buildingList2) {
@@ -134,12 +153,16 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
                     String start = building.getStart();
                     String stop = building.getStop();
                     int getpaied = Integer.valueOf(building.getResult());
-                    if (b.getOthers().getLongx() == 1) {
-                        if (isLaterToLocalTime(start) == 1) {
-                            buildingList3.add(building);
+                    if (b.getOthers().getShortx() == 1) {
+                        if (getpaied == 0) {
                         } else {
-                            if (isLaterToLocalTime(stop) == 1) {
+                            if (isLaterToLocalTime(start) == 1) {
+
                             } else {
+                                if (isLaterToLocalTime(stop) == 1) {
+                                    buildingList3.add(building);
+                                } else {
+                                }
                             }
                         }
                     }
@@ -147,7 +170,7 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
             }
         }
     }
-    //传入时间比当前时间小时，返回0
+
     public int isLaterToLocalTime(String a){
         Calendar cal=Calendar.getInstance();
         int y=cal.get(Calendar.YEAR);

@@ -31,8 +31,7 @@ import example.com.shujiaapplication.ui.GetHouseInfo;
 import example.com.shujiaapplication.ui.NewBuilding;
 import example.com.shujiaapplication.ui.RequsetData;
 
-
-public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
+public class OrderFragmentL2 extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,7 +47,7 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
     private String houseid;
     private BuildingListData buildinglistdata;
 
-    public OrderFragmentL1() {
+    public OrderFragmentL2() {
         // Required empty public constructor
     }
 
@@ -84,8 +83,8 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mview=inflater.inflate(R.layout.fragment_order_fragment_l1, container, false);
-        RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_apply);
+        mview=inflater.inflate(R.layout.fragment_order_fragment_l2, container, false);
+        RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_sign);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
         BuildingAdapter adapter=new BuildingAdapter(buildingList3);
@@ -95,7 +94,7 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
     public void onActivityCreated(Bundle saveInstanceState){
         super.onActivityCreated(saveInstanceState);
         Button a=mview.findViewById(R.id.button_leftno);
-        Button b=mview.findViewById(R.id.button_sign);
+        Button b=mview.findViewById(R.id.button_apply);
         Button c=mview.findViewById(R.id.button_finish);
         a.setOnClickListener(this);
         b.setOnClickListener(this);
@@ -109,8 +108,8 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
                 a.setBuildingList2(buildingList2);
                 replaceFragment(a);
                 break;
-            case R.id.button_sign:
-                OrderFragmentL2 b=new OrderFragmentL2();
+            case R.id.button_apply:
+                OrderFragmentL1 b=new OrderFragmentL1();
                 b.setBuildingList(buildingList);
                 b.setBuildingList2(buildingList2);
                 replaceFragment(b);
@@ -125,7 +124,7 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
                 break;
         }
     }
-    public void initBuildings(){
+    public void initBuildings() {
         for(NewBuilding building:buildingList) {
             houseid = building.getHouseid();
             for (BuildingListData buildingListData : buildingList2) {
@@ -136,9 +135,10 @@ public class OrderFragmentL1 extends Fragment implements View.OnClickListener {
                     int getpaied = Integer.valueOf(building.getResult());
                     if (b.getOthers().getLongx() == 1) {
                         if (isLaterToLocalTime(start) == 1) {
-                            buildingList3.add(building);
+
                         } else {
                             if (isLaterToLocalTime(stop) == 1) {
+                                buildingList3.add(building);
                             } else {
                             }
                         }
