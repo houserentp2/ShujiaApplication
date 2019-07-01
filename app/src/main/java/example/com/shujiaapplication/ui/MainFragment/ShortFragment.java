@@ -56,7 +56,7 @@ public class ShortFragment extends MainFatherFragment{
     private TextView outDateText;
     private TextView nightText;
     private TextView positionText;
-    private Button searhButton;
+    private Button searchButton;
     private static String responseData = "";
 
     private String[] strs;
@@ -69,14 +69,15 @@ public class ShortFragment extends MainFatherFragment{
             if(msg.what==0){
                 SharedPreferences preferences = getActivity().getSharedPreferences("requestData",Context.MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
-                Log.e("ShortFragment","inMSG-----------------------------"+responseData);
-                if(!responseData.equals("")){
-                    Log.e("ShortFragment","inMSG-----------------------------"+responseData);
-                    Intent intent = new Intent(getActivity(), ShowBuildListActivity.class);
+                Log.e("ShortFragment","获取房屋列表的数据是"+responseData);
+                searchButton.setEnabled(true);
+                if(responseData.contains("id")){
+                    Log.e("ShortFragment","房屋列表数据是"+responseData);
+                    Intent intent = new Intent(MyApplication.getContext(), ShowBuildListActivity.class);
                     intent.putExtra("getHouseList",responseData);
                     startActivity(intent);
                 }else{
-                    Log.e("ShortFragment","!!!!!!!!!!!!!!!!!!!!奥斯本发哦是个鲍勃啊博嘎布"+responseData);
+                    Log.e("ShortFragment","!!!!!!!!!!!!!!!!!!!!返回房屋列表的是空"+responseData);
                     Toast.makeText(getActivity(),"没有符合搜索条件的房屋",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -163,11 +164,12 @@ public class ShortFragment extends MainFatherFragment{
         inDateText = (TextView) getActivity().findViewById(R.id.date_in);
         outDateText = (TextView) getActivity().findViewById(R.id.date_out);
         nightText = (TextView) getActivity().findViewById(R.id.night_date);
-        searhButton = (Button) getActivity().findViewById(R.id.search_short_button);
-        searhButton.setOnClickListener(new View.OnClickListener() {
+        searchButton = (Button) getActivity().findViewById(R.id.search_short_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SearchData search = new SearchData(AuthInfo.userid,AuthInfo.token,"武汉市");
+                searchButton.setEnabled(false);
+                SearchData search = new SearchData(AuthInfo.userid,AuthInfo.token,"eee");
                 new Thread(new Runnable() {
                     @Override
                     public void run() {

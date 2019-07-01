@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 SharedPreferences preferences = getSharedPreferences("requestData",MODE_PRIVATE);
                 responseData = preferences.getString("requestGetData","");
                 if(responseData.contains("userid")){
-                    Toast.makeText(MainActivity.this,"登录成功!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,responseData,Toast.LENGTH_SHORT).show();
                     SharedPreferences.Editor editor = MyApplication.getContext().getSharedPreferences("autoLogin", Context.MODE_PRIVATE).edit();
                     editor.putString("autoLoginPhone",loginData.getNewAccountName());
                     editor.putString("autoLoginPassword",loginData.getNewAccountPassword());

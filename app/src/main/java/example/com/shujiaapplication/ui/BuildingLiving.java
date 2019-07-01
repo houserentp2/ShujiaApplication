@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,19 +33,24 @@ public class BuildingLiving extends AppCompatActivity {
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-            if(msg.what==GETHOUSELIST){
-                SharedPreferences preferences = getSharedPreferences("requestData",MODE_PRIVATE);
-                responseData = preferences.getString("requestGetData","");
-                ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
-                Gson gson = new Gson();
-                buildings = gson.fromJson(responseData,new TypeToken<List<BuildingListData>>(){}.getType());
-                BuildingListData building=new BuildingListData();
-                for(BuildingListData build:buildings){
-                    if(build.getHouseid().equals(houseid)){
-                        building=build;
-                        buildinglistdata=building;
+            try {
+                if (msg.what == GETHOUSELIST) {
+                    SharedPreferences preferences = getSharedPreferences("requestData", MODE_PRIVATE);
+                    responseData = preferences.getString("requestGetData", "");
+                    ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
+                    Gson gson = new Gson();
+                    buildings = gson.fromJson(responseData, new TypeToken<List<BuildingListData>>() {
+                    }.getType());
+                    BuildingListData building = new BuildingListData();
+                    for (BuildingListData build : buildings) {
+                        if (build.getHouseid().equals(houseid)) {
+                            building = build;
+                            buildinglistdata = building;
+                        }
                     }
                 }
+            }catch(Exception e){
+                Toast.makeText(BuildingLiving.this,e.toString(),Toast.LENGTH_SHORT);
             }
         }
     };
@@ -68,6 +74,11 @@ public class BuildingLiving extends AppCompatActivity {
         buildingLivingPeople.setText(mbuild.getPrice());
         Button button =findViewById(R.id.pay);
         a=new ArrayList<String>();
+        a.add("默认好评");
+        a.add("默认好评");
+        a.add("默认好评");
+        a.add("默认好评");
+        a.add("默认好评");
         for(String view:newString){
             String b="匿名用户："+view;
             a.add(b);
@@ -78,7 +89,7 @@ public class BuildingLiving extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(BuildingLiving.this,OrderSecurity.class);
+                Intent intent=new Intent(BuildingLiving.this,OrderLive.class);
                 intent.putExtra("nbuild1",nbuild);
                 startActivity(intent);
             }

@@ -2,6 +2,7 @@ package example.com.shujiaapplication.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Base64;
 
 import com.google.gson.annotations.SerializedName;
@@ -135,6 +136,7 @@ public class Building extends Data implements Serializable {
             try {
                 byte[] bytes = Base64.decode(picture, Base64.DEFAULT);
                 bit = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Bitmap bitmap = Bitmap.createBitmap(bit, 0,0, 200, 300);
                 ans.add(bit);
             } catch (Exception e) {
             }

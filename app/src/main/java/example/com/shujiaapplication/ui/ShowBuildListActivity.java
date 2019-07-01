@@ -150,7 +150,7 @@ public class ShowBuildListActivity extends BaseActivity implements View.OnClickL
 
 
         Gson gson = new Gson();
-        buildings = gson.fromJson(responseStr,new TypeToken<List<BuildingListData>>(){}.getType());
+        buildings = gson.fromJson(responseStr,buildings.getClass());
 
 
         if(m==1){

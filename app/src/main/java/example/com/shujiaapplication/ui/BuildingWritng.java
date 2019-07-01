@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,6 +32,7 @@ public class BuildingWritng extends BaseActivity implements View.OnClickListener
                 responseData = preferences.getString("requestGetData","");
                 Gson gson = new Gson();
                 String isfinished = gson.fromJson(responseData,String.class);
+                Toast.makeText(BuildingWritng.this,isfinished,Toast.LENGTH_SHORT);
             }
         }
     };
@@ -48,8 +50,8 @@ public class BuildingWritng extends BaseActivity implements View.OnClickListener
     public void onClick(View v){
         switch (v.getId()){
             case R.id.view_button:
-                String commen =editText.getText().toString();
-                setcomment(commen);
+                String comment =editText.getText().toString();
+                setcomment(comment);
                 Intent intent=new Intent(BuildingWritng.this,OrderSuccess.class);
                 startActivity(intent);
                 break;

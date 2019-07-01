@@ -21,7 +21,7 @@ public class RequsetData {
                     OkHttpClient client = new OkHttpClient();
                     Gson gson=new Gson();
                     RequestBody requestBody=RequestBody.create(JSON,gson.toJson(d));
-
+                    Log.e("FFFFFF", "requestData: "+ gson.toJson(d));
                     Request request=new Request.Builder()//http://210.42.105.207
                             .url("http://192.168.43.57:1323/"+url)   //192.168.31.71:1323
                             .post(requestBody)
