@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,36 +42,11 @@ public class OrderFragmentL2 extends Fragment implements View.OnClickListener {
     private String mParam2;
     private View mview;
     private List<NewBuilding> buildingList=new ArrayList<>();
-    private List<NewBuilding> buildingList2=new ArrayList<>();
+    private List<BuildingListData>buildingList2=new ArrayList<>();
+    private List<NewBuilding> buildingList3=new ArrayList<>();
     private String houseid;
     private BuildingListData buildinglistdata;
-    private static  final int GETRENTHOUSELIST = 1;
-    private static  final int GETHOUSELIST = 0;
-    private static String responseData = "";
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            if(msg.what==GETHOUSELIST){
-                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",getActivity().MODE_PRIVATE);
-                responseData = preferences.getString("requestGetData","");
-                ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
-                Gson gson = new Gson();
-                buildings = gson.fromJson(responseData,new TypeToken<List<BuildingListData>>(){}.getType());
-                BuildingListData building=new BuildingListData();
-                for(BuildingListData build:buildings){
-                    if(build.getHouseid().equals(houseid)){
-                        building=build;
-                        buildinglistdata=building;
-                    }
-                }
-            }else if(msg.what==GETRENTHOUSELIST){
-                SharedPreferences preferences = getActivity().getSharedPreferences("requestData",getActivity().MODE_PRIVATE);
-                responseData = preferences.getString("requestGetData","");
-                Gson gson = new Gson();
-                buildingList = gson.fromJson(responseData,new TypeToken<List<NewBuilding>>(){}.getType());
-            }
-        }
-    };
+
     public OrderFragmentL2() {
         // Required empty public constructor
     }
@@ -111,7 +87,7 @@ public class OrderFragmentL2 extends Fragment implements View.OnClickListener {
         RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_sign);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        BuildingAdapter adapter=new BuildingAdapter(buildingList2);
+        BuildingAdapter adapter=new BuildingAdapter(buildingList3);
         recyclerView.setAdapter(adapter);
         return mview;
     }
@@ -127,61 +103,49 @@ public class OrderFragmentL2 extends Fragment implements View.OnClickListener {
     public void onClick(View view){
         switch(view.getId()){
             case R.id.button_leftno:
-                replaceFragment(new OrderFragmentS1());
+                OrderFragmentS1 a=new OrderFragmentS1();
+                a.setBuildingList(buildingList);
+                a.setBuildingList2(buildingList2);
+                replaceFragment(a);
                 break;
             case R.id.button_apply:
-                replaceFragment(new OrderFragmentL1());
+                OrderFragmentL1 b=new OrderFragmentL1();
+                b.setBuildingList(buildingList);
+                b.setBuildingList2(buildingList2);
+                replaceFragment(b);
                 break;
             case R.id.button_finish:
-                replaceFragment(new OrderFragmentL3());
+                OrderFragmentL3 c=new OrderFragmentL3();
+                c.setBuildingList(buildingList);
+                c.setBuildingList2(buildingList2);
+                replaceFragment(c);
                 break;
             default:
                 break;
         }
     }
     public void initBuildings() {
-        getRentBuildingInformation();
-        for(NewBuilding building:buildingList){
-            houseid=building.getHouseid();
-            getBuildingInformation(building.getUserid(),building.getToken(),building.getHouseid());
-            BuildingListData b=buildinglistdata;
-            String start=building.getStart();
-            String stop=building.getStop();
-            int getpaied=Integer.valueOf(building.getResult());
-            if(b.getOthers().getLongx()==1){
-                if(isLaterToLocalTime(start)==1){
-                }else{
-                    if(isLaterToLocalTime(stop)==1){
-                        buildingList2.add(building);
-                    }else{
+        for(NewBuilding building:buildingList) {
+            houseid = building.getHouseid();
+            for (BuildingListData buildingListData : buildingList2) {
+                if (houseid.equals(buildingListData.getHouseid())) {
+                    BuildingListData b = buildingListData;
+                    String start = building.getStart();
+                    String stop = building.getStop();
+                    int getpaied = Integer.valueOf(building.getResult());
+                    if (b.getOthers().getLongx() == 1) {
+                        if (isLaterToLocalTime(start) == 1) {
+
+                        } else {
+                            if (isLaterToLocalTime(stop) == 1) {
+                                buildingList3.add(building);
+                            } else {
+                            }
+                        }
                     }
                 }
             }
         }
-    }
-    public void getRentBuildingInformation(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GetHouseInfo a=new GetHouseInfo(AuthInfo.userid,AuthInfo.token);
-                RequsetData.requestData(a,"getmyrented");
-                Message message = new Message();
-                message.what = GETRENTHOUSELIST;
-                handler.sendMessage(message);
-            }
-        }).start();
-    }
-    public void getBuildingInformation(String Userid, String Token,String Houseid){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GetHouseInfo a=new GetHouseInfo(Userid,Token);
-                RequsetData.requestData(a,"gethouselist");
-                Message message = new Message();
-                message.what = GETHOUSELIST;
-                handler.sendMessage(message);
-            }
-        }).start();
     }
     //传入时间比当前时间小时，返回0
     public int isLaterToLocalTime(String a){
@@ -221,5 +185,17 @@ public class OrderFragmentL2 extends Fragment implements View.OnClickListener {
         FragmentTransaction transaction=fragmentManager.beginTransaction();
         transaction.replace(R.id.order,fragment);
         transaction.commit();
+    }
+    public void setBuildingList(List<NewBuilding> a){
+        this.buildingList=a;
+    }
+    public void setBuildingList2(List<BuildingListData> a){
+        this.buildingList2=a;
+    }
+    public List<NewBuilding> getBuildingList(){
+        return buildingList;
+    }
+    public List<BuildingListData> getBuildingList2(){
+        return buildingList2;
     }
 }
