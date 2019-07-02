@@ -42,7 +42,6 @@
             android:layout_height="wrap_content"
             android:background="#ffdbdbdb"
             android:text="全部"
-            android:textColor="#ffff0000"
             android:textStyle="bold"/>
         <Button
             android:id="@+id/button_pay"
@@ -67,6 +66,7 @@
             android:layout_height="wrap_content"
             android:background="#ffdbdbdb"
             android:text="待评价"
+            android:textColor="#ffff0000"
             android:textStyle="bold"/></LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/view_view"

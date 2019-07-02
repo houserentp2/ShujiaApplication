@@ -86,10 +86,11 @@ public class DiscountActivity extends BaseActivity implements View.OnClickListen
         if(activty.equals("MyFragment")){
         }else{
             Toast.makeText(DiscountActivity.this,"你选择了第"+(position+1)+"优惠券",Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(DiscountActivity.this,OrderSecurity.class);
+            Intent intent = new Intent();
             intent.putExtra("discountID",discountLists.get(position).getDiscountid());
             intent.putExtra("discountMoney",discountLists.get(position).getReduce());
-            startActivity(intent);
+            setResult(RESULT_OK,intent);
+            finish();
         }
     }
     @Override

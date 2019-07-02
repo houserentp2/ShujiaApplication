@@ -42,7 +42,7 @@
         <Button
             android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:textColor="#ffff0000"
+
             android:text="已申请"
             android:layout_weight="1"
             android:background="#ffdbdbdb"
@@ -52,6 +52,7 @@
         <Button
             android:layout_height="wrap_content"
             android:layout_width="0dp"
+            android:textColor="#ffff0000"
             android:text="已签约"
             android:layout_weight="1"
             android:background="#ffdbdbdb"

@@ -4,9 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/building_background"
     tools:context=".ui.OrderSuccess">
 <Button
     android:id="@+id/succeess"
+    android:text="支付成功，点我返回"
+    android:background="#55FFFFFF"
+    android:textSize="@dimen/text_size_40"
     android:layout_width="match_parent"
     android:layout_height="match_parent"  />
 </LinearLayout>

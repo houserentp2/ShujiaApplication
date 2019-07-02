@@ -135,6 +135,8 @@ public class OrderFragmentS4 extends Fragment implements View.OnClickListener{
         }
     }
     public void initBuildings(){
+        AuthInfo.setBuildingList(buildingList);
+        AuthInfo.setBuildingList2(buildingList2);
         for(NewBuilding building:buildingList) {
             houseid = building.getHouseid();
             for (BuildingListData buildingListData : buildingList2) {

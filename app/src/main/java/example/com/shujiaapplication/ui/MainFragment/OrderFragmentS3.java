@@ -117,26 +117,18 @@ public class OrderFragmentS3 extends Fragment implements View.OnClickListener{
         switch(view.getId()){
             case R.id.button_all:
                 OrderFragmentS1 a=new OrderFragmentS1();
-                a.setBuildingList(buildingList);
-                a.setBuildingList2(buildingList2);
                 replaceFragment(a);
                 break;
             case R.id.button_pay:
                 OrderFragmentS2 b=new OrderFragmentS2();
-                b.setBuildingList(buildingList);
-                b.setBuildingList2(buildingList2);
                 replaceFragment(b);
                 break;
             case R.id.button_view:
                 OrderFragmentS4 c=new OrderFragmentS4();
-                c.setBuildingList(buildingList);
-                c.setBuildingList2(buildingList2);
                 replaceFragment(c);
                 break;
             case R.id.button_rightno:
                 OrderFragmentL1 d=new OrderFragmentL1();
-                d.setBuildingList(buildingList);
-                d.setBuildingList2(buildingList2);
                 replaceFragment(d);
                 break;
             default:
@@ -144,7 +136,8 @@ public class OrderFragmentS3 extends Fragment implements View.OnClickListener{
         }
     }
     public void initBuildings() {
-
+        AuthInfo.setBuildingList(buildingList);
+        AuthInfo.setBuildingList2(buildingList2);
         for(NewBuilding building:buildingList) {
             houseid = building.getHouseid();
             for (BuildingListData buildingListData : buildingList2) {

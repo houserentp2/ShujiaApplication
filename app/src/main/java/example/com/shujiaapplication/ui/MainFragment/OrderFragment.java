@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,12 @@ public class OrderFragment extends Fragment {
                     Gson gson = new Gson();
                     buildingList = gson.fromJson(responseData, new TypeToken<List<NewBuilding>>() {
                     }.getType());
+                    Log.e("OrderFragment","newbuildingnumber_________________"+buildingList.size());
+                    OrderFragmentS1 a=new OrderFragmentS1();
+                    AuthInfo.setBuildingList(buildingList);
+                    AuthInfo.setBuildingList2(buildingList2);
+                    Log.e("auth","newbuildingnumber_________________"+AuthInfo.getBuildingList().size());
+                    replaceFragment(a);
                 }
             }catch(Exception e){
                 Toast.makeText(getActivity(),"目前无房屋",Toast.LENGTH_SHORT);
@@ -89,10 +96,7 @@ public class OrderFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        OrderFragmentS1 a=new OrderFragmentS1();
-        a.setBuildingList(buildingList);
-        a.setBuildingList2(buildingList2);
-        replaceFragment(a);
+        initBuildings();
     }
 
     @Override
@@ -124,6 +128,7 @@ public class OrderFragment extends Fragment {
             houseid=building.getHouseid();
             getBuildingInformation(building.getUserid(),building.getToken(),building.getHouseid());
         }
+
     }
     public void getRentBuildingInformation(){
         new Thread(new Runnable() {

@@ -42,7 +42,6 @@
             android:layout_height="wrap_content"
             android:background="#ffdbdbdb"
             android:text="全部"
-            android:textColor="#ffff0000"
             android:textStyle="bold"/>
         <Button
             android:id="@+id/button_pay"
@@ -50,6 +49,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:background="#ffdbdbdb"
+            android:textColor="#ffff0000"
             android:text="待支付"
             android:textStyle="bold"/>
         <Button

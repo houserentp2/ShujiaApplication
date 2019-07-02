@@ -16,6 +16,8 @@ public class NewBuilding extends Data implements Serializable {
     private String orderid;
     @SerializedName("discountid")
     private String discountid;
+    @SerializedName("pay")
+    private Pay pay;
     @SerializedName("time")
     private String time;
     @SerializedName("start")
@@ -23,11 +25,9 @@ public class NewBuilding extends Data implements Serializable {
     @SerializedName("stop")
     private String stop;
     @SerializedName("result")
-    private String result;
-    @SerializedName("pay")
-    private Pay pay;
+    private int result;
 
-    public NewBuilding(String id,String t,String hid,String hoid,String oid,String did,String tme,String s,String op,String res,Pay p){
+    public NewBuilding(String id,String t,String hid,String hoid,String oid,String did,String tme,String s,String op,int res,Pay p){
         setDiscountid(did);
         setHostid(hoid);
         setHouseidid(hid);
@@ -50,7 +50,7 @@ public class NewBuilding extends Data implements Serializable {
     public void setTime(String a){this.time=a;}
     public void setStart(String a){this.start=a;}
     public void setStop(String a){this.stop=a;}
-    public void setResult(String a){this.result=a;}
+    public void setResult(int a){this.result=a;}
     public void setPay(Pay a){this.pay=a;}
     public String getUserid(){return userid;}
     public String getToken(){return token;}
@@ -61,6 +61,6 @@ public class NewBuilding extends Data implements Serializable {
     public String getTime(){return time;}
     public String getStart(){return start;}
     public String getStop(){return stop;}
-    public String getResult(){return result;}
+    public int getResult(){return result;}
     public Pay pay(){return pay;}
 }

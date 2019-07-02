@@ -104,20 +104,14 @@ public class OrderFragmentL2 extends Fragment implements View.OnClickListener {
         switch(view.getId()){
             case R.id.button_leftno:
                 OrderFragmentS1 a=new OrderFragmentS1();
-                a.setBuildingList(buildingList);
-                a.setBuildingList2(buildingList2);
                 replaceFragment(a);
                 break;
             case R.id.button_apply:
                 OrderFragmentL1 b=new OrderFragmentL1();
-                b.setBuildingList(buildingList);
-                b.setBuildingList2(buildingList2);
                 replaceFragment(b);
                 break;
             case R.id.button_finish:
                 OrderFragmentL3 c=new OrderFragmentL3();
-                c.setBuildingList(buildingList);
-                c.setBuildingList2(buildingList2);
                 replaceFragment(c);
                 break;
             default:
@@ -125,6 +119,8 @@ public class OrderFragmentL2 extends Fragment implements View.OnClickListener {
         }
     }
     public void initBuildings() {
+        AuthInfo.setBuildingList(buildingList);
+        AuthInfo.setBuildingList2(buildingList2);
         for(NewBuilding building:buildingList) {
             houseid = building.getHouseid();
             for (BuildingListData buildingListData : buildingList2) {

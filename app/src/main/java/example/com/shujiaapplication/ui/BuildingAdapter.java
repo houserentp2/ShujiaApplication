@@ -52,12 +52,10 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView buildingImage;
         TextView buildingMessage;
         TextView buildingTips;
         public ViewHolder(View view){
             super(view);
-            buildingImage=(ImageView)view.findViewById(R.id.building_view);
             buildingMessage=(TextView)view.findViewById(R.id.buiding_message);
             buildingTips=(TextView)view.findViewById(R.id.buiding_tips);
             view.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +84,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHo
         houseid=building.getHouseid();
         getBuildingInformation(building.getUserid(),building.getToken(),building.getHouseid());
         BuildingListData a=buildinglistdata;
-        holder.buildingImage.setImageBitmap(a.getPictureByBitmap());
+       // holder.buildingImage.setImageBitmap(a.getPictureByBitmap());
         holder.buildingMessage.setText(a.getTitle());
         if(a.getOthers().getShortx()==1){
             String start=building.getStart();

@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="住多多支付"
+            android:text="找租支付"
             android:textSize="@dimen/text_size_50"
             android:gravity="center"/>
         <RelativeLayout
