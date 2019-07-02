@@ -39,12 +39,14 @@ public class OrderFragment extends Fragment {
     private BuildingListData buildinglistdata;
     private static  final int GETRENTHOUSELIST = 1;
     private static  final int GETHOUSELIST = 0;
+    private static  final int GETFINHOUSELIST=2;
     private static String responseData = "";
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             try {
                 if (msg.what == GETHOUSELIST) {
+                    Log.e("orderFragment","++++++++++aaaaaa");
                     SharedPreferences preferences = getActivity().getSharedPreferences("requestData", getActivity().MODE_PRIVATE);
                     responseData = preferences.getString("requestGetData", "");
                     ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
@@ -59,18 +61,42 @@ public class OrderFragment extends Fragment {
                             buildingList2.add(building);
                         }
                     }
-                } else if (msg.what == GETRENTHOUSELIST) {
-                    SharedPreferences preferences = getActivity().getSharedPreferences("requestData", getActivity().MODE_PRIVATE);
-                    responseData = preferences.getString("requestGetData", "");
-                    Gson gson = new Gson();
-                    buildingList = gson.fromJson(responseData, new TypeToken<List<NewBuilding>>() {
-                    }.getType());
                     Log.e("OrderFragment","newbuildingnumber_________________"+buildingList.size());
                     OrderFragmentS1 a=new OrderFragmentS1();
                     AuthInfo.setBuildingList(buildingList);
                     AuthInfo.setBuildingList2(buildingList2);
                     Log.e("auth","newbuildingnumber_________________"+AuthInfo.getBuildingList().size());
                     replaceFragment(a);
+                }
+                else if (msg.what == GETFINHOUSELIST) {
+                    SharedPreferences preferences = getActivity().getSharedPreferences("requestData", getActivity().MODE_PRIVATE);
+                    responseData = preferences.getString("requestGetData", "");
+                    ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
+                    Gson gson = new Gson();
+                    buildings = gson.fromJson(responseData, new TypeToken<List<BuildingListData>>() {
+                    }.getType());
+                    BuildingListData building = new BuildingListData();
+                    for (BuildingListData build : buildings) {
+                        if (build.getHouseid().equals(houseid)) {
+                            building = build;
+                            buildinglistdata = building;
+                            buildingList2.add(building);
+                        }
+                    }
+                    Log.e("OrderFragment","newbuildingnumber_________________"+buildingList.size());
+                    OrderFragmentS1 a=new OrderFragmentS1();
+                    AuthInfo.setBuildingList(buildingList);
+                    AuthInfo.setBuildingList2(buildingList2);
+                    Log.e("auth","newbuildingnumber_________________"+AuthInfo.getBuildingList().size());
+                    replaceFragment(a);
+                }
+                else if (msg.what == GETRENTHOUSELIST) {
+                    SharedPreferences preferences = getActivity().getSharedPreferences("requestData", getActivity().MODE_PRIVATE);
+                    responseData = preferences.getString("requestGetData", "");
+                    Gson gson = new Gson();
+                    buildingList = gson.fromJson(responseData, new TypeToken<List<NewBuilding>>() {
+                    }.getType());
+
                 }
             }catch(Exception e){
                 Toast.makeText(getActivity(),"目前无房屋",Toast.LENGTH_SHORT);
@@ -124,11 +150,27 @@ public class OrderFragment extends Fragment {
     }
     public void initBuildings() {
         getRentBuildingInformation();
-        for(NewBuilding building:buildingList){
-            houseid=building.getHouseid();
-            getBuildingInformation(building.getUserid(),building.getToken(),building.getHouseid());
+        int count=0;
+        int s=buildingList.size();
+        Log.e("orderFragment","++++++++++aaaaaa"+buildingList.size());
+        if(s==0){
+            OrderFragmentS1 a=new OrderFragmentS1();
+            AuthInfo.setBuildingList(buildingList);
+            AuthInfo.setBuildingList2(buildingList2);
+            Log.e("auth","newbuildingnumber_________________"+AuthInfo.getBuildingList().size());
+            replaceFragment(a);
         }
-
+        for(NewBuilding building:buildingList) {
+            Log.e("orderFragment","++++++++++aaaaaa");
+            count++;
+            if (count == s) {
+                houseid = building.getHouseid();
+                getFinBuildingInformation(building.getUserid(), building.getToken(), building.getHouseid());
+            }else{
+                houseid = building.getHouseid();
+                getBuildingInformation(building.getUserid(), building.getToken(), building.getHouseid());
+            }
+        }
     }
     public void getRentBuildingInformation(){
         new Thread(new Runnable() {
@@ -143,6 +185,7 @@ public class OrderFragment extends Fragment {
         }).start();
     }
     public void getBuildingInformation(String Userid, String Token,String Houseid){
+        Log.e("orderFragment","++++++++++aaaaaa");
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -150,6 +193,18 @@ public class OrderFragment extends Fragment {
                 RequsetData.requestData(a,"gethouselist");
                 Message message = new Message();
                 message.what = GETHOUSELIST;
+                handler.sendMessage(message);
+            }
+        }).start();
+    }
+    public void getFinBuildingInformation(String Userid, String Token,String Houseid){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                GetHouseInfo a=new GetHouseInfo(Userid,Token);
+                RequsetData.requestData(a,"gethouselist");
+                Message message = new Message();
+                message.what = GETFINHOUSELIST;
                 handler.sendMessage(message);
             }
         }).start();

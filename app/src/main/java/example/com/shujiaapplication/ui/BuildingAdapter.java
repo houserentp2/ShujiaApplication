@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,27 +27,9 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHo
     private OnRecyclerItemClickListener monItemClickListener;
     private String houseid;
     private BuildingListData buildinglistdata;
+    private List<BuildingListData> buildings = new ArrayList<BuildingListData>();
     private static  final int GETHOUSELIST = 0;
     private static String responseData = "";
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            if(msg.what==GETHOUSELIST){
-                SharedPreferences preferences = MyApplication.getContext().getSharedPreferences("requestData",MyApplication.getContext().MODE_PRIVATE);
-                responseData = preferences.getString("requestGetData","");
-                ArrayList<BuildingListData> buildings = new ArrayList<BuildingListData>();
-                Gson gson = new Gson();
-                buildings = gson.fromJson(responseData,new TypeToken<List<BuildingListData>>(){}.getType());
-                BuildingListData building=new BuildingListData();
-                for(BuildingListData build:buildings){
-                    if(build.getHouseid().equals(houseid)){
-                        building=build;
-                        buildinglistdata=building;
-                    }
-                }
-            }
-        }
-    };
     public void setRecyclerItemClickListener(OnRecyclerItemClickListener listener){
         monItemClickListener=listener;
     }
@@ -56,6 +39,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHo
         TextView buildingTips;
         public ViewHolder(View view){
             super(view);
+            Log.e("Adapters1","newbuildingnumber11111_________________"+mBuildingList.size());
             buildingMessage=(TextView)view.findViewById(R.id.buiding_message);
             buildingTips=(TextView)view.findViewById(R.id.buiding_tips);
             view.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +66,7 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder,int positon){
         NewBuilding building =mBuildingList.get(positon);
         houseid=building.getHouseid();
+        Log.e("Adapters1","newbuildingnumber11111_________________"+mBuildingList.size());
         getBuildingInformation(building.getUserid(),building.getToken(),building.getHouseid());
         BuildingListData a=buildinglistdata;
        // holder.buildingImage.setImageBitmap(a.getPictureByBitmap());
@@ -117,16 +102,15 @@ public class BuildingAdapter extends RecyclerView.Adapter<BuildingAdapter.ViewHo
         return mBuildingList.size();
     }
     public void getBuildingInformation(String Userid, String Token,String Houseid){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GetHouseInfo a=new GetHouseInfo(Userid,Token);
-                RequsetData.requestData(a,"gethouselist");
-                Message message = new Message();
-                message.what = GETHOUSELIST;
-                handler.sendMessage(message);
+        Gson gson = new Gson();
+        buildings = AuthInfo.getBuildingList2();
+        BuildingListData building=new BuildingListData();
+        for(BuildingListData build:buildings){
+            if(build.getHouseid().equals(houseid)){
+                building=build;
+                buildinglistdata=building;
             }
-        }).start();
+        }
     }
     public int isLaterToLocalTime(String a){
         Calendar cal=Calendar.getInstance();

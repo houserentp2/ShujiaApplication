@@ -31,7 +31,7 @@ public class ShowBuildingView extends BaseActivity {
         });
     }
     public void initComments(){
-        Intent intent=getIntent();
-        List<CommentsData> comments = intent.getParcelableArrayListExtra("getComments");
+       Intent intent=getIntent();
+       List<CommentsData> comments = intent.getParcelableArrayListExtra("getComments");
     }
 }

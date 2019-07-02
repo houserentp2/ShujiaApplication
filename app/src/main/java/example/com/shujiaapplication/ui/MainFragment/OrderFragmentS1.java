@@ -99,6 +99,7 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
         RecyclerView recyclerView=(RecyclerView)mview.findViewById(R.id.view_all);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
+        Log.e("Adapters1","newbuildingnumber11111_________________"+buildingList3.size());
         BuildingAdapter adapter=new BuildingAdapter(buildingList3);
         adapter.setRecyclerItemClickListener(new OnRecyclerItemClickListener() {
             @Override
@@ -167,10 +168,12 @@ public class OrderFragmentS1 extends Fragment implements  View.OnClickListener {
     public void initBuildings(){
         setBuildingList(AuthInfo.getBuildingList());
         setBuildingList2(AuthInfo.getBuildingList2());
-        Log.e("OrderFragments1","newbuildingnumber_________________"+buildingList.size());
+        Log.e("OrderFragments1","newbuildingnumber_________________"+buildingList2.size());
         for(NewBuilding building:buildingList) {
             houseid = building.getHouseid();
+            Log.e("OrderFragments1","houseid________________"+houseid);
             for (BuildingListData buildingListData : buildingList2) {
+                Log.e("OrderFragments1","buildinglistid_________________"+buildingListData.getHouseid());
                 if (houseid.equals(buildingListData.getHouseid())) {
                     BuildingListData b = buildingListData;
                     String start = building.getStart();
