@@ -29,7 +29,6 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
     private Button setSeen2;
     private Button getCode;                                                                        //得到验证码按钮
     private Button register;                                                                       //注册按钮
-    private Button testLink;
     private static String responseData = "";
     private static  final int TESTCONNECTIO= 0;
     private static final int REGISTER = 1;
@@ -154,15 +153,6 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
                 }
                 break;
             }
-            case R.id.testLink:{
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        SendMessage();
-                    }
-                }).start();
-
-            }
         }
     }
 
@@ -191,11 +181,9 @@ public class NewAccountActivity extends BaseActivity implements View.OnClickList
         editAccount = (EditText)findViewById(R.id.editaccount);
         editPassword = (EditText)findViewById(R.id.editpassword);
         surePassword = (EditText)findViewById(R.id.editSurePassword);
-        testLink = (Button)findViewById(R.id.testLink);
         getCode.setOnClickListener(this);
         register.setOnClickListener(this);
         setSeen1.setOnClickListener(this);
         setSeen2.setOnClickListener(this);
-        testLink.setOnClickListener(this);
     }
 }

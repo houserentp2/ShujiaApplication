@@ -83,13 +83,15 @@ public class DiscountActivity extends BaseActivity implements View.OnClickListen
     public void onItemClick(View view, int position) {
         Intent intent1 = getIntent();
         String activty = intent1.getStringExtra("fromActivity");
-        Toast.makeText(DiscountActivity.this,"你选择了第"+(position+1)+"优惠券",Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(DiscountActivity.this,OrderSecurity.class);
-        intent.putExtra("discountID",discountLists.get(position).getDiscountid());
-        intent.putExtra("discountMoney",discountLists.get(position).getReduce());
-        startActivity(intent);
+        if(activty.equals("MyFragment")){
+        }else{
+            Toast.makeText(DiscountActivity.this,"你选择了第"+(position+1)+"优惠券",Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(DiscountActivity.this,OrderSecurity.class);
+            intent.putExtra("discountID",discountLists.get(position).getDiscountid());
+            intent.putExtra("discountMoney",discountLists.get(position).getReduce());
+            startActivity(intent);
+        }
     }
-
     @Override
     public void onItemLongClick(View view, int position) {
 

@@ -86,8 +86,8 @@ public class Code {
                 .setContentText(code)
                 .setWhen(System.currentTimeMillis())
                 .setVisibility(Notification.VISIBILITY_PUBLIC)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(MyApplication.getContext().getResources(),R.mipmap.ic_launcher));
+                .setSmallIcon(R.mipmap.app_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(MyApplication.getContext().getResources(),R.mipmap.app_icon));
         manager.notify(1,notification.build());
     }
 
