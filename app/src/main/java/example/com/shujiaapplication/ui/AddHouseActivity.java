@@ -320,7 +320,7 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
             flag = false;
             editText.setError("格式错误");
         }
-        if(mRecyclerView.getChildCount() < 4){
+        if(mRecyclerView.getAdapter().getItemCount() < 4){
             flag = false;
             Toast.makeText(AddHouseActivity.this,"至少需要四张图片",Toast.LENGTH_SHORT).show();
         }
