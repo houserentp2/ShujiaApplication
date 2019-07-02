@@ -172,7 +172,7 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
 //                        }
                     }
                     //数据是使用Intent返回
-                    Intent intent = new Intent();
+                    Intent intent = getIntent();
                     //把返回数据存入Intent
                     intent.putExtra("refresh", "true");
                     //设置返回数据
@@ -320,7 +320,7 @@ public class AddHouseActivity extends BaseActivity implements View.OnClickListen
             flag = false;
             editText.setError("格式错误");
         }
-        if(mRecyclerView.getChildCount() < 1){
+        if(mRecyclerView.getChildCount() < 4){
             flag = false;
             Toast.makeText(AddHouseActivity.this,"至少需要四张图片",Toast.LENGTH_SHORT).show();
         }

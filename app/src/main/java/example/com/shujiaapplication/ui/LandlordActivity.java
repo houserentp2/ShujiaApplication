@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bilibili.boxing.impl.Base64Util;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -151,7 +153,11 @@ public class LandlordActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            return buildingListDatas.size();
+            if (buildingListDatas!=null){
+                return buildingListDatas.size();
+
+            }
+            return  0;
         }
 
         @Override
@@ -213,8 +219,12 @@ public class LandlordActivity extends BaseActivity {
 
             // 设置图标显示
             ImageView iconView = (ImageView)convertView.findViewById(R.id.id_picture);
-
-            iconView.setImageDrawable(Base64Util.Base64ToDrawable(LandlordActivity.this,data.getPicture()));
+            Glide.with(MyApplication.getContext())
+                    .load(data.getPicture())
+                    .centerCrop()
+                    .dontAnimate()
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .into(iconView);
 
             ImageButton button = (ImageButton)convertView.findViewById(R.id.id_edithouse);
 

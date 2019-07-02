@@ -27,7 +27,7 @@ public class RequsetData {
 //                    MultipartBody b = MultipartBody
 
                     Request request=new Request.Builder()//http://210.42.105.207
-                            .url("http://192.168.31.71:1323/"+url)   //192.168.31.71:1323
+                            .url("http://210.42.105.207/"+url)   //192.168.31.71:1323
                             .post(requestBody)
                             .build();
                     Response response=client.newCall(request).execute();

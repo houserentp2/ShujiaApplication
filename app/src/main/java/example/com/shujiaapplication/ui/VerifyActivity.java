@@ -205,7 +205,9 @@ public class VerifyActivity extends BaseActivity {
 //            Bitmap bitmap = Bitmap.createBitmap(picture, 0,0, dm.widthPixels, newHeight);
 //            viewPages.add(buildLayout(bitmap));
 //        }
-        viewPages.add(buildLayout());
+        for(String url : picture_id){
+            viewPages.add(buildLayout(url));
+        }
 
         adapter = new PagerAdapter() {
             //获取当前界面个数
@@ -235,20 +237,18 @@ public class VerifyActivity extends BaseActivity {
         };
     }
 
-    private LinearLayout buildLayout(){
+    private LinearLayout buildLayout(String url){
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,300);
         LinearLayout layout = new LinearLayout(VerifyActivity.this);
         layout.setLayoutParams(params);
-        for(String picture:picture_id){
-            addView(layout,picture);
-        }
+        addView(layout,url);
         return layout;
     }
 
     private void addView(final LinearLayout lineLayout ,String url){
         ViewGroup.LayoutParams vlp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         final ImageView iv = new ImageView(this);
-        Glide.with(iv.getContext())
+        Glide.with(MyApplication.getContext())
                 .load(url)
                 .centerCrop()
                 .dontAnimate()
